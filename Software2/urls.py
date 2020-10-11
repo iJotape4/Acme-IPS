@@ -19,7 +19,7 @@ from Software2.vistas.view import saludo,despedida,paginaPrincipal
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('saludo/',saludo),
+    path('',saludo),
     path('despedida/',despedida),
-    path('',paginaPrincipal)
+    path('saludo/',paginaPrincipal)
 ]
