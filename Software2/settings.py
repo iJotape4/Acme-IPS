@@ -54,7 +54,8 @@ ROOT_URLCONF = 'Software2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        #Para poder cargar los html fácilmente (llamados plantillas)
+        'DIRS': ['D:/Repositorios/ProyectosDJango/holamundo-lost-jovencitos/Software2/vistas'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,32 @@
+<html>
+	<body>
+
+	<h1 style="color: purple">
+	<p> Bienvenido doctor {{nombre_doctor}} {{apellido_doctor}} !!!</p>
+	</h1>
+
+	<h2 style="color: blue">
+	Pacientes para atender el día de hoy: {{Hoy.day}} / {{Hoy.month}} / {{Hoy.year}}
+	</h2>
+
+	<ul>	
+	{#Comprueba si existen pacientes en la lista pasada desde view.py #}
+	{% if pacientes %}
+	
+	{#lista todos los pacientes en la lista pasada desde view.py #}
+
+		{% for paciente in pacientes %}
+			<li>
+			{{paciente.horaCita}}
+			{{paciente.nombre}} {{paciente.apellido}}
+			</li>
+
+		{% endfor %}
+	{% else %}
+		<p>No hay pacientes por atender hoy. Puede irse a descansar!!</p>
+	{% endif %}
+		</p>
+	</ul>
+		
+	</body>
+</html>
