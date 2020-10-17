@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.template import loader
+from django.shortcuts import render
 import datetime
 
 class Paciente(object):
@@ -38,16 +38,10 @@ def vistaDoctor(request):
 
 	pacientes =[p1, p2, p3, p4, p5]
 
-	#Carga el html con la vista del doctor del directorio de vistas
-	plantilla_Doctor = loader.get_template('PlantillaDoctor.html')
-
 	ahora = datetime.datetime.now()
 	
 	#Define un diccionario con lo que será necesario para mostrarse en el html
 	diccionario = {"nombre_doctor":D1.nombre, "apellido_doctor":D1.apellido, "Hoy":ahora, "pacientes":pacientes}
 
-	#Renderiza el html con los valores del diccionario
-	doctorView = plantilla_Doctor.render(diccionario)
-
-	#Devuelve el html renderizado
-	return HttpResponse(doctorView)    
+	#Devuelve el html y el diccionario 
+	return render(request, 'PlantillaDoctor.html', diccionario )  
