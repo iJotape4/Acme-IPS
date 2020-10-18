@@ -1,7 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+import mysql.connector
+from mysql.connector import errorcode
 import datetime
+from Software2.Methods import EliminarSimbolos, CursorDB
 
+cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 class Paciente(object):
 	def __init__(self, nombre, apellido, horaCita):
 		self.nombre = nombre
@@ -22,18 +26,19 @@ def registro(request):
     return render(request, "./registro.html")
 
 def vistaDoctor(request):
+	
+	cursor= CursorDB(cnx)
+
+	query = ("SELECT PrimerNombreP, SegundoNombreP, PrimerApellidoP, SegundoApellidoP FROM paciente")
+
+	consulta = cursor.execute(query)	
+	pacientes =[]
+
+	for i in cursor:
+		pacientes.append(EliminarSimbolos(i))
+
 	#Declara un objeto Doctor
 	D1 =doctor("Miguel","Lizarazo")
-
-	#Declara varios pacientes y crea una lista
-	p1 =Paciente("Juan","Perez","08:00")
-	p2 =Paciente("Esteban","Florez","08:20")
-	p3 =Paciente("Daniel","Lopez","09:00")
-	p4 =Paciente("Jhoan","Ortiz","10:00")
-	p5 =Paciente("Javier","Parra","11:00")
-
-	pacientes =[p1, p2, p3, p4, p5]
-
 	ahora = datetime.datetime.now()
 	
 	#Define un diccionario con lo que será necesario para mostrarse en el html
