@@ -7,9 +7,9 @@ from Software2.Methods import EliminarSimbolos, CursorDB
 
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 class Paciente(object):
-	def __init__(self, nombre, apellido, horaCita):
-		self.nombre = nombre
-		self.apellido = apellido
+	def __init__(self, nombreCompleto, horaCita):
+		self.nombreCompleto = nombreCompleto
+		#self.apellido = apellido
 		self.horaCita = horaCita
 
 class doctor(object):
@@ -29,13 +29,16 @@ def vistaDoctor(request):
 	
 	cursor= CursorDB(cnx)
 
+	#Consulta para buscar el nombreCompleto de los pacientes
 	query = ("SELECT PrimerNombreP, SegundoNombreP, PrimerApellidoP, SegundoApellidoP FROM paciente")
+	#(¿¿)Agregar WHERE cita.día = Today (??)
 
 	consulta = cursor.execute(query)	
 	pacientes =[]
 
 	for i in cursor:
-		pacientes.append(EliminarSimbolos(i))
+		P1= Paciente(EliminarSimbolos(i),"10:00 ")
+		pacientes.append(P1)
 
 	#Declara un objeto Doctor
 	D1 =doctor("Miguel","Lizarazo")
