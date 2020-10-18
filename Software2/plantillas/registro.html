@@ -1,0 +1,116 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Registro IPS{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center;">Formulario de Registro</h1>
+    <hr>
+<form>
+    <div class="form-row" style="margin-left: 75px;">
+      <div class="form-group col-md-6">
+        <h3 for="nombre">Nombre</h3>
+        <hr>
+        <div>
+            <p>Primer Nombre: </p> <input type="name" class="form-control" id="pri_Nombre">
+            <p>Segundo Nombre: </p> <input type="name" class="form-control" id="seg_Nombre">
+            <p>Primer Apellido: </p> <input type="name" class="form-control" id="pri_Apellido">
+            <p>Segundo Nombre: </p> <input type="name" class="form-control" id="seg_Apellido">
+        </div>
+        <hr>
+            <div>
+            <h3 for="document">Documento</h3>
+            <hr>
+            <p>Tipo de Documento: </p>
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Selecciona el tipo ...
+                </a>
+                <p>
+                    <br>
+                </p>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">Cédula de ciudadania</a>
+                  <a class="dropdown-item" href="#">Tarjeta de identidad</a>
+                  <a class="dropdown-item" href="#">Cédula de extranjería</a>
+                  <a class="dropdown-item" href="#">Pasaporte</a>
+                </div>
+            </div>
+            </div>
+            <p>Número de Documento: </p> <input type="name" class="form-control" id="num_Document">
+            <hr>
+            <h3 for="nombre">Métodos de contacto</h3>
+            <hr>
+            <div>
+                <p>Correo: </p> <input type="name" class="form-control" id="email">
+                <p>Telefono: </p> <input type="name" class="form-control" id="telefono">
+                <p>WhatsApp: </p> <input type="name" class="form-control" id="whatsapp">
+            </div>
+            <hr>
+            <h3 for="nombre">Dirección</h3>
+            <hr>
+            <div>
+                <p>Ciudad: </p> <input type="name" class="form-control" id="ciudad">
+                <p>Barrio: </p> <input type="name" class="form-control" id="barrio">
+                <p>Complemento: </p> <input type="name" class="form-control" id="complemento">
+            </div>
+            <hr>
+            <h3 for="nombre">Condiciones médicas</h3>
+            <hr>
+            <div>
+                <p>Hipertensión. </p>
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Elige una opción...
+                    </a>
+                    <p>
+                        <br>
+                    </p>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#">Si</a>
+                      <a class="dropdown-item" href="#">No</a>
+                    </div>
+                </div>
+                <p> Diabetes. </p>
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Elige una opción...
+                    </a>
+                    <p>
+                        <br>
+                    </p>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#">Si</a>
+                      <a class="dropdown-item" href="#">No</a>
+                    </div>
+                </div>
+                <p>Problemas cardiacos: </p> 
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Elige una opción...
+                    </a>
+                    <p>
+                        <br>
+                    </p>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#">Si</a>
+                      <a class="dropdown-item" href="#">No</a>
+                    </div>
+                </div>
+                <p>Otros: </p>
+                <textarea name="textarea" rows="10" cols="50"> </textarea>
+            </div>
+            <hr>
+            <h3 for="nombre">EPS</h3>
+            <hr>
+            <div>
+                <p>Nombre EPS: </p> <input type="name" class="form-control" id="eps">
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <hr>
+        <button type="submit" class="btn btn-primary"> Enviar </button>
+    </div>
+
+
+{% endblock %}

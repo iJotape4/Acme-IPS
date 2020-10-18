@@ -1,0 +1,43 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Login IPS{% endblock %}
+
+{% block content %}
+<html>
+    <head>
+    </head>
+    <body>  
+        <div align="center">
+            <h1>Bienvenido a IPS ACME</h1>
+        </div>
+          <div id="login">
+              <h1>Login</h1>
+              <br>
+              <div>
+                  <input type="text" name="username" v-model="input.username" placeholder="Username" />
+                  <hr>
+              </div>
+              <div>
+                  <input type="password" name="password" v-model="input.password" placeholder="Password" />
+                  <hr>
+              </div>
+              <div>
+                <button type="button" class="btn btn-info">Login</button>
+                <hr>
+                <a href="registro/">No tiene usuario, click aquí</a>
+              </div>
+          </div>
+    </body>
+    <style>
+        #login {
+            width: 500px;
+            border: 1px solid #CCCCCC;
+            background-color: #FFFFFF;
+            margin: auto;
+            margin-top: 80px;
+            padding: 20px;
+        }
+    </style>
+</html>
+{% endblock %}
+

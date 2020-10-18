@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -50,12 +50,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Software2.urls'
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #Para poder cargar los html fácilmente (llamados plantillas)
-        'DIRS': ['D:/Repositorios/ProyectosDJango/holamundo-lost-jovencitos/Software2/vistas'],
+        'DIRS': [os.path.join(SETTINGS_PATH, './Software2/plantillas/'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

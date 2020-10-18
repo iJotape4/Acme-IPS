@@ -3,3 +3,12 @@ Software2/__pycache__/*
 
 !Software2/vistas/__pycache__/
 Software2/vistas/__pycache__/*
+
+!Software2/migrations/__pycache__/
+Software2/migrations/__pycache__/*
+
+!Software2/plantillas/__pycache__/
+Software2/plantillas/__pycache__/*
+
+!ScriptsBaseDeDatos/__pycache__/
+ScriptsBaseDeDatos/__pycache__/*

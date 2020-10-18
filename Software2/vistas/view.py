@@ -13,17 +13,13 @@ class doctor(object):
 		self.nombre = nombre
 		self.apellido = apellido
 
-def saludo(request):
+def login(request):
 
-    return HttpResponse("<html><body><h1>Hola mundo</h1></body></html>")
+    return render(request,"./login.html")
 
-def despedida(request):
+def registro(request):
 
-    return HttpResponse("<html><body><h1>El programa se despide</h1></body></html>")
-
-def paginaPrincipal(request):
-
-    return HttpResponse("<html><body><h1>Bienvenidos a ACME!!</h1></body></html>")
+    return render(request, "./registro.html")
 
 def vistaDoctor(request):
 	#Declara un objeto Doctor
