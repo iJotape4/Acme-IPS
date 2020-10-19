@@ -12,3 +12,15 @@ Software2/plantillas/__pycache__/*
 
 !ScriptsBaseDeDatos/__pycache__/
 ScriptsBaseDeDatos/__pycache__/*
+
+!GestionDeCitas/__pycache__/
+GestionDeCitas/__pycache__/*
+
+!GestionDeCitas/migrations/__pycache__/
+GestionDeCitas/migrations/__pycache__/*
+
+!administrador/__pycache__/
+administrador/__pycache__/*
+
+!administrador/migrations/__pycache__/
+administrador/migrations/__pycache__/*
