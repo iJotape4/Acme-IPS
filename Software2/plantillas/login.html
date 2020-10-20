@@ -11,8 +11,10 @@
             <h1>Bienvenido a IPS ACME</h1>
         </div>
           <div id="login">
+              
               <h1>Login</h1>
               <br>
+              <form action="/logearse/" method="GET">
               <div>
                   <input type="text" name="username" v-model="input.username" placeholder="Username" />
                   <hr>
@@ -22,10 +24,12 @@
                   <hr>
               </div>
               <div>
-                <button type="button" class="btn btn-info">Login</button>
+                <button type="submit" class="btn btn-info">Login</button>
+            </form>
                 <hr>
                 <a href="/registro">No tiene usuario, click aquí</a>
               </div>
+            
           </div>
     </body>
     <style>

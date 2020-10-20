@@ -126,8 +126,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-from decouple import config
-
 STATIC_URL = '/static/'
 
 EMAIL_HOST = 'smtp.googlemail.com'
