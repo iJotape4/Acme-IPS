@@ -1,0 +1,26 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Registro Correo{% endblock %}
+
+{% block content %}
+<div align="center">
+    <h1>Registro por Correo</h1>
+</div>
+<hr>
+<div align="center">
+    <div>
+        <br>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <h4>Ingrese su correo </h4>
+          <input type="email" name="mail" width="48px" aria-describedby="emailHelp">
+          <small id="emailHelp"  class="form-text text-muted">Ingresa tu correo electronico.</small>
+        </div> 
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+
+{% endblock %}

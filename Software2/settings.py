@@ -15,7 +15,9 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# typically, os.path.join(os.path.dirname(file), 'media')
+MEDIA_ROOT = '<your_path>/media'
+MEDIA_URL = '"http://127.0.0.1:8000/principal/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -124,4 +126,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+from decouple import config
+
 STATIC_URL = '/static/'
+
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'acmeprueba2@gmail.com'
+EMAIL_HOST_PASSWORD = 'Sistemas312'
+EMAIL_USE_TLS = True

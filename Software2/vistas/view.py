@@ -1,8 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 import mysql.connector
+from django.template.loader import get_template
 from mysql.connector import errorcode
 import datetime
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 from Software2.Methods import EliminarSimbolos, CursorDB
 
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
@@ -24,6 +27,42 @@ def login(request):
 def registro(request):
 
     return render(request, "./registro.html")
+
+def principal(request):
+
+    return render(request, "./principalPage.html")
+
+def correo(request):
+	if request.method == 'POST':
+		mail = request.POST.get('mail')
+		send_email(mail)
+		
+	
+	return render(request, "./regisCorreo.html")
+
+def send_email(mail):
+	context = {'mail': mail}
+
+	template = get_template('correo.html')
+	content = template.render(context)
+
+	email = EmailMultiAlternatives(
+		'Usuario IPS ACME',
+		'Estos son su usuario y contraseña. ',
+		settings.EMAIL_HOST_USER,
+		[mail]
+	)
+
+	email.attach_alternative(content, 'text/html')
+	email.send()
+
+def histo_Paciente(request):
+
+	return render(request, "./histo_Paciente.html")
+
+def menu_Paciente(request):
+
+    return render(request, "./menu_Paciente.html")
 
 def vistaDoctor(request):
 	

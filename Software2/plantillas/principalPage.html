@@ -1,0 +1,35 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Principal{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Principal</title>
+</head>
+<body>
+
+    <div align="center">
+        <h2>¿Quienes Somos?</h2>
+    </div>
+    <div align="center">
+        <p>
+            Texto quienes somos ...
+        </p>
+        <div>
+            <img src="../Imgs/GettyImages-1211152561-1.jpg" >
+        </div>
+        <h2>¿Desea agendar una cita?</h2>
+        <p>
+            Para agendar su cita lo puede hacer web dando click en el boton que se encuentra a continuación:
+        </p>
+        <hr>
+        <button type="submit" class="btn btn-primary"> <a href="/login" style="color: aliceblue;">Agendar Cita</a> </button>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

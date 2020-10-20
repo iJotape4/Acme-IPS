@@ -1,6 +1,4 @@
 from django.db import models
-import mysql.connector
-from mysql.connector import errorcode
 import pymysql
 
 # Create your models here.
