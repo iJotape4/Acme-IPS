@@ -60,6 +60,10 @@ def histo_Paciente(request):
 
 	return render(request, "./histo_Paciente.html")
 
+def agendar_Cita(request):
+
+	return render(request, "./agendamiento_Citas.html")
+
 def menu_Paciente(request):
 
     return render(request, "./menu_Paciente.html")
