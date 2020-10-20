@@ -16,12 +16,13 @@ def logearse(request):
         contra = request.GET["password"] 
 
     #Esto busca en la base de datos ese usuario y contraseña
-        user = Paciente.objects.filter(Usuario=usuario)
-        password = Paciente.objects.filter(Contraseña=contra)
+        user = Paciente.objects.filter(Usuario=usuario) and Paciente.objects.filter(Contraseña=contra)
+        for e in user:
+            nombre= "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
 
     #Esto condiciona a que ambos existan y coincidan (creo)
-        if user and password:       
-            return render(request, "menu_Paciente.html", {"userlog":user, "query":usuario})
+        if user:       
+            return render(request, "menu_Paciente.html", {"userlogeado":nombre,})
         else:
             return HttpResponse("Paciente No existe")
         
