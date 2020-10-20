@@ -1,0 +1,106 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Agendamiento Citas{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<body>
+    <div>
+        <h1 style="text-align: center;">Formulario de Registro</h1>
+        <hr>
+    </div>
+    <div>
+        <form>
+            <div class="form-row" style="margin-left: 75px;">
+                <div class="form-group col-md-6">
+                    <h4 for="nombre">Tipo de Cita</h4>
+                    <hr>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Selecciona el tipo de cita
+                        </a>
+                        <p>
+                            <br>
+                        </p>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <a class="dropdown-item" >Virtual</a>
+                          <a class="dropdown-item" >Presencial</a>
+                        </div>
+                    </div>    
+                    <div class="form-group col-md-6">
+                        <h4 for="nombre">Elegir Especialidad</h4>
+                        <hr>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Elige la Especialidad
+                            </a>
+                            <p>
+                                <br>
+                            </p>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <a class="dropdown-item" >Dermatología</a>
+                              <a class="dropdown-item" >Medicina interna</a>
+                              <a class="dropdown-item" >Pediatría</a>
+                              <a class="dropdown-item" >Cirugía general</a>
+                              <a class="dropdown-item" >Ginecología.</a>
+                              <a class="dropdown-item" >Radiología</a>
+                              <a class="dropdown-item" >Anestesia</a>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <h4 for="nombre">Elegir Medico</h4>
+                        <hr>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Selecciona el Medico
+                            </a>
+                            <p>
+                                <br>
+                            </p>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <a class="dropdown-item" >Roberto</a>
+                              <a class="dropdown-item" >Sergio</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                            <h4 for="nombre">Elegir Horario</h4>
+                            <hr>
+                            <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Selecciona el horario
+                                </a>
+                                <p>
+                                    <br>
+                                </p>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                  <a class="dropdown-item" >Día</a>
+                                  <a class="dropdown-item" >Noche</a>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <h4 for="nombre">Motivo de consulta</h4>
+                            <hr>
+                            <textarea name="motivo_consulta" rows="10" cols="50"> </textarea>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <hr>
+                        <br>
+                        <br>
+                        <button type="submit" class="btn btn-primary"><a href="#" style="color: aliceblue;"> Agendar Cita </a> </button>
+                    </div>
+                </div>
+            </div>
+            </form>
+    </div>
+</body>
+</html>
+
+{% endblock %}
