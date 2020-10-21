@@ -36,6 +36,10 @@ def citas_del_dia(request):
 
 	return render(request, "./citas_del_dia.html")
 
+def menu_admin(request):
+
+	return render(request, "./menu_Administrador.html")
+
 def correo(request):
 	if request.method == 'POST':
 		mail = request.POST.get('mail')
