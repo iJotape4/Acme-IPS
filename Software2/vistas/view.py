@@ -6,7 +6,7 @@ from mysql.connector import errorcode
 import datetime
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from Software2.Methods import EliminarSimbolos, CursorDB
+from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement
 
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 class Paciente(object):
@@ -35,12 +35,13 @@ def principal(request):
 def correo(request):
 	if request.method == 'POST':
 		mail = request.POST.get('mail')
-		send_email(mail)
+		User = GenerateUserByCorreoElement(mail)
+		send_email(mail, User[0], User[1])
 		
 	return render(request, "./regisCorreo.html")
 
-def send_email(mail):
-	context = {'mail': mail}
+def send_email(mail, usuario, password):
+	context = {'mail': mail, 'user':usuario, 'password':password}
 
 	template = get_template('correo.html')
 	content = template.render(context)
@@ -51,7 +52,7 @@ def send_email(mail):
 		settings.EMAIL_HOST_USER,
 		[mail]
 	)
-
+	
 	email.attach_alternative(content, 'text/html')
 	email.send()
 
