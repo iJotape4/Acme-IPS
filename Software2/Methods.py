@@ -8,3 +8,11 @@ def EliminarSimbolos(x):
 def CursorDB(cnx):
 	Cursor = cnx.cursor()
 	return Cursor
+
+def DefinirCondiciónMedica(condicion):
+	if condicion=='si':
+		return True
+	else:
+		return False
+
+
