@@ -33,6 +33,12 @@ def GenerateUserByCorreoElement(email):
 	User = [EliminarSimbolos(userArray),EliminarSimbolos(passwordArray)] 
 	return User
 
+def CampoOpcional(request, campo):
+	if request.GET[campo]:
+		variable = request.GET[campo]
+	else:
+		variable = ''
+	return variable	
 
 
 
