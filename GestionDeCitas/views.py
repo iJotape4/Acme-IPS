@@ -27,10 +27,7 @@ def logearse(request):
 
     #Esto condiciona a que exista
         if user:       
-<<<<<<< Updated upstream
             Paciente.objects.create(PrimerNombre="primerNombre", SegundoNombre="segundoNombre")
-=======
->>>>>>> Stashed changes
             return render(request, "menu_Paciente.html", {"userlogeado":nombre})
         else:
             return HttpResponse("Paciente No existe")
