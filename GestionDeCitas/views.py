@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from GestionDeCitas.models import Paciente
 from Software2.Methods import DefinirCondiciónMedica
 
+nombre = ''
+
 # Create your views here.
 def login(request): 
     return render(request,"./login.html")
@@ -19,11 +21,16 @@ def logearse(request):
     #Esto busca en la base de datos ese usuario y contraseña
         user = Paciente.objects.filter(Usuario=usuario) and Paciente.objects.filter(Contraseña=contra)
         for e in user:
-            nombre= "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
+            nombre= "%s %s" %(e.PrimerNombre, e.PrimerApellido)      
+
+        print(nombre)  
 
     #Esto condiciona a que exista
         if user:       
+<<<<<<< Updated upstream
             Paciente.objects.create(PrimerNombre="primerNombre", SegundoNombre="segundoNombre")
+=======
+>>>>>>> Stashed changes
             return render(request, "menu_Paciente.html", {"userlogeado":nombre})
         else:
             return HttpResponse("Paciente No existe")

@@ -30,14 +30,13 @@ def registro(request):
 
 def principal(request):
 
-    return render(request, "./principalPage.html")
+	return render(request, "./principalPage.html")
 
 def correo(request):
 	if request.method == 'POST':
 		mail = request.POST.get('mail')
 		send_email(mail)
 		
-	
 	return render(request, "./regisCorreo.html")
 
 def send_email(mail):
