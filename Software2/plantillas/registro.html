@@ -17,26 +17,21 @@
             <p>Segundo Nombre: </p> <input type="name" class="form-control" name="seg_Apellido">
         </div>
         <hr>
-            <div>
             <h3 for="document">Documento</h3>
             <hr>
             <p>Tipo de Documento: </p>
-            <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Selecciona el tipo ...
-                </a>
-                <p>
-                    <br>
-                </p>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Cédula de ciudadania</a>
-                  <a class="dropdown-item" href="#">Tarjeta de identidad</a>
-                  <a class="dropdown-item" href="#">Cédula de extranjería</a>
-                  <a class="dropdown-item" href="#">Pasaporte</a>
-                </div>
+            <div>
+                <select name="tipo_documento" >
+                    <option selected="selected" disabled>Selecciona la opción ...</option>
+                            <option value="cc">Cédula de ciudadania</option>
+                            <option value="ti">Tarjeta de identidad</option>
+                            <option value="ce">Cédula de extranjería</option>
+                            <option value="pa">Pasaporte</option>
+                </select>
+                <br>
+                <br>
             </div>
-            </div>
-            <p>Número de Documento: </p> <input type="name" class="form-control" name="num_Document">
+            <p>Número de Documento: </p> <input type="name" class="form-control" name="Documento_Id">
             <hr>
             <h3 for="nombre">Métodos de contacto</h3>
             <hr>
@@ -58,43 +53,34 @@
             <hr>
             <div>
                 <p>Hipertensión. </p>
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Elige una opción...
-                    </a>
-                    <p>
-                        <br>
-                    </p>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Si</a>
-                      <a class="dropdown-item" href="#">No</a>
-                    </div>
+                <div>
+                    <select name="hipertension" >
+                        <option selected="selected" disabled>Selecciona la opción ...</option>
+                                <option value="si">Si</option>
+                                <option value="no">No</option>
+                    </select>
+                    <br>
+                    <br>
                 </div>
                 <p> Diabetes. </p>
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Elige una opción...
-                    </a>
-                    <p>
-                        <br>
-                    </p>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Si</a>
-                      <a class="dropdown-item" href="#">No</a>
-                    </div>
+                <div>
+                    <select name="diabetes" >
+                        <option selected="selected" disabled>Selecciona la opción ...</option>
+                                <option value="si">Si</option>
+                                <option value="no">No</option>
+                    </select>
+                    <br>
+                    <br>
                 </div>
                 <p>Problemas cardiacos: </p> 
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Elige una opción...
-                    </a>
-                    <p>
-                        <br>
-                    </p>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">Si</a>
-                      <a class="dropdown-item" href="#">No</a>
-                    </div>
+                <div>
+                    <select name="cardiacos" >
+                        <option selected="selected" disabled>Selecciona la opción ...</option>
+                                <option value="si">Si</option>
+                                <option value="no">No</option>
+                    </select>
+                    <br>
+                    <br>
                 </div>
                 <p>Otros: </p>
                 <textarea name="otros" rows="10" cols="50"> </textarea>
