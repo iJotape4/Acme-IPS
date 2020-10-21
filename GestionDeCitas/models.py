@@ -22,10 +22,20 @@ class ciudad(models.Model):
     NombreC = models.CharField(max_length=70)
     DepartamentoC = models.CharField(max_length=70)
 
-class Paciente(Usuario):  
+class Paciente(Usuario):
 	EPSP = models.CharField(max_length=90)
 	Telefono = models.CharField(max_length=20)
 	Whatsapp = models.CharField(max_length=20)
+
+	Hipertension = models.BooleanField(default=0)
+	Diabetes = models.BooleanField(default=0)
+	Cardiacos = models.BooleanField(default=0)
+
+	Otros = models.CharField(max_length=500, default='')
+
+	Ciudad = models.CharField(max_length=50, default='')
+	Barrio = models.CharField(max_length=50, default='')
+	complemento = models.CharField(max_length=50, default='')
 
 class Medico(Usuario):  
 	HorarioLlegada = models.DateField()
