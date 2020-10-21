@@ -1,16 +1,40 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from GestionDeCitas.models import Paciente
+from django.contrib.auth import logout as do_logout
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as do_login
 from Software2.Methods import DefinirCondiciónMedica
 
-nombre = ''
+def login(request):
+    # Creamos el formulario de autenticación vacío
+    form = AuthenticationForm()
+    if request.method == "POST":
+        # Añadimos los datos recibidos al formulario
+        form = AuthenticationForm(data=request.POST)
+        # Si el formulario es válido...
+        if form.is_valid():
+            # Recuperamos las credenciales validadas
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
 
-# Create your views here.
-def login(request): 
-    return render(request,"./login.html")
+            # Verificamos las credenciales del usuario
+            user = authenticate(username=username, password=password)
+
+            # Si existe un usuario con ese nombre y contraseña
+            if user is not None:
+                # Hacemos el login manualmente
+                do_login(request, user)
+                # Y le redireccionamos a la portada
+                return redirect('/login.html')
+
+    # Si llegamos al final renderizamos el formulario
+    return render(request, "./login.html", {'form': form})
+
 
 def logearse(request):
-
     #El if comprueba si los campos están llenos
     if request.GET["username"] and request.GET["password"]:
 
@@ -21,13 +45,12 @@ def logearse(request):
     #Esto busca en la base de datos ese usuario y contraseña
         user = Paciente.objects.filter(Usuario=usuario) and Paciente.objects.filter(Contraseña=contra)
         for e in user:
-            nombre= "%s %s" %(e.PrimerNombre, e.PrimerApellido)      
-
-        print(nombre)  
-
-    #Esto condiciona a que exista
+            nombre= "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
+        
+        #Paciente.objects.create(PrimerNombre="alv",SegundoNombre="dsa",PrimerApellido="wqe",SegundoApellido="jjj",Usuario="melvin",Contraseña="000",DocumentoId="495992394",TipoDocumento="CC",Edad="50",CorreoElectronico="eurhf.unab.edu.co",EPSP="Nueva EPS",Telefono="5234234",Whatsapp="9130239012",TipoUsuario="MasteChief")
+        print("PRUEBA ---> ",type(request))
+    #Esto condiciona a que ambos existan y coincidan (creo)
         if user:       
-            Paciente.objects.create(PrimerNombre="primerNombre", SegundoNombre="segundoNombre")
             return render(request, "menu_Paciente.html", {"userlogeado":nombre})
         else:
             return HttpResponse("Paciente No existe")
@@ -35,6 +58,13 @@ def logearse(request):
     else:
         mensaje="Al menos uno de los campos está vacío"
     return HttpResponse(mensaje)
+
+def logout(request):
+    # Finalizamos la sesión
+    do_logout(request)
+    # Redireccionamos a la portada
+    return redirect('/principal')
+
 
 def registro(request):
 
