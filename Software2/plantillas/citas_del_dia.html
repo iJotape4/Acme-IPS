@@ -1,0 +1,51 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Citas del Día{% endblock %}
+
+{% block content %}
+
+<div align="center">
+    <h1>Citas del Día</h1>
+</div>
+<div align="center">
+    <br>
+    <br>
+    <br>
+    <table class="table" style="width: 50%;">
+        <thead>
+          <tr>
+            <th scope="col">Check</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Motivo de consulta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><input type="checkbox" style="width: 5%;" class="form-check-input" name="check"></th>
+            <td>Javier</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row"><input type="checkbox" style="width: 5%;" class="form-check-input" name="check"></th>
+            <td>Juan Pablo</td>
+            <td>sadad</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row"><input type="checkbox" style="width: 5%;" class="form-check-input" name="check"></th>
+            <td>Jhoan Ortiz</td>
+            <td>sdas</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+
+{% endblock %}
