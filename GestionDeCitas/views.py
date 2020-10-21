@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as do_login
-from Software2.Methods import DefinirCondiciónMedica
+from Software2.Methods import DefinirCondiciónMedica, CampoOpcional
 
 def login(request):
     # Creamos el formulario de autenticación vacío
@@ -92,11 +92,13 @@ def registrarse(request):
     eps = request.GET["eps"]
     telefono = request.GET["telefono"]
     whatsapp = request.GET["whatsapp"]
-
-    otros = request.GET["otros"]
+    
+    otros = CampoOpcional(request, "otros")
+    
     ciudad = request.GET["ciudad"]
     barrio = request.GET["barrio"]
-    complemento = request.GET["complemento"]
+
+    complemento = CampoOpcional(request, "complemento")
 
     hipertension = DefinirCondiciónMedica(str(request.GET["hipertension"]))
     diabetes = DefinirCondiciónMedica(str(request.GET["diabetes"]))
