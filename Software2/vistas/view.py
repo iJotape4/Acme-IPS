@@ -40,6 +40,10 @@ def menu_admin(request):
 
 	return render(request, "./menu_Administrador.html")
 
+def agregar_Medico(request):
+
+	return render(request, "./registrar_Medico.html")
+
 def correo(request):
 	if request.method == 'POST':
 		mail = request.POST.get('mail')
