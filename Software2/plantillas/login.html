@@ -10,24 +10,18 @@
         <div align="center">
             <h1>Bienvenido a IPS ACME</h1>
         </div>
+        <form action="/logearse/" method="GET">
           <div id="login">
-            </form>
-
-              <h1>Login</h1>
-              <br>
-
-            <form action="/logearse/" method="GET">
-                <form method="POST">
-                {{ form.as_p }}
-                {% csrf_token %}
-                <button type="submit" class="btn btn-info">Login</button>
-            </form>
-
-                <hr>
-                <a href="/registro">No tiene usuario, click aquí</a>
-              </div>
-            
+            <h1>Login</h1>
+            <br>
+            <p>Usuario</p> <input type="username" class="form-control" name="username">
+            <p>Contraseña</p> <input type="password" class="form-control" name="password">
+            <br>
+            <button type="submit" class="btn btn-info">Login</button>
+            <hr>
+            <a href="/registro">No tiene usuario, click aquí</a>
           </div>  
+        </form>
     </body>
     <style>
         #login {
