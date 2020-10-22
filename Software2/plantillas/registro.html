@@ -3,6 +3,19 @@
 {% block title %}Registro IPS{% endblock %}
 
 {% block content %}
+
+<div style="margin-bottom:30px">
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+        {{message}}
+        </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
 <h1 style="text-align: center;">Formulario de Registro</h1>
     <hr>
 <form action="/registrarse/" method="GET">
@@ -96,7 +109,7 @@
     </div>
     <div style="text-align: center;">
         <hr>
-        <button type="submit" class="btn btn-primary"><a href="login.html" style="color: aliceblue;"> Enviar </a> </button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
 </form>
 

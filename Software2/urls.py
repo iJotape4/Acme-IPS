@@ -21,10 +21,10 @@ from GestionDeCitas import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/',views.login),
-    path('logearse/',views.logearse), 
     path('registro/',registro),
     path('registrarse/', views.registrarse),
+    path('login/',views.login),
+    path('logearse/',views.logearse), 
    	path('Doctor/', vistaDoctor),
     path('principal/', principal ),
     path('correo/', correo ),

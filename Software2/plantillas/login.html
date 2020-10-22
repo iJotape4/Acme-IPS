@@ -5,22 +5,35 @@
 {% block content %}
 <html>
     <head>
+        <meta charset="UTF-8">
     </head>
     <body>  
+        <div style="margin-bottom:30px">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <div class="alert alert-danger" role="alert">
+                   {{message}}
+                </div>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
         <div align="center">
             <h1>Bienvenido a IPS ACME</h1>
         </div>
         <form action="/logearse/" method="GET">
-          <div id="login">
+        <div id="login">
             <h1>Login</h1>
             <br>
-            <p>Usuario</p> <input type="username" class="form-control" required name="username">
-            <p>Contraseña</p> <input type="password" class="form-control" required name="password">
+                <p>Usuario</p> <input type="username" class="form-control" required name="username">
+                <p>Contraseña</p> <input type="password" class="form-control" required name="password">
             <br>
-            <button type="submit" class="btn btn-info">Login</button>
+            <input type="submit" class="btn btn-success" value="Login">
             <hr>
-            <a href="/registro">No tiene usuario, click aquí</a>
-          </div>  
+            <a href="/registro">¿No tienes usuario?, click aquí</a>
+        </div>  
         </form>
     </body>
     <style>

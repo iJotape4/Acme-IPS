@@ -4,11 +4,25 @@ from GestionDeCitas.models import Paciente
 from django.contrib.auth import logout as do_logout
 from django.shortcuts import render, redirect
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional
+from django.contrib.auth.models import User, auth
+from django.contrib import messages
+
+nombre_Usuario = ""
+is_logged_in = False
 
 def login(request):
-    return render(request, "./login.html")
+    return render(request,'login.html')
+
+def render_Menu_Paciente(request,is_loggedIn,contexto):
+    if is_loggedIn:
+        return render(request,"menu_Paciente.html",contexto)
+    else:
+        print("\nEl usuario no se encuentra logueado para continuar\n")
+        return render(request,"principal_Paciente.html")
 
 def logearse(request):
+    global nombre_Usuario
+    global is_logged_in 
     #El if comprueba si los campos están llenos
     if request.GET["username"] and request.GET["password"]:
 
@@ -22,17 +36,17 @@ def logearse(request):
             nombre= "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
 
         #Esto condiciona a que ambos existan y coincidan (creo)
-        if user:       
-            return render(request, "./menu_Paciente.html", {"userlogeado":nombre})
+        if user:   
+            nombre_Usuario = nombre
+            is_logged_in = True 
+            messages.success(request,'Has iniciado sesión con exito!!') 
+            return render_Menu_Paciente(request,is_logged_in,{"userlogeado":nombre})
         else:
-            return HttpResponse("Paciente No existe")
-        
-    else:
-        mensaje="Al menos uno de los campos está vacío"
-    return HttpResponse(mensaje)
+            messages.warning(request,'Ups, parece que no existe un usuario con estas credenciales')
+            return login(request) 
     
 def registro(request):
-    return render(request, "./registro.html")
+    return render(request,"registro.html")
 
 def comprobar_DatoNumerico(lista):
     for dato in range(len(lista)):
@@ -54,9 +68,7 @@ def registrarse(request):
         datos_Registro[data] for data in range(len(datos_Registro)) 
         if data!=12 and data!=16
     ]
-    
-    #print(datos_Registro)
-    #print(datos_Registro_Check)
+
     if verificar_Existencia_Usuarios(datos_Registro[6])==0:
         #Esto recupera los datos en los campos       
         primerNombre = request.GET["pri_Nombre"] 
@@ -86,7 +98,8 @@ def registrarse(request):
         Edad=edad, CorreoElectronico=correoElectronico, TipoUsuario='Paciente', EPSP=eps, Telefono=telefono, Whatsapp=whatsapp,
         TipoDocumento=tipoDocumento, Otros=otros,Ciudad=ciudad, Barrio=barrio, complemento=complemento, 
         Hipertension=hipertension, Diabetes=diabetes, Cardiacos=cardiacos)
+
+        return redirect("/login")
     else:
-        return HttpResponse("Ya existe un usuario con esté número de cédula")
-    return HttpResponseRedirect('/login/')
+        return redirect("/registro")
    
