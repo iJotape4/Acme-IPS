@@ -41,44 +41,50 @@ def comprobar_DatoNumerico(lista):
                 return False
     return True
 
+def verificar_Existencia_Usuarios(documentoId):
+    user = Paciente.objects.filter(DocumentoId=documentoId)
+    return len(user)
+
 def registrarse(request):
     #### IMPORTANTE ####
     # Usuario y contraseña deben ser tomados desde el correo enviado. 
     # La vista de login se abre desde un hipervículo en el correo enviado
     datos_Registro = [data for data in (request.GET).values() if data!=""]
-    print(datos_Registro)
     if len(datos_Registro)==18:
            #Validacion de que los campos edad, documento, telefono y whatsapp sean numericos
            #Validacion de que todos los campos esten llenos
         if comprobar_DatoNumerico(datos_Registro):
-            #Esto recupera los datos en los campos       
-            primerNombre = request.GET["pri_Nombre"] 
-            segundoNombre = request.GET["seg_Nombre"] 
-            primerApellido = request.GET["pri_Apellido"] 
-            segundoApellido = request.GET["seg_Apellido"] 
-            documentoId= request.GET['Documento_Id'] 
-            tipoDocumento= request.GET["tipo_documento"] 
-            edad = request.GET["edad"] 
-            correoElectronico = request.GET["email"] 
+            if verificar_Existencia_Usuarios(datos_Registro[6])==0:
+                #Esto recupera los datos en los campos       
+                primerNombre = request.GET["pri_Nombre"] 
+                segundoNombre = request.GET["seg_Nombre"] 
+                primerApellido = request.GET["pri_Apellido"] 
+                segundoApellido = request.GET["seg_Apellido"] 
+                documentoId= request.GET['Documento_Id'] 
+                tipoDocumento= request.GET["tipo_documento"] 
+                edad = request.GET["edad"] 
+                correoElectronico = request.GET["email"] 
 
-            eps = request.GET["eps"]
-            telefono = request.GET["telefono"]
-            whatsapp = request.GET["whatsapp"]
+                eps = request.GET["eps"]
+                telefono = request.GET["telefono"]
+                whatsapp = request.GET["whatsapp"]
 
-            otros = request.GET["otros"]
-            ciudad = request.GET["ciudad"]
-            barrio = request.GET["barrio"]
-            complemento = request.GET["complemento"]
+                otros = request.GET["otros"]
+                ciudad = request.GET["ciudad"]
+                barrio = request.GET["barrio"]
+                complemento = request.GET["complemento"]
 
-            hipertension = DefinirCondiciónMedica(str(request.GET["hipertension"]))
-            diabetes = DefinirCondiciónMedica(str(request.GET["diabetes"]))
-            cardiacos = DefinirCondiciónMedica(str(request.GET["cardiacos"]))
-            
-            Paciente.objects.create(PrimerNombre=primerNombre, SegundoNombre=segundoNombre, 
-            PrimerApellido=primerApellido, SegundoApellido=segundoApellido, DocumentoId=documentoId,
-            Edad=edad, CorreoElectronico=correoElectronico, TipoUsuario='Paciente', EPSP=eps, Telefono=telefono, Whatsapp=whatsapp,
-            TipoDocumento=tipoDocumento, Otros=otros,Ciudad=ciudad, Barrio=barrio, complemento=complemento, 
-            Hipertension=hipertension, Diabetes=diabetes, Cardiacos=cardiacos)
+                hipertension = DefinirCondiciónMedica(str(request.GET["hipertension"]))
+                diabetes = DefinirCondiciónMedica(str(request.GET["diabetes"]))
+                cardiacos = DefinirCondiciónMedica(str(request.GET["cardiacos"]))
+                
+                Paciente.objects.create(PrimerNombre=primerNombre, SegundoNombre=segundoNombre, 
+                PrimerApellido=primerApellido, SegundoApellido=segundoApellido, DocumentoId=documentoId,
+                Edad=edad, CorreoElectronico=correoElectronico, TipoUsuario='Paciente', EPSP=eps, Telefono=telefono, Whatsapp=whatsapp,
+                TipoDocumento=tipoDocumento, Otros=otros,Ciudad=ciudad, Barrio=barrio, complemento=complemento, 
+                Hipertension=hipertension, Diabetes=diabetes, Cardiacos=cardiacos)
+            else:
+                return HttpResponse("Ya existe un usuario con esté número de cédula")
         else:
             return HttpResponse("Los campos de edad, telefono, WhatsApp y documento de identidad deben ser numericos")
     else:
