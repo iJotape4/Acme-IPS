@@ -49,8 +49,15 @@ def registrarse(request):
     #### IMPORTANTE ####
     # Usuario y contraseña deben ser tomados desde el correo enviado. 
     # La vista de login se abre desde un hipervículo en el correo enviado
-    datos_Registro = [data for data in (request.GET).values() if data!=""]
-    if len(datos_Registro)==18:
+    datos_Registro = [data for data in (request.GET).values()]
+    datos_Registro_Check = [
+        datos_Registro[data] for data in range(len(datos_Registro)) 
+        if data!=12 and data!=16
+    ]
+    
+    print(datos_Registro)
+    print(datos_Registro_Check)
+    if len(datos_Registro_Check)==16:
            #Validacion de que los campos edad, documento, telefono y whatsapp sean numericos
            #Validacion de que todos los campos esten llenos
         if comprobar_DatoNumerico(datos_Registro):
