@@ -21,24 +21,14 @@
           </tr>
         </thead>
         <tbody>
+          {% for athlete in lista %}
           <tr>
             <th scope="row"><input type="checkbox" style="width: 5%;" class="form-check-input" name="check"></th>
-            <td>Javier</td>
-            <td>Mark</td>
-            <td>@mdo</td>
+            <td>athlete</td>
+            <td>athlete</td>
+            <td>athlete</td>
           </tr>
-          <tr>
-            <th scope="row"><input type="checkbox" style="width: 5%;" class="form-check-input" name="check"></th>
-            <td>Juan Pablo</td>
-            <td>sadad</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row"><input type="checkbox" style="width: 5%;" class="form-check-input" name="check"></th>
-            <td>Jhoan Ortiz</td>
-            <td>sdas</td>
-            <td>@fat</td>
-          </tr>
+        {% endfor %}
         </tbody>
       </table>
 

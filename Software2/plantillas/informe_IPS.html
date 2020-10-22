@@ -1,0 +1,76 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Informe IPS{% endblock %}
+
+{% block content %}
+
+<div align="center">
+    <h1>Informe IPS</h1>
+</div>
+<hr>
+<div align="center">
+    <h3>Seleccionar Fecha </h3>
+    <br>
+    <br>
+</div>
+<hr>
+<div align="center">
+    <h3>Informe Médico</h3>
+    <br>
+    <h4>Seleccionar Médico</h4>
+    <select name="cardiacos" >
+        <option selected="selected" disabled>Selecciona la opción ...</option>
+                <option value="si">Francisco</option>
+                <option value="no">Pedro</option>
+    </select>
+    <br>
+    <br>
+    <table class="table" style="width: 50%;">
+        <thead>
+          <tr>
+            <th scope="col">Nombre Paciente</th>
+            <th scope="col">Número de Citas</th>
+            <th scope="col">Motivo de Consulta</th>
+            <th scope="col">Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for athlete in lista %}
+            <tr>
+              <th scope="row">1</th>
+              <td>athlete</td>
+              <td>athlete</td>
+              <td>athlete</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+<hr>
+<div align="center">
+    <h3>Citas</h3>
+    <table class="table" style="width: 50%;">
+        <thead>
+          <tr>
+            <th scope="col">Citas Realizadas</th>
+            <th scope="col">Citas Canceladas</th>
+            <th scope="col">Citas Confirmadas Automatico</th>
+            <th scope="col">Citas Confirmadas Manual</th>
+            <th scope="col">Motivo de consulta</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for athlete in lista %}
+            <tr>
+              <th scope="row">1</th>
+              <td>athlete</td>
+              <td>athlete</td>
+              <td>athlete</td>
+              <td>athlete</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}

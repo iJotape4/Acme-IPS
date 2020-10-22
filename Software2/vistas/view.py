@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement
 
+lista = [1,2,3,4]
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 class Paciente(object):
 	def __init__(self, nombreCompleto, horaCita):
@@ -34,7 +35,7 @@ def principal(request):
 
 def citas_del_dia(request):
 
-	return render(request, "./citas_del_dia.html")
+	return render(request, "./citas_del_dia.html",{"lista":lista})
 
 def menu_admin(request):
 
@@ -43,6 +44,10 @@ def menu_admin(request):
 def agregar_Medico(request):
 
 	return render(request, "./registrar_Medico.html")
+
+def informe_Ips(request):
+
+	return render(request, "./informe_IPS.html",{"lista":lista})
 
 def correo(request):
 	if request.method == 'POST':
@@ -69,8 +74,8 @@ def send_email(mail, usuario, password):
 	email.send()
 
 def histo_Paciente(request):
-
-	return render(request, "./histo_Paciente.html")
+	
+	return render(request, "./histo_Paciente.html", {"lista":lista})
 
 def agendar_Cita(request):
 
