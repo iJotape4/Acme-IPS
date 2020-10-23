@@ -38,14 +38,13 @@ def citas_del_dia(request):
 
 	'''cita = Cita.objects.filter(PacienteConCita_id) and Cita.objects.filter(MotivoConsultaCita) and Cita.objects.filter(HorarioCita) '''
 	cita = Cita.objects.all()
-	list_Cita = dict()
 	print(cita)
+	citas = []
 	for a in cita:
-		list_Cita['nombre'] = str(a.PacienteConCita.PrimerNombre)+" "+str(a.PacienteConCita.SegundoApellido)
-		list_Cita['hora'] = str(a.HorarioCita)
-		list_Cita['motivo'] = str(a.MotivoConsultaCita)
+		list_Cita = {'nombre':"%s %s" %(a.PacienteConCita.PrimerNombre, a.PacienteConCita.PrimerApellido),'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita}
+		citas.append(list_Cita)
 
-	return render(request, "./citas_del_dia.html",{"lista":list_Cita})
+	return render(request, "./citas_del_dia.html",{"lista":citas})
 
 def menu_admin(request):
 
