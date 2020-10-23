@@ -36,4 +36,5 @@ urlpatterns = [
     path('admin_menu/', menu_admin ),
     path('add_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),
+    path('selectFecha/',views.selectFecha),
 ]

@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from django import forms
 
 nombre_Usuario = ""
 is_logged_in = False
@@ -13,12 +14,27 @@ is_logged_in = False
 def login(request):
     return render(request,'login.html')
 
+class DateForm(forms.Form):
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
+
 def render_Menu_Paciente(request,is_loggedIn,contexto):
     if is_loggedIn:
         return render(request,"menu_Paciente.html",contexto)
     else:
         print("\nEl usuario no se encuentra logueado para continuar\n")
         return render(request,"principal_Paciente.html")
+
+def selectFecha(request):
+    print("--------------------")
+    print(request.GET.get('fecha'))
+    print("--------------------")
+    return login(request) 
 
 def logearse(request):
     global nombre_Usuario

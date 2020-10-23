@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'GestionDeCitas',
     'administrador',
+    'tempus_dominus',
 ]
 
 MIDDLEWARE = [

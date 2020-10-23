@@ -9,22 +9,38 @@
 </div>
 <hr>
 <div align="center">
-    <h3>Seleccionar Fecha </h3>
+    <h3 style="margin-right: 46%;">Seleccionar Fecha </h3>
     <br>
+    <form action="/selectFecha/" method="GET" style="width: 25%;">
+      <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="fecha"/>
+      <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+      </div>
+      </div>
+      <br>  
+      <br>
+      <input type="submit" class="btn btn-success" value="Seleccionar Fecha">
+  </form>
     <br>
 </div>
-<hr>
-<div align="center">
-    <h3>Informe Médico</h3>
+<br>
+<div >
+    <hr>
+    <h3 style="margin-left: 20%;">Informe Médico</h3>
     <br>
-    <h4>Seleccionar Médico</h4>
-    <select name="medicos" >
-        <option selected="selected" disabled>Selecciona la opción ...</option>
-                <option value="#">Francisco</option>
-                <option value="#">Pedro</option>
-    </select> 
-    <br>
-    <br>
+    <div align= "center">
+      <h5>Seleccionar Médico</h5>
+      <br>
+      <select name="medicos" >
+          <option selected="selected" disabled>Selecciona la opción ...</option>
+                  <option value="#">Francisco</option>
+                  <option value="#">Pedro</option>
+      </select> 
+      <br>
+      <br>
+      <br>
+
     <table class="table" style="width: 50%;">
         <thead>
           <tr>
@@ -45,10 +61,13 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
 </div>
 <hr>
 <div align="center">
-    <h3>Citas</h3>
+    <h3 style="margin-right: 46%;">Citas</h3>
+    <br>
+    <br>
     <table class="table" style="width: 50%;">
         <thead>
           <tr>
@@ -72,5 +91,13 @@
         </tbody>
       </table>
 </div>
+
+<script>
+  $(function () {
+      $("#datetimepicker1").datetimepicker({
+          format: 'DD/MM/YYYY HH:mm',
+      });
+  });
+</script>
 
 {% endblock %}
