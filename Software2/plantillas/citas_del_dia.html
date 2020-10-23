@@ -21,12 +21,12 @@
           </tr>
         </thead>
         <tbody>
-          {% for athlete in lista %}
+          {% for elemento in lista %}
           <tr>
             <th scope="row"><input type="checkbox" style="width: 5%;" class="form-check-input" name="check"></th>
-            <td>athlete</td>
-            <td>athlete</td>
-            <td>athlete</td>
+            <td>{{elemento.nombre}}</td>
+            <td>{{elemento.hora}}</td>
+            <td>{{elemento.motivo}}</td>
           </tr>
         {% endfor %}
         </tbody>

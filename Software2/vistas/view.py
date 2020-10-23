@@ -6,6 +6,7 @@ from mysql.connector import errorcode
 import datetime
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
+from GestionDeCitas.models import Cita
 from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement
 
 lista = [1,2,3,4]
@@ -35,7 +36,16 @@ def principal(request):
 
 def citas_del_dia(request):
 
-	return render(request, "./citas_del_dia.html",{"lista":lista})
+	'''cita = Cita.objects.filter(PacienteConCita_id) and Cita.objects.filter(MotivoConsultaCita) and Cita.objects.filter(HorarioCita) '''
+	cita = Cita.objects.all()
+	list_Cita = dict()
+	print(cita)
+	for a in cita:
+		list_Cita['nombre'] = str(a.PacienteConCita.PrimerNombre)+" "+str(a.PacienteConCita.SegundoApellido)
+		list_Cita['hora'] = str(a.HorarioCita)
+		list_Cita['motivo'] = str(a.MotivoConsultaCita)
+
+	return render(request, "./citas_del_dia.html",{"lista":list_Cita})
 
 def menu_admin(request):
 
