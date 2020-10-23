@@ -61,10 +61,11 @@
                         <h4 for="nombre">Elegir Medico</h4>
                         <hr>
                         <div>
-                            <select required name="TipoDeCita" > 
+                            <select required name="medico" > 
                                 <option selected="selected" disabled>Selecciona la opción ...</option> 
-                                    <option value="virtual">Virtual</option>
-                                    <option value="presencial">Presencial</option>     
+                                    {% for elemento in medicos %}
+                                    <option >{{elemento}}</option> 
+                                    {% endfor %}    
                          
                         </div>
                         </div>
@@ -73,11 +74,11 @@
                             <h4 for="nombre">Elegir Horario</h4>
                             <hr>
                             <div>
-                                <select required name="TipoDeCita" > 
+                                <select required name="horarios" > 
                                     <option selected="selected" disabled>Selecciona la opción ...</option> 
-                                        <option value="virtual">Virtual</option>
-                                        <option value="presencial">Presencial</option>     
-                             
+                                    {% for elemento in horarios %}
+                                    <option >{{elemento}}</option> 
+                                    {% endfor %}  
                             </div>
                     </div>
                     <div class="form-row">
