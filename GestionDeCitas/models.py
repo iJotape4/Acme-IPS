@@ -37,9 +37,10 @@ class Paciente(Usuario):
 	Barrio = models.CharField(max_length=50, default='')
 	complemento = models.CharField(max_length=50, default='')
 
-class Medico(Usuario):  
-	HorarioLlegada = models.DateField()
-	HoraioSalida = models.DateField()
+class Medico(Usuario):
+	Especialidad = models.CharField(max_length=20, default ='General')  
+	HorarioLlegada = models.TimeField()
+	HoraioSalida = models.TimeField()
 
 class Secretaria(Usuario):  
 	Whatsapp = models.CharField(max_length=20)
@@ -51,7 +52,7 @@ class Cita(models.Model):
 	ModalidadCita = models.CharField(max_length=10)
 	MotivoConsultaCita = models.CharField(max_length=15)
 	EspecialidadCita = models.CharField(max_length=50)
-	HorarioCita = models.DateField()
+	HorarioCita = models.DateTimeField()
 	CitaPagada = models.BooleanField(default=0)
 	Asistencia = models.BooleanField(default=0)
 	MedicoAsignado = models.ForeignKey(Medico, on_delete=models.CASCADE)
