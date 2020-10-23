@@ -31,9 +31,10 @@ urlpatterns = [
     path('correo/', correo ),
     path('his_paciente/', histo_Paciente ),
     path('menu_Paciente/', menu_Paciente ),
-    path('agendar_cita/', agendar_Cita ),
+    path('vistaAgendar_cita/', views.vistaAgendarCita ),
     path('citas_del_dia/', citas_del_dia ),
     path('admin_menu/', menu_admin ),
     path('add_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),
+    path('agendarCita/', views.AgendarCita),
 ]

@@ -22,6 +22,7 @@
                     <h4 for="nombre">Elegir Especialidad</h4>
                     <br>
                         <select required name="especialidad">
+                            <option selected="selected" disabled>Selecciona la opción ...</option> 
                             <option value="general">Medicina General</option>
                             <option value="dermatologia">Dermatologia</option>
                             <option value="interna">Medicina Interna</option>
@@ -35,9 +36,9 @@
                     <h4 for="nombre">Elegir Medico</h4>
                     <br>
                     <div>
-                        <select required name="medico" > 
+                        <select  name="medico" > 
                             <option selected="selected" disabled>Selecciona la opción ...</option> 
-                                {% for elemento in medicos %}
+                                {% for elemento in nmedicos %}
                                 <option >{{elemento}}</option> 
                                 {% endfor %}
                         </select>     
@@ -46,7 +47,7 @@
                     <h4 for="nombre">Elegir Horario</h4>
                     <br>
                     <div>
-                        <select required name="horarios" > 
+                        <select  name="horarios" > 
                         <option selected="selected" disabled>Selecciona la opción ...</option> 
                         {% for elemento in horarios %}
                         <option>{{elemento}}</option> 

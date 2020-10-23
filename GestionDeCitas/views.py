@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from GestionDeCitas.models import Paciente
+from GestionDeCitas.models import Paciente, Medico
 from django.contrib.auth import logout as do_logout
 from django.shortcuts import render, redirect
-from Software2.Methods import DefinirCondiciónMedica, CampoOpcional
+from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 
@@ -102,4 +102,57 @@ def registrarse(request):
         return redirect("/login")
     else:
         return redirect("/registro")
+
+def vistaAgendarCita(request):
+    return render(request,'agendamiento_Citas.html')
+
+
+def AgendarCita(request):
+    tipoCita = request.GET["tipoCita"] 
+    especialidad = request.GET["especialidad"] 
+    print("es"+str(request.GET["especialidad"] ))
+    print("es"+str(especialidad))
+
+    while request.GET["especialidad"]==False:
+        pass 
+
    
+    medicos= Medico.objects.filter(Especialidad=especialidad)
+    nmedicos =[]
+
+    for e in medicos:
+            nombre= "%s %s %s %s" %(e.PrimerNombre, e.SegundoNombre, e.PrimerApellido, e.SegundoApellido)
+            nmedicos.append(nombre) 
+
+
+    medico = request.GET["medico"]
+
+    medicoElegido =[]
+    temporal=[]
+    for e in medico:
+        if(e==' '):
+            medicoElegido.append(temporal)
+            temporal=[]
+        else:
+            temporal.append(e)
+    #EliminarSimbolos(str(medicoElegido))
+
+    medicoBD = Medico.objects.filter (
+        PrimerNombre=medicoElegido[0],
+        SegundoNombre=medicoElegido[1],
+        PrimerApellido=medicoElegido[2],
+        SegundoApellido=medicoElegido[3]
+        )
+
+    horarioLlegada = medicoBD[0].HorarioLlegada
+    horarioSalida = medicoBD[0].HorarioSalida 
+
+    horarios = horarioLlegada
+
+
+    #horario = request.GET["Horario"]
+    #motivoConsulta = request.GET["MotivoDeConsulta"]
+
+    diccionario ={"medicos":nmedicos, "horarios":horarios}
+
+    return render(request,"principal_Paciente.html",diccionario )
