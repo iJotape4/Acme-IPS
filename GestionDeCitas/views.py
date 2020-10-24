@@ -7,6 +7,9 @@ from django.shortcuts import render, redirect
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos
 from django.contrib import messages
 from django import forms
+from GestionDeCitas.models import Paciente,Medico,Horario,Especialidad,Cita
+from django.http import JsonResponse
+
 
 nombre_Usuario = ""
 is_logged_in = False
@@ -120,32 +123,54 @@ def registrarse(request):
         return redirect("/registro")
 
 def vistaAgendarCita(request):
+    especialidadesdb = Especialidad.objects.all()
+
+    especialidades = list()
+    for a in especialidadesdb:
+        list_Especialidades = {'especialidad':"%s"%(a.nombre)}
+        especialidades.append(list_Especialidades)
+
+    return render(request,'AgendarCita_Prueba.html',{'list':especialidades})
+
+especialidad_Escogida = " "
+
+def getEspecialidad(request):
+    print("\n")
+    global especialidad_Escogida
+    especialidad_Escogida = request.GET['especialidad_categoria']
+    print(request.GET['especialidad_categoria'])
+    print("\n")
+    getMedicosByEspecialidad(request)
     return render(request,'AgendarCita_Prueba.html')
 
+def getMedicosByEspecialidad(request):
+    medicos = Medico.objects.all()
+    medicosByEspecialidad = list()
+    for filtro in medicos:
+        if filtro.especialidad.nombre == especialidad_Escogida:
+            print("Entro!!")
+            list_Medicos = {'medico':"%s"%(str(filtro.PrimerNombre)+" "+str(filtro.SegundoNombre))}
+            medicosByEspecialidad.append(list_Medicos)
+    print(medicosByEspecialidad)
+    return JsonResponse({'lista':medicosByEspecialidad},safe=False)
 
 def AgendarCita(request):
     form = AgendarCitaForm()
-
+        
     if request.method == 'POST':
         form = AgendarCitaForm(request.POST)
         if form.is_valid():
             return HttpResponseRedirect('/menu_Paciente/')
         return render(request, 'AgendarCita_Prueba.html', {'form':form})       
 
-
-'''
     tipoCita = request.GET["tipoCita"] 
     especialidad = request.GET["especialidad"] 
-  
-
-   
-    medicos= Medico.objects.filter(Especialidad=especialidad)
-    nmedicos =[]
-
+    nmedicos = []
+    medicos = Medico.objects.filter(Especialidad=especialidad)
+    
     for e in medicos:
-            nombre= "%s %s %s %s" %(e.PrimerNombre, e.SegundoNombre, e.PrimerApellido, e.SegundoApellido)
-            nmedicos.append(nombre) 
-
+        nombre= "%s %s %s %s" %(e.PrimerNombre, e.SegundoNombre, e.PrimerApellido, e.SegundoApellido)
+        nmedicos.append(nombre) 
 
     medico = request.GET["medico"]
 
@@ -171,10 +196,8 @@ def AgendarCita(request):
 
     horarios = horarioLlegada
 
-
     #horario = request.GET["Horario"]
-    #motivoConsulta = request.GET["MotivoDeConsulta"]
-    
+    #motivoConsulta = request.GET["MotivoDeConsulta"]  
     diccionario ={"medicos":nmedicos, "horarios":horarios}
 
-    return render(request,"principal_Paciente.html",diccionario )'''
+    return render(request,"principal_Paciente.html",diccionario)

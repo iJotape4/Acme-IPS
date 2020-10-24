@@ -1,27 +1,24 @@
 from django.http import JsonResponse
+from django.shortcuts import render, redirect
 
-from GestionDeCitas.models import  Paciente,Medico,Horario, Especialidad,Cita
+from GestionDeCitas.models import Paciente,Medico,Horario,Especialidad,Cita
 from Software2.Methods import GenerarHorarioCitas
 
 def get_medicos(request):
-    especialidad = request.GET["especialidad"] 
-    medicos =  Medico.objects.none()
-    options = '<option value="" selected="selected">---------</option>'
-    if especialidad:    
-        medicos= Medico.objects.filter(especialidad=especialidad)   
-    for e in medicos:
-        nombre= "%s %s %s %s" %(e.PrimerNombre, e.SegundoNombre, e.PrimerApellido, e.SegundoApellido)
-        options+='<option value="%s">%s</option>' % (
-            nombre, nombre)
-    response = {}
-    response['medico'] =options
-    return JsonResponse(response)
+    especialidadesdb = Especialidad.objects.all()
+    print("\n",especialidadesdb)
+    especialidades = list()
+    for a in especialidades:
+        #list_Especialidades = {'especialidad':"%s"(a.Especialidad.nombre)}
+        #especialidades.append(list_Especialidades)
+        pass
+    print("\n",especialidades)
+    return render(request,'agendar_citaP.html',{'list':especialidades})
        
 def get_horarios(request):
     medico = request.GET["medico"] 
     horarios =  Horario.objects.none()
     options = '<option value="" selected="selected">--- ------</option>'
-
 
     if medico:
         medicoElegido =[]

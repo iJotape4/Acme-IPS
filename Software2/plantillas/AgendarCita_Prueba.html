@@ -1,18 +1,40 @@
+<html>
 <body>
-    <form method="POST">
-        {% csrf_token %}
+    
+        <form action="/getEspecialidad/" method="GET">
         <div>
-            {{ form.especialidad.label_tag }} 
-            {{ form.especialidad }}
+            <select required name="especialidad_categoria" > 
+                <option selected="selected" disabled>Selecciona la opción ...</option> 
+                {% for elemento in list %}
+                    <option value="{{elemento.especialidad}}">{{elemento.especialidad}}</option> 
+                {% endfor %}
+                <input type="submit" class="btn btn-success" value="seleccionar">
+            </select>
+        <form>
+            <br>
+        <form action="/getMedicosByEspecialidad/" method="GET">
+            <select required name="especialidad_categoria" > 
+                <option selected="selected" disabled>Selecciona la opción ...</option> 
+                {% for elemento in lista %}
+                    <option value="{{elemento.medico}}">{{elemento.medico}}</option> 
+                {% endfor %}
+                <input type="submit" class="btn btn-success" value="seleccionar">
+            </select>
+        <form>
         </div>
         <div>
+        <select>
             {{ form.medico.label_tag }} 
             {{ form.medico }}
+        </select>
         </div>
         <div>
+        <select>
             {{ form.horario.label_tag }} 
             {{ form.horario }}
+        </select>
         </div>
+        
         <button type="submit">Guardar</button>
     </form>
     <script type="text/javascript">
@@ -70,3 +92,4 @@
         }
     </script>
 </body>
+</html>
