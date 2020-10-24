@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
 from GestionDeCitas.forms import AgendarCitaForm
 from django.shortcuts import render, redirect
-from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos
+from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos, send_email
 from django.contrib import messages
 from django import forms
 from GestionDeCitas.models import Paciente,Medico,Horario,Especialidad,Cita
@@ -74,6 +74,21 @@ def comprobar_DatoNumerico(lista):
                 return False
     return True
 
+
+def recuperar_Contra(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        paciente = Paciente.objects.filter(CorreoElectronico=email)
+        if paciente:
+            send_email(email, paciente[0].Usuario, paciente[0].Contraseña, "./correoRecuperar.html")
+            return render(request, "./recuperarContra.html")
+        else:
+            return HttpResponse("No existe un usuario Registrado con ese correo electrónico")    
+
+
+		#User = GenerateUserByCorreoElement(email)
+		
+	
 def verificar_Existencia_Usuarios(documentoId):
     user = Paciente.objects.filter(DocumentoId=documentoId)
     return len(user)

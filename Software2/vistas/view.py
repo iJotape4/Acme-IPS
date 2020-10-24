@@ -6,8 +6,8 @@ from mysql.connector import errorcode
 import datetime
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from GestionDeCitas.models import Cita
-from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement
+from GestionDeCitas.models import Cita, Paciente
+from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
 
 lista = [1,2,3,4]
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
@@ -62,25 +62,9 @@ def correo(request):
 	if request.method == 'POST':
 		mail = request.POST.get('mail')
 		User = GenerateUserByCorreoElement(mail)
-		send_email(mail, User[0], User[1])
+		send_email(mail, User[0], User[1], "./correo.html" )
 		
 	return render(request, "./regisCorreo.html")
-
-def send_email(mail, usuario, password):
-	context = {'mail': mail, 'user':usuario, 'password':password}
-
-	template = get_template('correo.html')
-	content = template.render(context)
-
-	email = EmailMultiAlternatives(
-		'Usuario IPS ACME',
-		'Estos son su usuario y contraseña. ',
-		settings.EMAIL_HOST_USER,
-		[mail]
-	)
-	
-	email.attach_alternative(content, 'text/html')
-	email.send()
 
 def histo_Paciente(request):
 	
@@ -89,14 +73,6 @@ def histo_Paciente(request):
 def agendar_Cita(request):
 
 	return render(request, "./agendamiento_Citas.html")
-
-def recuperar_Contra(request):
-	if request.method == 'POST':
-		email = request.POST.get('email')
-		User = GenerateUserByCorreoElement(email)
-		send_email(email, User[0], User[1])
-	
-	return render(request, "./recuperarContra.html")
 
 
 def menu_Paciente(request):
@@ -107,7 +83,7 @@ def vistaDoctor(request):
 	
 	cursor= CursorDB(cnx)
 
-	#Consulta para buscar el nombreCompleto de los pacientes
+	#Consulta para buscar	 el nombreCompleto de los pacientes
 	query = ("SELECT PrimerNombreP, SegundoNombreP, PrimerApellidoP, SegundoApellidoP FROM paciente")
 	#(¿¿)Agregar WHERE cita.día = Today (??)
 
