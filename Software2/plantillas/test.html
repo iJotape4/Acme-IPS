@@ -1,0 +1,73 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Registro IPS{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom:30px">
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+        {{message}}
+        </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<form method="POST" action="." enctype="multipart/form-data">
+    <div class= card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">
+                <1 class ="fas fa-plus"></1>
+                {{title}}
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class ="form-group">
+                <label>Especialidades:</label>
+                {{form.especialidades}}
+            </div>
+            <div class ="form-group">
+                <label>Medicos:</label>
+                {{form.medicos}}
+            </div>
+
+        </div>
+    </div>
+</form>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" >
+        $(function(){
+        $('select[name="especialidades"]').on('change', function(){
+            var id = $(this).val();
+            console.log(id);
+            console.log("cambia");
+            $( "select" ).change( displayVals );
+displayVals();
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                    'action':'search_medico_id',
+                    'id':id
+                },
+                dataType: 'json', 
+            }).done(function(data){
+                console.log(data);
+                if(!data.hasOwnProperty('error')){
+                    console.log(data);
+                    return false;
+                }                   
+            message_error(data.error);
+            
+        }).fail(function(jqXHR, textStatus, errorThrown){
+            alert(textStatus)+': '+errorThrown
+        }).always(function(data){
+
+        });
+        });
+    });
+    </script>
+
+{% endblock %}
