@@ -31,11 +31,11 @@ class Paciente(Usuario):
 	Diabetes = models.BooleanField(default=0)
 	Cardiacos = models.BooleanField(default=0)
 
-	Otros = models.CharField(max_length=500, default='')
+	Otros = models.CharField(max_length=500, default='', null=True)
 
 	Ciudad = models.CharField(max_length=50, default='')
 	Barrio = models.CharField(max_length=50, default='')
-	complemento = models.CharField(max_length=50, default='')
+	complemento = models.CharField(max_length=50, default='', null=True)
 
 class Especialidad(models.Model):
 	nombre= models.CharField(max_length=20)
