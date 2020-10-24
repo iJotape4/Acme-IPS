@@ -1,7 +1,6 @@
 {% extends "plantilla.html" %}
-
+{% load static %}
 {% block title %}Principal{% endblock %}
-
 {% block content %}
 
 <!DOCTYPE html>
@@ -13,10 +12,10 @@
     </div>
     <div align="center">
         <p>
-            Texto quienes somos ...
+            Somos una IPS enfocada en tu salud
         </p>
         <div>
-            <img src="Software2/Imgs/GettyImages-1211152561-1.jpg">
+            <img src="{% static "img/GettyImages-1211152561-1.jpg" %}" style="width:500px; height:300px">
         </div>
         <h2>¿Desea agendar una cita?</h2>
         <p>

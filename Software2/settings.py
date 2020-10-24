@@ -130,3 +130,10 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'acmeprueba2@gmail.com'
 EMAIL_HOST_PASSWORD = 'Sistemas312'
 EMAIL_USE_TLS = True
+
+STATIC_URL = '/static/'
+
+TATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/static/',
+]
