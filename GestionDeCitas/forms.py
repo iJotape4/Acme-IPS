@@ -1,23 +1,23 @@
 from django import forms
 
-from GestionDeCitas.models import Medico
+from GestionDeCitas.models import Medico,Especialidad, Horario
 
 
-class UbicacionForm(forms.Form):
-    estado = forms.ModelChoiceField(
-        label=u'Estado', 
+class AgendarCitaForm(forms.Form):
+    especialidad = forms.ModelChoiceField(
+        label=u'especialidad', 
+        queryset=Especialidad.objects.all()
+    )
+    medico = forms.ModelChoiceField(
+        label=u'medico', 
         queryset=Medico.objects.all()
     )
-    municipio = forms.ModelChoiceField(
-        label=u'Municipio', 
-        queryset=Municipio.objects.all()
-    )
-    localidad = forms.ModelChoiceField(
-        label=u'Localidad', 
-        queryset=Localidad.objects.all()
+    horario = forms.ModelChoiceField(
+        label=u'horario', 
+        queryset=Horario.objects.all()
     )
 
     def __init__(self, *args, **kwargs):
-        super(UbicacionForm, self).__init__(*args, **kwargs)
-        self.fields['municipio'].queryset = Municipio.objects.none()
-        self.fields['localidad'].queryset = Localidad.objects.none()
+        super(AgendarCitaForm, self).__init__(*args, **kwargs)
+        self.fields['medico'].queryset = Medico.objects.none()
+        self.fields['horario'].queryset = Horario.objects.none()

@@ -1,0 +1,72 @@
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            {{ form.especialidad.label_tag }} 
+            {{ form.especialidad }}
+        </div>
+        <div>
+            {{ form.medico.label_tag }} 
+            {{ form.medico }}
+        </div>
+        <div>
+            {{ form.horario.label_tag }} 
+            {{ form.horario }}
+        </div>
+        <button type="submit">Guardar</button>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#id_especialidad").on("change", get_medicos);
+            $("#id_especialidad").on("change", get_horarios);
+        });
+
+        function get_medicos() {
+            var especialidadId = $("#id_especialidad").val();
+            if (especialidadId) {
+                // Eliminamos las opciones anteriores del select
+                $("#id_medico").html("");
+                var request = $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_medicos' %}",
+                    data: {
+                        "especialidad_id": especialidadId,
+                    },
+                });
+                request.done(function(response) {
+                    // Agregamos los resultados al select
+                    $("#id_proceso").html(response.medicos);
+                    $("#id_horario").html("<option value='' selected='selected'>---------</option>");
+                    $("#id_medico, #id_horario").trigger("change");
+                });
+            } else {
+                $("#id_medico").html("<option value='' selected='selected'>---------</option>");
+                $("#id_horario").html("<option value='' selected='selected'>---------</option>");
+                $("#id_medico, #id_horario").trigger("change");
+            }
+        }    
+
+        function get_horarios() {
+            var medicoId = $("#id_medico").val();
+            if (medicoId) {
+                // Eliminamos las opciones anteriores del select
+                $("#id_horario").html("");
+                var request = $.ajax({
+                    type: "GET",
+                    url: "{% url 'get_horarios' %}",
+                    data: {
+                        "medico_id": medicoId,
+      },
+                });
+                request.done(function(response) {
+                    // Agregamos los resultados al select
+                    $("#id_horario").html(response.horarioes);
+                    $("#id_horario").trigger("change");
+                });
+            } else {
+                $("#id_horario").html("<option value='' selected='selected'>---------</option>");
+                $("#id_horario").trigger("change");
+            }
+        }
+    </script>
+</body>

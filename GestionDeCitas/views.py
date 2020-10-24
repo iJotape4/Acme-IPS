@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from GestionDeCitas.models import Paciente, Medico
-from django.contrib.auth import logout as do_logout
+#from django.core.urlresolvers  import reverse
+from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
+from GestionDeCitas.forms import AgendarCitaForm
 from django.shortcuts import render, redirect
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos
-from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django import forms
 
@@ -120,14 +120,24 @@ def registrarse(request):
         return redirect("/registro")
 
 def vistaAgendarCita(request):
-    return render(request,'agendamiento_Citas.html')
+    return render(request,'AgendarCita_Prueba.html')
 
 
 def AgendarCita(request):
+    form = AgendarCitaForm()
+
+    if request.method == 'POST':
+        form = AgendarCitaForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/menu_Paciente/')
+        return render(request, 'AgendarCita_Prueba.html', {'form':form})       
+
+
+'''
     tipoCita = request.GET["tipoCita"] 
     especialidad = request.GET["especialidad"] 
-    print("es"+str(request.GET["especialidad"] ))
-    print("es"+str(especialidad))
+  
+
    
     medicos= Medico.objects.filter(Especialidad=especialidad)
     nmedicos =[]
@@ -164,7 +174,7 @@ def AgendarCita(request):
 
     #horario = request.GET["Horario"]
     #motivoConsulta = request.GET["MotivoDeConsulta"]
-
+    
     diccionario ={"medicos":nmedicos, "horarios":horarios}
 
-    return render(request,"principal_Paciente.html",diccionario )
+    return render(request,"principal_Paciente.html",diccionario )'''
