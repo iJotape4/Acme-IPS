@@ -37,10 +37,16 @@ class Paciente(Usuario):
 	Barrio = models.CharField(max_length=50, default='')
 	complemento = models.CharField(max_length=50, default='')
 
-class Medico(Usuario):
-	Especialidad = models.CharField(max_length=20, default ='General')  
+class Especialidad(models.Model):
+	nombre= models.CharField(max_length=20)
+
+class Horario(models.Model):
 	HorarioLlegada = models.TimeField()
 	HoraioSalida = models.TimeField()
+
+class Medico(Usuario):
+	horario = models.ForeignKey(Horario, on_delete=models.CASCADE)
+	especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
 
 class Secretaria(Usuario):  
 	Whatsapp = models.CharField(max_length=20)
