@@ -1,8 +1,10 @@
 import mysql.connector
 from mysql.connector import errorcode
 import random
-
+from django.core.mail import EmailMultiAlternatives
 from datetime import datetime
+from django.template.loader import get_template
+from Software2 import settings
 
 def EliminarSimbolos(x):
 	x = str(x).replace("'","").replace("(","").replace(")","").replace(",","").replace("[","").replace("]","").replace(" ","")
@@ -70,8 +72,22 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida):
 
 	return horarios
 
-#def GenerarHorarioCitas(horarioSalida, horarioLLegada):
 
+def send_email(mail, usuario, password, CorreoHTML):
+	context = {'mail': mail, 'user':usuario, 'password':password}
+
+	template = get_template(CorreoHTML)
+	content = template.render(context)
+
+	email = EmailMultiAlternatives(
+		'Usuario IPS ACME',
+		'Estos son su usuario y contraseña. ',
+		settings.EMAIL_HOST_USER,
+		[mail]
+	)
+	
+	email.attach_alternative(content, 'text/html')
+	email.send()   
 
 
 
