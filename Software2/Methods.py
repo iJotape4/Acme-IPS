@@ -46,8 +46,8 @@ def CampoOpcional(request, campo):
 
 
 def GenerarHorarioCitas(horarioLLegada, horarioSalida):
-	horarios =[horarioLLegada]
-
+	horarios = [horarioLLegada]
+	
 	horaLlega = horarioLLegada.strftime("%H")
 	minLlega = horarioLLegada.strftime("%M")
 
@@ -56,7 +56,7 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida):
 	horaNueva= horaLlega
 	minNuevo= minLlega
 
-	while (datetime.strptime(horaNueva+":"+minNuevo,"%H:%M") <= horarioSalida)  and (int(horaNueva)+1<= int(horaSale)):
+	while (datetime.strptime(horaNueva+":"+minNuevo,"%H:%M") == horarioSalida)  and (int(horaNueva)+1== int(horaSale)):
 		if int(minNuevo)+30 <60:
 			Oper = int(minNuevo)+30
 			minNuevo = str(Oper)
@@ -69,7 +69,6 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida):
 			minNuevo = str(res)
 
 			horarios.append(datetime.strptime(str(hor)+":"+str(res), "%H:%M" ))	
-
 	return horarios
 
 

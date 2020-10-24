@@ -9,7 +9,7 @@ from django.contrib import messages
 from django import forms
 from GestionDeCitas.models import Paciente,Medico,Horario,Especialidad,Cita
 from django.http import JsonResponse
-
+from Software2.Methods import GenerarHorarioCitas
 
 nombre_Usuario = ""
 is_logged_in = False
@@ -74,20 +74,17 @@ def comprobar_DatoNumerico(lista):
                 return False
     return True
 
-
 def recuperar_Contra(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         paciente = Paciente.objects.filter(CorreoElectronico=email)
         if paciente:
             send_email(email, paciente[0].Usuario, paciente[0].Contraseña, "./correoRecuperar.html")
-            return render(request, "./recuperarContra.html")
+            return render(request, "recuperarContra.html")
         else:
             return HttpResponse("No existe un usuario Registrado con ese correo electrónico")    
-
-
 		#User = GenerateUserByCorreoElement(email)
-		
+    return render(request, "recuperarContra.html")
 	
 def verificar_Existencia_Usuarios(documentoId):
     user = Paciente.objects.filter(DocumentoId=documentoId)
@@ -139,35 +136,77 @@ def registrarse(request):
 
 def vistaAgendarCita(request):
     especialidadesdb = Especialidad.objects.all()
-
     especialidades = list()
     for a in especialidadesdb:
         list_Especialidades = {'especialidad':"%s"%(a.nombre)}
         especialidades.append(list_Especialidades)
 
-    return render(request,'AgendarCita_Prueba.html',{'list':especialidades})
+    return render(request,'AgendarCita_Prueba.html',{'lista_especialidad':especialidades})
 
 especialidad_Escogida = " "
 
 def getEspecialidad(request):
-    print("\n")
-    global especialidad_Escogida
+    #print("\n")
+    global especialidad_Escogida  #Variable global para filtrar el medico que tenga esa especialidad
     especialidad_Escogida = request.GET['especialidad_categoria']
-    print(request.GET['especialidad_categoria'])
-    print("\n")
-    getMedicosByEspecialidad(request)
-    return render(request,'AgendarCita_Prueba.html')
+    #print(request.GET['especialidad_categoria'])
+    #print("\n")
 
-def getMedicosByEspecialidad(request):
+    #Se llena la lista con los medicos que tengan una especialidad x
+    medico_per_especialidad = getMedicosByEspecialidad() 
+    print("------Medicos por especialidad")
+    print(medico_per_especialidad)
+    print("------Medicos por especialidad")
+    return render(request,'AgendarCita_Prueba.html',{'lista_medico':medico_per_especialidad})
+
+def getMedicosByEspecialidad(): #Es llamado en getEspecialidad 
     medicos = Medico.objects.all()
     medicosByEspecialidad = list()
     for filtro in medicos:
         if filtro.especialidad.nombre == especialidad_Escogida:
             print("Entro!!")
-            list_Medicos = {'medico':"%s"%(str(filtro.PrimerNombre)+" "+str(filtro.SegundoNombre))}
+            list_Medicos = {'medico':"%s"%(str(filtro.PrimerNombre)+" "+str(filtro.PrimerApellido))}
             medicosByEspecialidad.append(list_Medicos)
-    print(medicosByEspecialidad)
-    return JsonResponse({'lista':medicosByEspecialidad},safe=False)
+    #print(medicosByEspecialidad)
+    return medicosByEspecialidad
+
+medico_Escogido = " "
+
+def getMedicos(request):
+
+    global medico_Escogido
+    medico_Escogido = request.GET['medico_categoria']
+    medico_Escogido = medico_Escogido.split() #Se obtiene una lista con primer nombre y primer apellido del medico
+    print("Medico escogido: ",medico_Escogido)
+
+    horarios_medico = getHorarioMedico()
+    print("Horario: ",horarios_medico)
+    return render(request,'AgendarCita_Prueba.html',{'lista_horario':horarios_medico})
+
+def getHorarioMedico():
+    horarios = Horario.objects.all()
+    medicos = Medico.objects.filter(PrimerNombre=medico_Escogido[0],PrimerApellido=medico_Escogido[1])
+    
+    id_horario_medico = ""
+
+    for medicosQuery in medicos: #De momento no encontre una forma eficiente de hacerlo
+        id_horario_medico = medicosQuery.horario_id
+        break
+    list_horarios = list()
+
+    for horariosQuery in horarios: 
+        if id_horario_medico == horariosQuery.id:
+            list_horarios.append(horariosQuery.HorarioLlegada)
+            list_horarios.append(horariosQuery.HoraioSalida)
+    #Obtengo una lista con horario de entrada y salida
+    #Tipo de dato -> datetime.time(1, 40, 18)
+    
+    particionHorarios = list()
+    particionHorarios = GenerarHorarioCitas(list_horarios[0],list_horarios[1])
+    horarios_Filtrados = list()
+    for date in particionHorarios:
+        horarios_Filtrados = {'horario':"%s"%(str(date))}
+    return [horarios_Filtrados]
 
 def AgendarCita(request):
     form = AgendarCitaForm()
