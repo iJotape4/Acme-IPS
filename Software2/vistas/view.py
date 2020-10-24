@@ -90,6 +90,15 @@ def agendar_Cita(request):
 
 	return render(request, "./agendamiento_Citas.html")
 
+def recuperar_Contra(request):
+	if request.method == 'POST':
+		email = request.POST.get('email')
+		User = GenerateUserByCorreoElement(email)
+		send_email(email, User[0], User[1])
+	
+	return render(request, "./recuperarContra.html")
+
+
 def menu_Paciente(request):
 
     return render(request, "./menu_Paciente.html")
