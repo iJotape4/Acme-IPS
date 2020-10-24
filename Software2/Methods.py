@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import errorcode
 import random
 from django.core.mail import EmailMultiAlternatives
-from datetime import datetime, time
+from datetime import datetime
 from django.template.loader import get_template
 from Software2 import settings
 
@@ -46,22 +46,21 @@ def CampoOpcional(request, campo):
 
 
 def GenerarHorarioCitas(horarioLLegada, horarioSalida):
-	horarios =[]
-
+	horarios = [horarioLLegada]
+	
 	horaLlega = horarioLLegada.strftime("%H")
 	minLlega = horarioLLegada.strftime("%M")
 
 	horaSale = horarioSalida.strftime("%H")
 
-	horarioCita = horarioLLegada
 	horaNueva= horaLlega
 	minNuevo= minLlega
 
-	while (time(int(horaNueva), int(minNuevo)) != horarioSalida)  and (int(horaNueva)+1<= int(horaSale)):
+	while (datetime.strptime(horaNueva+":"+minNuevo,"%H:%M") == horarioSalida)  and (int(horaNueva)+1== int(horaSale)):
 		if int(minNuevo)+30 <60:
 			Oper = int(minNuevo)+30
 			minNuevo = str(Oper)
-			horarios.append(time(int(horaNueva), Oper) )
+			horarios.append(datetime.strptime(horaNueva+":"+str(Oper), "%H:%M") )  
 		else:
 			res = (int(minNuevo)+30)-60
 			hor = int(horaNueva)+1
@@ -69,10 +68,8 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida):
 			horaNueva = str(hor)
 			minNuevo = str(res)
 
-			horarios.append(time(hor, res))	
-	print ("meht"+str(horarios))
+			horarios.append(datetime.strptime(str(hor)+":"+str(res), "%H:%M" ))	
 	return horarios
-
 
 
 def send_email(mail, usuario, password, CorreoHTML):
