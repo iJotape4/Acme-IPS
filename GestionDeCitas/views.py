@@ -173,7 +173,6 @@ def getMedicosByEspecialidad(): #Es llamado en getEspecialidad
 medico_Escogido = " "
 
 def getMedicos(request):
-
     global medico_Escogido
     medico_Escogido = request.GET['medico_categoria']
     medico_Escogido = medico_Escogido.split() #Se obtiene una lista con primer nombre y primer apellido del medico
@@ -207,6 +206,14 @@ def getHorarioMedico():
     for date in particionHorarios:
         horarios_Filtrados = {'horario':"%s"%(str(date))}
     return [horarios_Filtrados]
+
+horario_Escogido = " "
+
+def getHorario(request):
+    global horario_Escogido
+    horario_Escogido = request.GET['horario_categoria']
+    print("Horario_Escogido: ",horario_Escogido)
+    return render(request,'AgendarCita_Prueba.html')
 
 def AgendarCita(request):
     form = AgendarCitaForm()

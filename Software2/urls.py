@@ -21,7 +21,7 @@ from GestionDeCitas.ajax import get_horarios, get_medicos
 from Software2 import settings
 from GestionDeCitas import views
 from GestionDeCitas.views import vistaAgendarCita 
-from GestionDeCitas.views import getEspecialidad, getMedicos, recuperar_Contra
+from GestionDeCitas.views import getEspecialidad, getMedicos, recuperar_Contra, getHorario
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +37,7 @@ urlpatterns = [
     path('agendar_cita/', agendar_Cita ),
     path('getEspecialidad/', views.getEspecialidad),
     path('getMedicos/', views.getMedicos),
+    path('getHorario/',views.getHorario),
     path('agendar_citaP/',  vistaAgendarCita),
     path('citas_del_dia/', citas_del_dia ),
     path('admin_menu/', menu_admin ),

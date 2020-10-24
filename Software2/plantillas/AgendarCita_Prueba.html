@@ -38,9 +38,8 @@
                 <input type="submit" class="btn btn-success" value="seleccionar">
             </select>
         </form>
-        </div>
-        <div>
-        <form action="/getHorarioMedico/" method="GET">
+
+        <form action="/getHorario/" method="GET">
             <select required name="horario_categoria"> 
                 <option selected="selected" disabled>Selecciona la opción ...</option> 
                 {% for elemento in lista_horario %}
@@ -48,10 +47,10 @@
                 {% endfor %}
                 <input type="submit" class="btn btn-success" value="seleccionar">
             </select>
-        <form>
-        <br>     
+        </form>
+        <br>  
+        </div>   
         <button type="submit">Guardar</button>
-    </form>
 
     <script>
         $(function(){
