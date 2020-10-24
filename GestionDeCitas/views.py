@@ -128,10 +128,6 @@ def AgendarCita(request):
     especialidad = request.GET["especialidad"] 
     print("es"+str(request.GET["especialidad"] ))
     print("es"+str(especialidad))
-
-    while request.GET["especialidad"]==False:
-        pass 
-
    
     medicos= Medico.objects.filter(Especialidad=especialidad)
     nmedicos =[]

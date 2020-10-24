@@ -1,17 +1,33 @@
 import random
-def GenerateUserByCorreoElement(email):
-	userArray=[]
-	passwordArray=[]
-	for e in email:
-		#print("indeX"+str(e.index()))
-		if email.index(e) % 2 ==0:
-			passwordArray.append(e)
+from datetime import datetime
+
+def GenerarHorarioCitas(horarioLLegada, horarioSalida):
+	horarios =[horarioLLegada]
+
+	horaLlega = horarioLLegada.strftime("%H")
+	minLlega = horarioLLegada.strftime("%M")
+
+	horaSale = horarioSalida.strftime("%H")
+
+	horarioCita = horarioLLegada
+	horaNueva= horaLlega
+	minNuevo= minLlega
+
+	while (datetime.strptime(horaNueva+":"+minNuevo,"%H:%M") <= horarioSalida)  and (int(horaNueva)+1<= int(horaSale)):
+		if int(minNuevo)+30 <60:
+			Oper = int(minNuevo)+30
+			minNuevo = str(Oper)
+			horarios.append(datetime.strptime(horaNueva+":"+str(Oper), "%H:%M") )  
 		else:
-			userArray.append(e)
-	random.shuffle(userArray)
-	random.shuffle(passwordArray)	
+			res = (int(minNuevo)+30)-60
+			hor = int(horaNueva)+1
 
-	print(str(userArray).replace("'","").replace("(","").replace(")","").replace(",","").replace("[","").replace("]","").replace(" ",""))
-	print(passwordArray)
+			horaNueva = str(hor)
+			minNuevo = str(res)
 
-GenerateUserByCorreoElement("holandas")	
+			horarios.append(datetime.strptime(str(hor)+":"+str(res), "%H:%M" ))	
+
+	return horarios
+
+
+print(GenerarHorarioCitas(datetime.strptime("13:50","%H:%M"), datetime.strptime("23:50","%H:%M" )))
