@@ -82,8 +82,8 @@ def recuperar_Contra(request):
             send_email(email, paciente[0].Usuario, paciente[0].Contraseña, "./correoRecuperar.html")
             return render(request, "recuperarContra.html")
         else:
-            return HttpResponse("No existe un usuario Registrado con ese correo electrónico")    
-		#User = GenerateUserByCorreoElement(email)
+            return messages("No existe un usuario Registrado con ese correo electrónico")    
+		##Falta redireccionar bien
     return render(request, "recuperarContra.html")
 	
 def verificar_Existencia_Usuarios(documentoId):
@@ -190,12 +190,14 @@ def getHorarioMedico():
 
     for medicosQuery in medicos: #De momento no encontre una forma eficiente de hacerlo
         id_horario_medico = medicosQuery.horario_id
-        break
+        
     list_horarios = list()
 
     for horariosQuery in horarios: 
         if id_horario_medico == horariosQuery.id:
             list_horarios.append(horariosQuery.HorarioLlegada)
+            print("query")
+            print(horariosQuery.HorarioLlegada)
             list_horarios.append(horariosQuery.HoraioSalida)
     #Obtengo una lista con horario de entrada y salida
     #Tipo de dato -> datetime.time(1, 40, 18)
@@ -204,15 +206,15 @@ def getHorarioMedico():
     particionHorarios = GenerarHorarioCitas(list_horarios[0],list_horarios[1])
     horarios_Filtrados = list()
     for date in particionHorarios:
-        horarios_Filtrados = {'horario':"%s"%(str(date))}
-    return [horarios_Filtrados]
+        horarios_Filtrados.extend([{'horario':"%s"%(str(date))}])
+    return horarios_Filtrados
 
 horario_Escogido = " "
 
 def getHorario(request):
     global horario_Escogido
     horario_Escogido = request.GET['horario_categoria']
-    print("Horario_Escogido: ",horario_Escogido)
+    print("Horario_Escogido: ",horario_Escogido)    
     return render(request,'AgendarCita_Prueba.html')
 
 def AgendarCita(request):
