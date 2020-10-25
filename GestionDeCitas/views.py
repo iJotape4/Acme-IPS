@@ -35,7 +35,7 @@ def render_Menu_Paciente(request,contexto):
         return render(request,"menu_Paciente.html",contexto)
     else:
         print("\nEl usuario no se encuentra logueado para continuar\n")
-        return render(request,"principal_Paciente.html")
+        return render(request,"principalPage.html")
 
 def selectFecha(request):
     print("--------------------")
