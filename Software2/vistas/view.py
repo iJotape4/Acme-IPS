@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from GestionDeCitas.models import Cita, Paciente
 from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
+from GestionDeCitas.views import nombre as nombreUsuarioViews
 
 lista = [1,2,3,4]
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
@@ -31,7 +32,10 @@ def registro(request):
 	return render(request, "./registro.html")
 
 def principal(request):
-
+	request.session.flush() #Elimina la sesion actual --> django.session en la bd
+	nombreUsuarioViews = None #con el fin de evitar que cierre sesion y cuando le de regresar pagina, siga en la sesion
+	print("-Sesion finalizada-")
+	print(nombreUsuarioViews)
 	return render(request, "./principalPage.html")
 
 def citas_del_dia(request):
@@ -73,7 +77,6 @@ def histo_Paciente(request):
 def agendar_Cita(request):
 
 	return render(request, "./agendamiento_Citas.html")
-
 
 def menu_Paciente(request):
 

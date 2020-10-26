@@ -133,7 +133,7 @@ EMAIL_USE_TLS = True
 
 STATIC_URL = '/static/'
 
-TATICFILES_DIRS = [
+STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/static/',
 ]

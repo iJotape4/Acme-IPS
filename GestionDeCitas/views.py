@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-#from django.core.urlresolvers  import reverse
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
 from GestionDeCitas.forms import AgendarCitaForm
 from django.shortcuts import render, redirect
@@ -11,8 +10,9 @@ from GestionDeCitas.models import Paciente,Medico,Horario,Especialidad,Cita
 from django.http import JsonResponse
 from Software2.Methods import GenerarHorarioCitas
 
-nombre_Usuario = ""
-is_logged_in = False
+#nombre_Usuario = ""
+#is_logged_in = False
+nombre = None #El nombre del usuario logueado - esta variable se pone en None tan pronto cierre sesion -> view.py
 
 def login(request):
     return render(request,'login.html')
@@ -26,12 +26,16 @@ class DateForm(forms.Form):
         })
     )
 
-def render_Menu_Paciente(request,is_loggedIn,contexto):
-    if is_loggedIn:
+def render_Menu_Paciente(request,contexto):
+    print("sesion: ",request.session.keys())
+    print("sesion parseada: ",request.session['usuario'])
+    print("Nombre de usuario: ",nombre)
+    print("\n")
+    if 'usuario' in request.session and nombre!=None:
         return render(request,"menu_Paciente.html",contexto)
     else:
         print("\nEl usuario no se encuentra logueado para continuar\n")
-        return render(request,"principal_Paciente.html")
+        return render(request,"principalPage.html")
 
 def selectFecha(request):
     print("--------------------")
@@ -40,11 +44,11 @@ def selectFecha(request):
     return login(request) 
 
 def logearse(request):
-    global nombre_Usuario
-    global is_logged_in 
+    global nombre
+    #global nombre_Usuario
+    #global is_logged_in 
     #El if comprueba si los campos están llenos
     if request.GET["username"] and request.GET["password"]:
-
         #Esto recupera los datos en los campos
         usuario = request.GET["username"]
         contra = request.GET["password"] 
@@ -52,14 +56,16 @@ def logearse(request):
         #Esto busca en la base de datos ese usuario y contraseña
         user = Paciente.objects.filter(Usuario=usuario) and Paciente.objects.filter(Contraseña=contra)
         for e in user:
-            nombre= "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
+            nombre = "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
 
-        #Esto condiciona a que ambos existan y coincidan (creo)
+        #Esto condiciona a que ambos existan y coincidan
         if user:   
-            nombre_Usuario = nombre
-            is_logged_in = True 
-            messages.success(request,'Has iniciado sesión con exito!!') 
-            return render_Menu_Paciente(request,is_logged_in,{"userlogeado":nombre})
+            #nombre_Usuario = nombre
+            #is_logged_in = True 
+            request.session['usuario'] = request.GET['username'] #Se crea una session en la bd con la sesion actual
+            print("usuario logueado -->",request.session['usuario']) 
+            print('logeado: ',request.session['usuario'])
+            return render_Menu_Paciente(request,{"userlogeado":nombre,'logeado':request.session['usuario']})
         else:
             messages.warning(request,'Ups, parece que no existe un usuario con estas credenciales')
             return login(request) 
