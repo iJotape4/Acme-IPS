@@ -54,7 +54,7 @@ def logearse(request):
         contra = request.GET["password"] 
 
         #Esto busca en la base de datos ese usuario y contraseña
-        user = Paciente.objects.filter(Usuario=usuario) and Paciente.objects.filter(Contraseña=contra)
+        user = Paciente.objects.filter(Usuario=usuario, Contraseña=contra)
         for e in user:
             nombre = "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
 
