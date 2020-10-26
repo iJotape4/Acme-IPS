@@ -82,9 +82,10 @@ def recuperar_Contra(request):
             send_email(email, paciente[0].Usuario, paciente[0].Contraseña, "./correoRecuperar.html")
             return render(request, "recuperarContra.html")
         else:
-            return messages("No existe un usuario Registrado con ese correo electrónico")    
+            messages.warning(request, "No existe un usuario Registrado con ese correo electrónico") 
+            return render(request, "recuperarContra.html")   
 		##Falta redireccionar bien
-    return render(request, "recuperarContra.html")
+    return render(request, "recuperarContra.html")       
 	
 def verificar_Existencia_Usuarios(documentoId):
     user = Paciente.objects.filter(DocumentoId=documentoId)
@@ -157,6 +158,7 @@ def getEspecialidad(request):
     print("------Medicos por especialidad")
     print(medico_per_especialidad)
     print("------Medicos por especialidad")
+    
     return render(request,'AgendarCita_Prueba.html',{'lista_medico':medico_per_especialidad})
 
 def getMedicosByEspecialidad(): #Es llamado en getEspecialidad 
@@ -215,6 +217,8 @@ def getHorario(request):
     global horario_Escogido
     horario_Escogido = request.GET['horario_categoria']
     print("Horario_Escogido: ",horario_Escogido)    
+
+    Cita.objects.create(EspecialidadCita=especialidad_Escogida, HorarioCita= horario_Escogido, MedicoAsignado_id= 1, PacienteConCita_id=1, ReporteSec_id=1)
     return render(request,'AgendarCita_Prueba.html')
 
 def AgendarCita(request):
