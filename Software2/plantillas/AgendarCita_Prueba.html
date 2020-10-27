@@ -1,64 +1,131 @@
 {% extends "plantilla.html" %}
-
 {% block title %}Agendar cita IPS{% endblock %}
+{% load static %}
 
 {% block content %}
-
-<div style="margin-bottom:30px">
-    {% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-        <div class="alert alert-danger" role="alert">
-        {{message}}
-        </div>
-    {% endfor %}
-    </ul>
-    {% endif %}
-</div>
-
 <html>
-<body>    
-        <form action="/getEspecialidad/" method="GET">
-        <div>
-            <select required name="especialidad_categoria"> 
-                <option selected="selected" disabled>Selecciona la opción ...</option> 
-                {% for elemento in lista_especialidad %}
-                    <option value="{{elemento.especialidad}}">{{elemento.especialidad}}</option> 
-                {% endfor %}
-                <input type="submit" class="btn btn-success" value="seleccionar">
-            </select>
-        </form>
-            <br>
-        <form action="/getMedicos/" method="GET">
-            <select required name="medico_categoria"> 
-                <option selected="selected" disabled>Selecciona la opción ...</option> 
-                {% for elemento in lista_medico %}
-                    <option value="{{elemento.medico}}">{{elemento.medico}}</option> 
-                {% endfor %}
-                <input type="submit" class="btn btn-success" value="seleccionar">
-            </select>
-        </form>
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+<body> 
+    <div style="margin-bottom:30px">
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+            {{message}}
+            </div>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
 
-        <form action="/getHorario/" method="GET">
-            <select required name="horario_categoria"> 
-                <option selected="selected" disabled>Selecciona la opción ...</option> 
-                {% for elemento in lista_horario %}
-                    <option value="{{elemento.horario}}">{{elemento.horario}}</option> 
-                {% endfor %}
-                <input type="submit" class="btn btn-success" value="seleccionar">
-            </select>
-        </form>
-        <br>  
-        </div>   
-        <button type="submit">Guardar</button>
+    <form method="post" action="." enctype="multipart/form-data">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">
+                   Whatever it takes :3
+                </h3>
+            </div>
+           <div class="card-body">
+                <div class="form-group">
+                    <label>Especialidades:</label>
+                    {{form.especialidades}}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Medicos:</label>
+                    {{form.medicos}}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Horarios:</label>
+                    {{form.horarios}}
+                </div>
+            </div>
+        </div>
+    </form>
+ 
+    <script>
+        $(function(){
+            $('select[name="especialidades"]').on('change',function(){
+                var especialidad= $(this).val();  
+                var select_medicos = $('select[name=medicos]');
+
+                var options = '<option value=""></option>';
+                if (especialidad === '') {
+                    select_medicos.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'buscar_medico_por_especialidad',
+                        'especialidad': especialidad
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Especialidad escogida\n")
+                    console.log(especialidad);
+                    if(!data.hasOwnProperty('error')) {
+                        $.each(data, function (key,value) {
+                            options +='<option value="'+value.PrimerNombre+'">'+value.PrimerNombre+" "+value.PrimerApellido+'</option>';
+                        });
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    select_medicos.html(options);
+                });
+            });  
+        });
+    </script>
 
     <script>
         $(function(){
-        $('select[name="especialidad_categoria"]').on('change',getEspecialidad(){
-            alert('Selección realizada');
-        });
+            $('select[name="medicos"]').on('change',function(){
+                var medico = $(this).val();  
+                var select_horarios = $('select[name=horarios]');
+
+                var options = '<option value=""></option>';
+                if (medico === '') {
+                    select_horarios.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'buscar_horario_por_medico',
+                        'medico': medico
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Medico Escogido\n")
+                    console.log(medico);
+                    if(!data.hasOwnProperty('error')) {
+                        $.each(data, function (key, value) {
+                            options +='<option value="'+value.Horarios+'">'+value.Horarios+'</option>';
+                        });
+                        return false;
+                    }
+                    console.log(data)
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    select_horarios.html(options);
+                });
+            });  
         });
     </script>
+    
 </body>
 </html>
 {% endblock %}

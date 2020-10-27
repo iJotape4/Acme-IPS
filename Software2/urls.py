@@ -19,30 +19,38 @@ from Software2.vistas.view import registro, vistaDoctor, principal, correo, hist
 from Software2.vistas.view import agendar_Cita, citas_del_dia, menu_admin, agregar_Medico, informe_Ips
 from GestionDeCitas.ajax import get_horarios, get_medicos
 from Software2 import settings
-from GestionDeCitas import views
-from GestionDeCitas.views import vistaAgendarCita 
 from GestionDeCitas.views import getEspecialidad, getMedicos, recuperar_Contra, getHorario
+from GestionDeCitas.views import registrarse, login, selectFecha, logearse
+from GestionDeCitas.views import AgendarCitaView
 
 urlpatterns = [
+    # Administrador
     path('admin/', admin.site.urls),
+    path('admin_menu/', menu_admin ),
+    # Registro
     path('registro/',registro),
-    path('registrarse/', views.registrarse),
-    path('login/',views.login),
-    path('logearse/',views.logearse), 
+    path('registrarse/', registrarse),
+    # Login
+    path('login/', login),
+    path('logearse/', logearse), 
+    path('recuperarContra/', recuperar_Contra),
+    # Doctor
    	path('Doctor/', vistaDoctor),
+    # Pagina principal
     path('principal/', principal ),
     path('correo/', correo ),
+    # Paciente
     path('his_paciente/', histo_Paciente ),
     path('menu_Paciente/', menu_Paciente ),
+    # Agendar Cita
     path('agendar_cita/', agendar_Cita ),
-    path('getEspecialidad/', views.getEspecialidad),
-    path('getMedicos/', views.getMedicos),
-    path('getHorario/',views.getHorario),
-    path('agendar_citaP/',  vistaAgendarCita),
+    path('getEspecialidad/', getEspecialidad),
+    path('getMedicos/', getMedicos),
+    path('getHorario/',getHorario),
+    path('agendar_citaP/', AgendarCitaView.as_view(template_name="AgendarCita_Prueba.html")),
     path('citas_del_dia/', citas_del_dia ),
-    path('admin_menu/', menu_admin ),
+    # 
     path('add_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),
-    path('selectFecha/',views.selectFecha),
-    path('recuperarContra/', views.recuperar_Contra),
+    path('selectFecha/', selectFecha),
 ]
