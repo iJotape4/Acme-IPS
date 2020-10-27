@@ -19,7 +19,7 @@ from Software2.vistas.view import registro, vistaDoctor, principal, correo, hist
 from Software2.vistas.view import agendar_Cita, citas_del_dia, menu_admin, agregar_Medico, informe_Ips
 from GestionDeCitas.ajax import get_horarios, get_medicos
 from Software2 import settings
-from GestionDeCitas.views import getEspecialidad, getMedicos, recuperar_Contra, getHorario
+from GestionDeCitas.views import recuperar_Contra
 from GestionDeCitas.views import registrarse, login, selectFecha, logearse
 from GestionDeCitas.views import AgendarCitaView
 
@@ -43,10 +43,7 @@ urlpatterns = [
     path('his_paciente/', histo_Paciente ),
     path('menu_Paciente/', menu_Paciente ),
     # Agendar Cita
-    path('agendar_cita/', agendar_Cita ),
-    path('getEspecialidad/', getEspecialidad),
-    path('getMedicos/', getMedicos),
-    path('getHorario/',getHorario),
+    path('agendar_cita/', agendar_Cita),
     path('agendar_citaP/', AgendarCitaView.as_view(template_name="AgendarCita_Prueba.html")),
     path('citas_del_dia/', citas_del_dia ),
     # 
