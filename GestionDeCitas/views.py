@@ -36,8 +36,9 @@ class AgendarCitaView(TemplateView):
                 data = AgendarCitaView.filtrar_Medicos(self,data,respuesta)
             elif action == 'buscar_horario_por_medico':
                 data = AgendarCitaView.filtrar_Horarios(self,data,respuesta)
-            elif action == 'horario_seleccionado':
-                pass
+            elif action == 'seleccionar_horario':
+                AgendarCitaView.horario_AJAX = respuesta[1]
+                print("Horario AJAX: ",AgendarCitaView.horario_AJAX)
             else:   
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -71,17 +72,11 @@ class AgendarCitaView(TemplateView):
         id_Horario_Escogido = list(Medico.objects.filter(PrimerNombre=medico).values_list('horario_id',flat=True))
         print(id_Horario_Escogido)
         filtro = list(Horario.objects.filter(id=id_Horario_Escogido[0]).values())
-        print("\n print del filtro",filtro,"\n")
-        #data.extend(GenerarHorarioCitas(filtro[0]['HorarioLlegada'],filtro[0]['HoraioSalida']))
-        #print(data)
-        data.append({"Horarios":"10:58"})
-        #for dato in filtro:
-        #    print(GenerarHorarioCitas(dato['HorarioLlegada'],dato['HoraioSalida']))
-            #data.append({'Horarios':GenerarHorarioCitas(dato['HorarioLlegada'],dato['HoraioSalida'])})
-            #data.append({'HorarioEntrada': dato['PrimerNombre'],'HorarioSalida':dato['PrimerApellido']})
+        
+        particion_horarios = GenerarHorarioCitas(filtro[0]['HorarioLlegada'],filtro[0]['HoraioSalida'])
+        for date in particion_horarios:
+            data.extend([{"Horarios":date}])
         return data
-        #for date in particionHorarios:
-        #horarios_Filtrados.extend([{'horario':"%s"%(str(date))}])"""
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

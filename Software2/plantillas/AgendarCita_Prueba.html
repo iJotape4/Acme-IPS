@@ -125,6 +125,37 @@
             });  
         });
     </script>
+
+    <script>
+        $(function(){
+            $('select[name="horarios"]').on('change',function(){
+                var horario = $(this).val();  
+
+                if (horario === '') {
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'seleccionar_horario',
+                        'horario': horario
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Horario Escogido\n")
+                    console.log(horario);
+                    if(!data.hasOwnProperty('error')) {
+                        console.log(data)
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                })
+            });  
+        });
+    </script>
     
 </body>
 </html>

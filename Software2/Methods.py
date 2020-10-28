@@ -70,7 +70,7 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida):
 			minNuevo = str(res)
 
 			horarios.append(time(hor, res))	
-	print ("meht"+str(horarios))
+	print (str(horarios))
 	return horarios
 
 
