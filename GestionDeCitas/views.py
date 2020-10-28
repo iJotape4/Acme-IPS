@@ -13,8 +13,7 @@ from GestionDeCitas.models import Medico
 from GestionDeCitas.forms import AgendarCitaForm
 
 class AgendarCitaView(TemplateView):
-    template_name = 'AgendarCita_Prueba.html'
-
+    template_name = 'agendamiento_Citas.html'
     especialidad_AJAX = ""
     medico_AJAX = ""
     horario_AJAX = ""

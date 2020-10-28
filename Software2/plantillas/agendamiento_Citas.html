@@ -2,58 +2,39 @@
 
 {% block title %}Agendamiento Citas{% endblock %}
 
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
 {% block content %}
-
     <div>
         <h1 style="text-align: center;">Agendamiento de Cita</h1>
         <hr>
     </div>
-        <form>
+        <form method="post" action="." enctype="multipart/form-data">
             <div class="form-row" style="margin-left: 75px;">
                 <div class="form-group col-md-6">
                     <h4 for="nombre">Tipo de Cita</h4>
-                    <br>
-                    <select required name="tipoCita"> 
-                        <option selected="selected" disabled>Selecciona la opción ...</option> 
+                    <select class="form-control" required name="tipoCita"> 
+                        <option selected="selected" disabled>------------</option> 
                             <option value="virtual" >Virtual</option>
                             <option value="presencial">Presencial</option> 
                     </select>
                     <hr>
                     <h4 for="nombre">Elegir Especialidad</h4>
-                    <br>
-                        <select required name="especialidad">
-                            <option selected="selected" disabled>Selecciona la opción ...</option> 
-                            <option value="general">Medicina General</option>
-                            <option value="dermatologia">Dermatologia</option>
-                            <option value="interna">Medicina Interna</option>
-                            <option value="pediatria">Pediatria</option>
-                            <option value="cirugia">Cirugía General</option>
-                            <option value="ginecologia">Ginecologia</option>
-                            <option value="dermatologia">Dermatologia</option>
-                        </select> 
-                    <br>
+                        <div>
+                            {{form.especialidades}}
+                        </div>
                     <hr>
                     <h4 for="nombre">Elegir Medico</h4>
-                    <br>
-                    <div>
-                        <select  name="medico" > 
-                            <option selected="selected" disabled>Selecciona la opción ...</option> 
-                                {% for elemento in nmedicos %}
-                                <option >{{elemento}}</option> 
-                                {% endfor %}
-                        </select>     
-                    </div>
+                        <div>
+                            {{form.medicos}}
+                        </div>
                     <hr>
                     <h4 for="nombre">Elegir Horario</h4>
-                    <br>
-                    <div>
-                        <select  name="horarios" > 
-                        <option selected="selected" disabled>Selecciona la opción ...</option> 
-                        {% for elemento in horarios %}
-                        <option>{{elemento}}</option> 
-                        {% endfor %}  
-                        </select>
-                    </div>
+                        <div>
+                            {{form.horarios}}
+                        </div>
                     <hr>
                     <h4 for="nombre">Motivo de consulta</h4>
                     <br>
@@ -66,5 +47,113 @@
             <button type="submit" class="btn btn-primary"><a href="#" style="color: aliceblue;"> Agendar Cita </a> </button>
             </div>
     </form>
+
+    <script>
+        $(function(){
+            $('select[name="especialidades"]').on('change',function(){
+                var especialidad= $(this).val();  
+                var select_medicos = $('select[name=medicos]');
+
+                var options = '<option value=""></option>';
+                if (especialidad === '') {
+                    select_medicos.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'buscar_medico_por_especialidad',
+                        'especialidad': especialidad
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Especialidad escogida\n")
+                    console.log(especialidad);
+                    if(!data.hasOwnProperty('error')) {
+                        $.each(data, function (key,value) {
+                            options +='<option value="'+value.PrimerNombre+'">'+value.PrimerNombre+" "+value.PrimerApellido+'</option>';
+                        });
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    select_medicos.html(options);
+                });
+            });  
+        });
+    </script>
+
+    <script>
+        $(function(){
+            $('select[name="medicos"]').on('change',function(){
+                var medico = $(this).val();  
+                var select_horarios = $('select[name=horarios]');
+
+                var options = '<option value=""></option>';
+                if (medico === '') {
+                    select_horarios.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'buscar_horario_por_medico',
+                        'medico': medico
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Medico Escogido\n")
+                    console.log(medico);
+                    if(!data.hasOwnProperty('error')) {
+                        $.each(data, function (key, value) {
+                            options +='<option value="'+value.Horarios+'">'+value.Horarios+'</option>';
+                        });
+                        return false;
+                    }
+                    console.log(data)
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    select_horarios.html(options);
+                });
+            });  
+        });
+    </script>
+
+    <script>
+        $(function(){
+            $('select[name="horarios"]').on('change',function(){
+                var horario = $(this).val();  
+
+                if (horario === '') {
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'seleccionar_horario',
+                        'horario': horario
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Horario Escogido\n")
+                    console.log(horario);
+                    if(!data.hasOwnProperty('error')) {
+                        console.log(data)
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                })
+            });  
+        });
+    </script>
 
 {% endblock %}

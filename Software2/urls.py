@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Software2.vistas.view import registro, vistaDoctor, principal, correo, histo_Paciente, menu_Paciente
-from Software2.vistas.view import agendar_Cita, citas_del_dia, menu_admin, agregar_Medico, informe_Ips
+from Software2.vistas.view import citas_del_dia, menu_admin, agregar_Medico, informe_Ips
 from GestionDeCitas.ajax import get_horarios, get_medicos
 from Software2 import settings
 from GestionDeCitas.views import recuperar_Contra
@@ -43,8 +43,7 @@ urlpatterns = [
     path('his_paciente/', histo_Paciente ),
     path('menu_Paciente/', menu_Paciente ),
     # Agendar Cita
-    path('agendar_cita/', agendar_Cita),
-    path('agendar_citaP/', AgendarCitaView.as_view(template_name="AgendarCita_Prueba.html")),
+    path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html")),
     path('citas_del_dia/', citas_del_dia ),
     # 
     path('add_Medico/', agregar_Medico ),
