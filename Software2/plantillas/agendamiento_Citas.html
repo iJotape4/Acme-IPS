@@ -11,26 +11,21 @@
         <h1 style="text-align: center;">Agendamiento de Cita</h1>
         <hr>
     </div>
-<form action="/AgendarCita/" method="POST">
-    <div align="center">
-        <h3 style="margin-right: 30%;">Seleccionar Fecha </h3>
-        <br>
-        <form action="/selectFecha/" method="GET" style="width: 25%;">
-          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-          <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="fecha"/>
-          <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-          </div>
-          </div>
-          <br>  
-          <br>
-        </form>
-        <br>
-    </div>
-    <hr>
         <form method="post" action="." enctype="multipart/form-data">
             <div class="form-row" style="margin-left: 75px;">
                 <div class="form-group col-md-6">
+                    <div align="center">
+                        <h3 style="margin-right: 30%;">Seleccionar Fecha </h3>
+                        <br>
+                          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                          <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="fecha"/>
+                          <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                          </div>
+                          <br>  
+                          <br>
+                    </div>
                     <h4 for="nombre">Tipo de Cita</h4>
                     <select class="form-control" required name="tipoCita"> 
                         <option selected="selected" disabled>------------</option> 
@@ -62,8 +57,7 @@
                 <hr>
                 <br>
             </div>
-    </form>
-</form>
+        </form>
 <div align="center">
     <button type="submit" class="btn btn-primary"><a href="#" style="color: aliceblue;"> Agendar Cita </a> </button>
 </div>
