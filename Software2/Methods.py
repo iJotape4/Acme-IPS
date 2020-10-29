@@ -1,11 +1,15 @@
-import mysql.connector
-from mysql.connector import errorcode
-import random
+
+#Importes de utilidades DJango
 from django.core.mail import EmailMultiAlternatives
-from datetime import datetime, time
 from django.template.loader import get_template
-from Software2 import settings
+
+#Importes de Archivos del proyecto
 from GestionDeCitas.models import Paciente
+from Software2 import settings
+
+#Importes de funciones
+import random
+from datetime import datetime, time
 
 def EliminarSimbolos(x):
 	x = str(x).replace("'","").replace("(","").replace(")","").replace(",","").replace("[","").replace("]","").replace(" ","")
@@ -100,3 +104,13 @@ def comprobar_DatoNumerico(lista):
             if lista[dato].isnumeric()==False:
                 return False
     return True
+
+def FormatFecha(date):
+
+	fecha = date.split('/')
+	
+	invertir = [fecha[2], '/', fecha[1],'/', fecha[0]]
+
+	formatear = datetime.strptime(EliminarSimbolos(str(invertir)),"%Y/%m/%d").date()
+
+	return formatear	

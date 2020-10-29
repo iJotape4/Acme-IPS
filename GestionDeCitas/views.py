@@ -1,14 +1,25 @@
+#Importes de Renders Y Responses
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
-from Software2.Methods import send_email, GenerarHorarioCitas
+from django.views.generic import TemplateView
+
+#Importes de utilidades
 from django.contrib import messages
 from django import forms
-from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
+
+#Importes de decoradores
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
+
+#Importes de métodos Triviales
+from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha
+
+#Importes de Modelos y Vistas
+from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
+
 from GestionDeCitas.forms import AgendarCitaForm
 from Autenticacion.views import login, nombre
+
 class AgendarCitaView(TemplateView):
     template_name = 'agendamiento_Citas.html'
     especialidad_AJAX = ""
@@ -91,6 +102,7 @@ def selectFecha(request): #GestionCitas
 def AgendarCita(request):
     ModalidadCita = request.POST.get("tipoCita") 
     MotivoConsulta = request.POST.get("motivo_consulta" )
+    fecha = FormatFecha(request.POST.get("fecha" ))
 
     EspecialidadC =list(Especialidad.objects.filter(nombre= request.POST.get("especialidades")).values_list('id',flat=True))[0]
 
@@ -109,7 +121,7 @@ def AgendarCita(request):
     Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
     Especialidad_id=EspecialidadC,
     HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
-    PacienteConCita_id=1, ReporteSec_id=1)
+    PacienteConCita_id=1, ReporteSec_id=1, DiaCita=fecha)
 
     return HttpResponseRedirect('/menu_Paciente/')
     
