@@ -72,8 +72,6 @@ class Acudiente(models.Model):
 	ParentescoAcu = models.CharField(max_length=20)
 	Apadrinado = models.ForeignKey(Paciente, on_delete=models.CASCADE)
 
-
-
 class ClassName(object):
 	"""docstring for ClassName"""
 	def __init__(self, arg):

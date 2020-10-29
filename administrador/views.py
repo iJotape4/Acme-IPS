@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+def menu_admin(request):
+
+	return render(request, "./menu_Administrador.html")
+
+def agregar_Medico(request):
+
+	return render(request, "./registrar_Medico.html")

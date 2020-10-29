@@ -1,9 +1,6 @@
 !Software2/__pycache__/
 Software2/__pycache__/*
 
-!Software2/vistas/__pycache__/
-Software2/vistas/__pycache__/*
-
 !Software2/migrations/__pycache__/
 Software2/migrations/__pycache__/*
 
@@ -24,3 +21,15 @@ administrador/__pycache__/*
 
 !administrador/migrations/__pycache__/
 administrador/migrations/__pycache__/*
+
+!Informes/__pycache__/
+Informes/__pycache__/*
+
+!Informes/migrations/__pycache__/
+Informes/migrations/__pycache__/*
+
+!Autenticacion/__pycache__/
+Autenticacion/__pycache__/*
+
+!Autenticacion/migrations/__pycache__/
+Autenticacion/migrations/__pycache__/*

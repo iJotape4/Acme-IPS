@@ -15,13 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Software2.vistas.view import registro, vistaDoctor, principal, correo, histo_Paciente, menu_Paciente
-from Software2.vistas.view import citas_del_dia, menu_admin, agregar_Medico, informe_Ips
-from GestionDeCitas.ajax import get_horarios, get_medicos
+from Software2.views import vistaDoctor, principal, correo, histo_Paciente, menu_Paciente, citas_del_dia
 from Software2 import settings
-from GestionDeCitas.views import recuperar_Contra
-from GestionDeCitas.views import registrarse, login, selectFecha, logearse
-from GestionDeCitas.views import AgendarCitaView
+from administrador.views import menu_admin, agregar_Medico
+from GestionDeCitas.views import selectFecha, AgendarCitaView
+from Informes.views import informe_Ips
+from Autenticacion.views import logearse, login, recuperar_Contra, registrarse, registro
 
 urlpatterns = [
     # Administrador

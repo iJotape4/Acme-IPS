@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'GestionDeCitas',
     'administrador',
     'tempus_dominus',
+    'Informes',
+    'Autenticacion'
 ]
 
 MIDDLEWARE = [

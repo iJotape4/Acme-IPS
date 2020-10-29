@@ -5,6 +5,7 @@ from django.core.mail import EmailMultiAlternatives
 from datetime import datetime, time
 from django.template.loader import get_template
 from Software2 import settings
+from GestionDeCitas.models import Paciente
 
 def EliminarSimbolos(x):
 	x = str(x).replace("'","").replace("(","").replace(")","").replace(",","").replace("[","").replace("]","").replace(" ","")
@@ -73,8 +74,6 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida):
 	print (str(horarios))
 	return horarios
 
-
-
 def send_email(mail, usuario, password, CorreoHTML):
 	context = {'mail': mail, 'user':usuario, 'password':password}
 
@@ -91,5 +90,13 @@ def send_email(mail, usuario, password, CorreoHTML):
 	email.attach_alternative(content, 'text/html')
 	email.send()   
 
+def verificar_Existencia_Usuarios(documentoId):
+    user = Paciente.objects.filter(DocumentoId=documentoId)
+    return len(user)
 
-
+def comprobar_DatoNumerico(lista):
+    for dato in range(len(lista)):
+        if dato == 4 or dato == 6 or dato == 8 or dato == 9:
+            if lista[dato].isnumeric()==False:
+                return False
+    return True
