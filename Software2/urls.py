@@ -18,7 +18,7 @@ from django.urls import path
 from Software2.views import vistaDoctor, principal, correo, histo_Paciente, menu_Paciente, citas_del_dia
 from Software2 import settings
 from administrador.views import menu_admin, agregar_Medico
-from GestionDeCitas.views import selectFecha, AgendarCitaView
+from GestionDeCitas.views import selectFecha, AgendarCitaView, AgendarCita
 from Informes.views import informe_Ips
 from Autenticacion.views import logearse, login, recuperar_Contra, registrarse, registro
 
@@ -48,4 +48,5 @@ urlpatterns = [
     path('add_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),
     path('selectFecha/', selectFecha),
+    path('GuardarCita/', AgendarCita)
 ]

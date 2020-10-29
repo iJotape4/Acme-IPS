@@ -11,7 +11,7 @@
         <h1 style="text-align: center;">Agendamiento de Cita</h1>
         <hr>
     </div>
-        <form method="post" action="." enctype="multipart/form-data">
+        <form method="POST" action="/GuardarCita/" enctype="multipart/form-data">
             <div class="form-row" style="margin-left: 75px;">
                 <div class="form-group col-md-6">
                     <div align="center">
@@ -33,6 +33,7 @@
                             <option value="presencial">Presencial</option> 
                     </select>
                     <hr>
+                   
                     <h4 for="nombre">Elegir Especialidad</h4>
                         <div>
                             {{form.especialidades}}
@@ -47,6 +48,7 @@
                         <div>
                             {{form.horarios}}
                         </div>
+                        
                     <hr>
                     <h4 for="nombre">Motivo de consulta</h4>
                     <br>
@@ -57,10 +59,11 @@
                 <hr>
                 <br>
             </div>
+            <div align="center">
+                <button type="submit" class="btn btn-primary"> Agendar Cita</button>
+            </div>
         </form>
-<div align="center">
-    <button type="submit" class="btn btn-primary"><a href="#" style="color: aliceblue;"> Agendar Cita </a> </button>
-</div>
+
     
     <script>
         $(function () {
@@ -72,7 +75,7 @@
 
     <script>
         $(function(){
-            $('select[name="especialidades"]').on('change',function(){
+        $('select[name="especialidades"]').on('change',function(){
                 var especialidad= $(this).val();  
                 var select_medicos = $('select[name=medicos]');
 
@@ -94,7 +97,7 @@
                     console.log(especialidad);
                     if(!data.hasOwnProperty('error')) {
                         $.each(data, function (key,value) {
-                            options +='<option value="'+value.PrimerNombre+'">'+value.PrimerNombre+" "+value.PrimerApellido+'</option>';
+                            options +='<option value="'+value.PrimerNombre+" "+value.PrimerApellido+'">'+value.PrimerNombre+" "+value.PrimerApellido+'</option>';
                         });
                         return false;
                     }

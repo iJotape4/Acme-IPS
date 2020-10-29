@@ -8,8 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from GestionDeCitas.forms import AgendarCitaForm
-from Autenticacion.views import login
-
+from Autenticacion.views import login, nombre
 class AgendarCitaView(TemplateView):
     template_name = 'agendamiento_Citas.html'
     especialidad_AJAX = ""
@@ -66,7 +65,9 @@ class AgendarCitaView(TemplateView):
         medico = respuesta[1]
         AgendarCitaView.medico_AJAX = medico
 
-        id_Horario_Escogido = list(Medico.objects.filter(PrimerNombre=medico).values_list('horario_id',flat=True))
+        medicoElegido = str(medico).split()
+
+        id_Horario_Escogido = list(Medico.objects.filter(PrimerNombre=medicoElegido[0], PrimerApellido=medicoElegido[1]).values_list('horario_id',flat=True))
         print(id_Horario_Escogido)
         filtro = list(Horario.objects.filter(id=id_Horario_Escogido[0]).values())
         
@@ -88,49 +89,27 @@ def selectFecha(request): #GestionCitas
 
 @method_decorator(csrf_exempt)
 def AgendarCita(request):
-    form = AgendarCitaForm()
-        
-    if request.method == 'POST':
-        form = AgendarCitaForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect('/menu_Paciente/')
-        return render(request, 'AgendarCita_Prueba.html', {'form':form})       
+    ModalidadCita = request.POST.get("tipoCita") 
+    MotivoConsulta = request.POST.get("motivo_consulta" )
 
-    tipoCita = request.GET["tipoCita"] 
-    especialidad = request.GET["especialidad"] 
-    nmedicos = []
-    medicos = Medico.objects.filter(Especialidad=especialidad)
+    EspecialidadC =list(Especialidad.objects.filter(nombre= request.POST.get("especialidades")).values_list('id',flat=True))[0]
+
+    medicoElegido = str(request.POST.get("medicos" )).split()
+
+    MedicoC =list(Medico.objects.filter(PrimerNombre=medicoElegido[0], PrimerApellido=medicoElegido[1] ).values_list('id',flat=True))[0]
     
-    for e in medicos:
-        nombre= "%s %s %s %s" %(e.PrimerNombre, e.SegundoNombre, e.PrimerApellido, e.SegundoApellido)
-        nmedicos.append(nombre) 
+    HorarioC = AgendarCitaView.horario_AJAX 
 
-    medico = request.GET["medico"]
+    #Hacer que el Login sea real pls!!!
 
-    medicoElegido =[]
-    temporal=[]
-    for e in medico:
-        if(e==' '):
-            medicoElegido.append(temporal)
-            temporal=[]
-        else:
-            temporal.append(e)
-    #EliminarSimbolos(str(medicoElegido))
+    '''PacienteC = str(nombre).split()
+    PacienteConCita = Paciente.objects.filter(PrimerNombre=PacienteC[0], PrimerApellido=PacienteC[1]).values_list('id',flat=True)[0]'''
 
-    medicoBD = Medico.objects.filter (
-        PrimerNombre=medicoElegido[0],
-        SegundoNombre=medicoElegido[1],
-        PrimerApellido=medicoElegido[2],
-        SegundoApellido=medicoElegido[3]
-        )
+    #Se pasan paciente y reporte por defecto ya que aún no se pueden validar
+    Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
+    Especialidad_id=EspecialidadC,
+    HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
+    PacienteConCita_id=1, ReporteSec_id=1)
 
-    horarioLlegada = medicoBD[0].HorarioLlegada
-    horarioSalida = medicoBD[0].HorarioSalida 
-
-    horarios = horarioLlegada
-
-    #horario = request.GET["Horario"]
-    #motivoConsulta = request.GET["MotivoDeConsulta"]  
-    diccionario ={"medicos":nmedicos, "horarios":horarios}
-
-    return render(request,"principal_Paciente.html",diccionario)
+    return HttpResponseRedirect('/menu_Paciente/')
+    
