@@ -120,6 +120,11 @@ def logearse(request):
     #global nombre_Usuario
     #global is_logged_in 
     #El if comprueba si los campos están llenos
+    print("\n")
+    print("Loguearse request: ",request)
+    print("Request type: ",type(request))
+    print("Request list: ",list(request))
+    print("\n")
     if request.GET["username"] and request.GET["password"]:
         #Esto recupera los datos en los campos
         usuario = request.GET["username"]
