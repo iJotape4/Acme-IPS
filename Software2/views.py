@@ -1,16 +1,29 @@
+#Importes de Renders Y Responses
 from django.http import HttpResponse
 from django.shortcuts import render
-import mysql.connector
 from django.template.loader import get_template
-from mysql.connector import errorcode
-import datetime
+
+#Importes de Utilidades Django
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from GestionDeCitas.models import Cita, Paciente
-from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
-from Autenticacion.views import nombre as nombreUsuarioViews
+from django.utils import timezone
+
+#Importes de utilidades
+import mysql.connector
+from mysql.connector import errorcode
+import datetime
+
+#Importes de decoradores
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+
+#Importes de Modelo Y vistas
+from GestionDeCitas.models import Cita, Paciente
+from Autenticacion.views import nombre as nombreUsuarioViews
+
+#Importes de métodos triviales
+from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
+
 
 @method_decorator(csrf_exempt)
 def principal(request):
@@ -33,13 +46,11 @@ class doctor(object):
 		self.apellido = apellido
 
 def citas_del_dia(request):
-
-	'''cita = Cita.objects.filter(PacienteConCita_id) and Cita.objects.filter(MotivoConsultaCita) and Cita.objects.filter(HorarioCita) '''
-	cita = Cita.objects.all()
+	cita = Cita.objects.filter(DiaCita=timezone.now())
 	print(cita)
 	citas = []
 	for a in cita:
-		list_Cita = {'nombre':"%s %s" %(a.PacienteConCita.PrimerNombre, a.PacienteConCita.PrimerApellido),'hora': a.HorarioCita.time, 'motivo': a.MotivoConsultaCita}
+		list_Cita = {'nombre':"%s %s" %(a.PacienteConCita.PrimerNombre, a.PacienteConCita.PrimerApellido),'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita}
 		citas.append(list_Cita)
 
 	return render(request, "./citas_del_dia.html",{"lista":citas})
