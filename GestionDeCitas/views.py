@@ -16,9 +16,8 @@ from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
-
 from GestionDeCitas.forms import AgendarCitaForm
-from Autenticacion.views import login, nombre
+from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in
 
 class AgendarCitaView(TemplateView):
     template_name = 'agendamiento_Citas.html'
@@ -55,9 +54,9 @@ class AgendarCitaView(TemplateView):
 
     def filtrar_Medicos(self,data,respuesta):
        
-        print("\n Filtrar Medicos")
-        print(respuesta)
-        print("\n")
+        #print("\n Filtrar Medicos")
+        #print(respuesta)
+        #print("\n")
         especialidad = respuesta[1]
         AgendarCitaView.especialidad_AJAX = especialidad
 
@@ -70,9 +69,9 @@ class AgendarCitaView(TemplateView):
         return data
 
     def filtrar_Horarios(self,data,respuesta):
-        print("\n Filtrar horarios")
-        print(respuesta)
-        print("\n")
+        #print("\n Filtrar horarios")
+        #print(respuesta)
+        #print("\n")
         medico = respuesta[1]
         AgendarCitaView.medico_AJAX = medico
 
@@ -92,14 +91,11 @@ class AgendarCitaView(TemplateView):
         context['form'] = AgendarCitaForm()
         return context
 
-def selectFecha(request): #GestionCitas
-    print("--------------------")
-    print(request.GET.get('fecha'))
-    print("--------------------")
-    return login(request)
-
 @method_decorator(csrf_exempt)
 def AgendarCita(request):
+    print("\n")
+    print("Usuario agendamiento: ",get_nombreUsuario())
+    print("\n")
     ModalidadCita = request.POST.get("tipoCita") 
     MotivoConsulta = request.POST.get("motivo_consulta" )
     fecha = FormatFecha(request.POST.get("fecha" ))
@@ -119,9 +115,8 @@ def AgendarCita(request):
 
     #Se pasan paciente y reporte por defecto ya que aún no se pueden validar
     Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
-    Especialidad_id=EspecialidadC,
-    HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
+    Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
     PacienteConCita_id=1, ReporteSec_id=1, DiaCita=fecha)
-
-    return HttpResponseRedirect('/menu_Paciente/')
+    return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+    #return HttpResponseRedirect('/menu_Paciente/')
     

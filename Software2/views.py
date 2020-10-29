@@ -16,21 +16,26 @@ import datetime
 #Importes de decoradores
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 
 #Importes de Modelo Y vistas
 from GestionDeCitas.models import Cita, Paciente
-from Autenticacion.views import nombre as nombreUsuarioViews
+from Autenticacion.views import get_nombreUsuario, set_nombreUsuario, get_is_logged_in, set_is_logged_in
 
 #Importes de métodos triviales
 from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
 
-
+@never_cache
 @method_decorator(csrf_exempt)
 def principal(request):
+	print("Request principal: ",request.POST)
+	print("Logout usuario: {} ---- is logged in: {}".format(get_nombreUsuario(),get_is_logged_in()))
+	print("\n")
 	request.session.flush() #Elimina la sesion actual --> django.session en la bd
-	nombreUsuarioViews = None #con el fin de evitar que cierre sesion y cuando le de regresar pagina, siga en la sesion
-	print("-Sesion finalizada-")
-	print(nombreUsuarioViews)
+	set_is_logged_in(None)
+	set_nombreUsuario(None)
+	print("|-- Sesion finalizada: {} | Sesion: {} --|".format(get_nombreUsuario(),get_is_logged_in()))
+	print("\n")
 	return render(request,"principalPage.html")
 
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
@@ -67,10 +72,6 @@ lista = [1,2,3,4]
 def histo_Paciente(request):
 	
 	return render(request, "./histo_Paciente.html", {"lista":lista})
-
-def menu_Paciente(request):
-
-    return render(request, "./menu_Paciente.html")
 
 def vistaDoctor(request):
 	

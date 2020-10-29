@@ -5,16 +5,10 @@ from django.http import JsonResponse
 from GestionDeCitas.models import Paciente
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 from Software2.Methods import verificar_Existencia_Usuarios,comprobar_DatoNumerico
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos 
 from Software2.Methods import send_email, GenerarHorarioCitas
-
-#nombre_Usuario = ""
-#is_logged_in = False
-nombre = None #El nombre del usuario logueado - esta variable se pone en None tan pronto cierre sesion -> view.py
-
-def login(request):
-    return render(request,'login.html')
 
 class DateForm(forms.Form):
     date = forms.DateTimeField(
@@ -25,44 +19,66 @@ class DateForm(forms.Form):
         })
     )
 
-def render_Menu_Paciente(request,contexto):
-    print("sesion: ",request.session.keys())
-    print("sesion parseada: ",request.session['usuario'])
-    print("Nombre de usuario: ",nombre)
-    print("\n")
-    if 'usuario' in request.session and nombre!=None:
-        return render(request,"menu_Paciente.html",contexto)
-    else:
-        print("\nEl usuario no se encuentra logueado para continuar\n")
-        return render(request,"principalPage.html")
+nombre_Usuario = None
+is_logged_in = False
 
+def set_nombreUsuario(nombre):
+    global nombre_Usuario
+    nombre_Usuario = nombre
+
+def get_nombreUsuario():
+    global nombre_Usuario
+    return nombre_Usuario
+
+def set_is_logged_in(response):
+    global is_logged_in
+    is_logged_in = response
+
+def get_is_logged_in():
+    global is_logged_in
+    return is_logged_in
+
+@never_cache
+def login(request):
+    return render(request,'login.html')
+
+@never_cache
 @method_decorator(csrf_exempt)
-def logearse(request):
-    global nombre
-    
-    #global nombre_Usuario
-    #global is_logged_in 
+def menu_Paciente(request):
     #El if comprueba si los campos están llenos
     if request.POST.get("username") and request.POST.get("password"):
         #Esto recupera los datos en los campos
         usuario = request.POST.get("username")
         contra = request.POST.get("password")
-
-        #Esto busca en la base de datos ese usuario y contraseña
-        user = Paciente.objects.filter(Usuario=usuario, Contraseña=contra)
-        for e in user:
-            nombre = "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
-
-        #Esto condiciona a que ambos existan y coincidan
-        if user:   
-            #nombre_Usuario = nombre
-            #is_logged_in = True 
+            
+        set_nombreUsuario(logearse(usuario,contra))
+        if get_nombreUsuario() != None:
             request.session['usuario'] = usuario #Se crea una session en la bd con la sesion actual
-            return render_Menu_Paciente(request,{"userlogeado":nombre,'logeado':request.session['usuario']})
+            set_is_logged_in(True)
+            print("\n")
+            print("sesion parseada: ",request.session['usuario'])
+            print("Nombre de usuario: ",get_nombreUsuario())
+            print(request.body)
+            print("\n")        
+            return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
         else:
             messages.warning(request,'Ups, parece que no existe un usuario con estas credenciales')
             return login(request)
-    return login(request)  
+    else:
+        set_nombreUsuario(None)
+        set_is_logged_in(None)
+        return login(request)
+
+def logearse(usuario,contra):
+    #Esto busca en la base de datos ese usuario y contraseña
+    user = Paciente.objects.filter(Usuario=usuario, Contraseña=contra)
+    for e in user:
+        nombre = "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
+    #Esto condiciona a que ambos existan y coincidan
+    if user:   
+        print("nombre: ",nombre)        
+        return nombre
+    return None
     
 def registro(request):
     return render(request,"registro.html")
