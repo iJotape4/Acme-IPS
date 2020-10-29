@@ -11,6 +11,7 @@
         <h1 style="text-align: center;">Agendamiento de Cita</h1>
         <hr>
     </div>
+<div action="/AgendarCita/" method="POST">
     <div align="center">
         <h3 style="margin-right: 30%;">Seleccionar Fecha </h3>
         <br>
@@ -60,10 +61,13 @@
             <div align="center">
                 <hr>
                 <br>
-            <button type="submit" class="btn btn-primary"><a href="#" style="color: aliceblue;"> Agendar Cita </a> </button>
             </div>
     </form>
-
+</div>
+<div align="center">
+    <button type="submit" class="btn btn-primary"><a href="#" style="color: aliceblue;"> Agendar Cita </a> </button>
+</div>
+    
     <script>
         $(function () {
             $("#datetimepicker1").datetimepicker({

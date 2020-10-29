@@ -86,6 +86,7 @@ def selectFecha(request): #GestionCitas
     print("--------------------")
     return login(request)
 
+@method_decorator(csrf_exempt)
 def AgendarCita(request):
     form = AgendarCitaForm()
         
