@@ -9,6 +9,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from GestionDeCitas.models import Cita, Paciente, Especialidad, Medico
 
 #Importes de utilidades
 import mysql.connector
@@ -47,8 +48,10 @@ def principal(request):
 	print('Entre')
 	return render(request,"principalPage.html",context=context)
 
-def pdfGenerator():
+def pdfGenerator(id_paciente = 1):
 	try:
+		nombre_Paciente = list(Paciente.objects.filter(id = id_paciente).values_list('PrimerNombre',flat=True))
+		print(nombre_Paciente)
 		canvass = canvas.Canvas("Cita.pdf", pagesize=letter)
 		canvass.setLineWidth(.3)
 		canvass.setFont('Helvetica', 12)
