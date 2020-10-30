@@ -11,6 +11,9 @@ from Software2 import settings
 import random
 from datetime import datetime, time
 
+#importes de Modelos
+from GestionDeCitas.models import Medico, Cita
+
 def EliminarSimbolos(x):
 	x = str(x).replace("'","").replace("(","").replace(")","").replace(",","").replace("[","").replace("]","").replace(" ","")
 	return x
@@ -50,7 +53,7 @@ def CampoOpcional(request, campo):
 	return variable	
 
 
-def GenerarHorarioCitas(horarioLLegada, horarioSalida):
+def GenerarHorarioCitas(horarioLLegada, horarioSalida, medicoElegido):
 	horarios =[]
 
 	horaLlega = horarioLLegada.strftime("%H")
@@ -75,8 +78,19 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida):
 			minNuevo = str(res)
 
 			horarios.append(time(hor, res))	
-	print (str(horarios))
+	DiscardAlreadyAssignedSchedules(horarios, medicoElegido)
 	return horarios
+
+def DiscardAlreadyAssignedSchedules(horarios, medicoElegido):
+	MedicoC =Medico.objects.filter(PrimerNombre=medicoElegido[0], PrimerApellido=medicoElegido[1])[0]
+	horarios_existentes = list(Cita.objects.filter(MedicoAsignado=MedicoC).values_list('HorarioCita',flat=True))
+
+	for  horarioExistente in horarios_existentes:
+            for posibleHorario in horarios:
+                if posibleHorario==horarioExistente:
+                   horarios.remove(posibleHorario)
+	return horarios			   
+                  
 
 def send_email(mail, usuario, password, CorreoHTML):
 	context = {'mail': mail, 'user':usuario, 'password':password}

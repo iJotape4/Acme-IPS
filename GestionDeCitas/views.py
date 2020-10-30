@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 #Importes de utilidades
 from django.contrib import messages
 from django import forms
+from datetime import time
 
 #Importes de decoradores
 from django.utils.decorators import method_decorator
@@ -81,7 +82,9 @@ class AgendarCitaView(TemplateView):
         print(id_Horario_Escogido)
         filtro = list(Horario.objects.filter(id=id_Horario_Escogido[0]).values())
         
-        particion_horarios = GenerarHorarioCitas(filtro[0]['HorarioLlegada'],filtro[0]['HoraioSalida'])
+        particion_horarios = GenerarHorarioCitas(filtro[0]['HorarioLlegada'],filtro[0]['HoraioSalida'], medicoElegido)
+    
+        #Hacer un Warning para cuando ya se asignaron todos los horarios:
         for date in particion_horarios:
             data.extend([{"Horarios":date}])
         return data
@@ -97,6 +100,7 @@ def AgendarCita(request):
     print("\n")
     print("Usuario agendamiento: ",get_nombreUsuario())
     print("\n")
+    
     ModalidadCita = request.POST.get("tipoCita") 
     MotivoConsulta = request.POST.get("motivo_consulta" )
     fecha = FormatFecha(request.POST.get("fecha" ))
@@ -104,7 +108,6 @@ def AgendarCita(request):
     EspecialidadC =list(Especialidad.objects.filter(nombre= request.POST.get("especialidades")).values_list('id',flat=True))[0]
 
     medicoElegido = str(request.POST.get("medicos" )).split()
-
     MedicoC =list(Medico.objects.filter(PrimerNombre=medicoElegido[0], PrimerApellido=medicoElegido[1] ).values_list('id',flat=True))[0]
     
     HorarioC = AgendarCitaView.horario_AJAX 
