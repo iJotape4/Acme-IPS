@@ -111,6 +111,15 @@ def AgendarCita(request):
 
     PacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('id',flat=True)[0]
 
+    Reporte = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)
+
+    if Reporte:
+        ReporteSec = Reporte[0]
+    else:
+        ReporteSecretaria.objects.create(FechaReporte=fecha)
+        ReporteSec = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)[0]
+
+
     #Se pasa reporte por defecto ya que aún no se puede validar
     Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
     Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
