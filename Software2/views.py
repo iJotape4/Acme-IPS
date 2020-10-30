@@ -21,12 +21,13 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
-#Importes de Modelo Y vistas
+#Importes de métodos triviales
+from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
+
+#Importes de Modelos y Vistas
 from GestionDeCitas.models import Cita, Paciente
 from Autenticacion.views import get_nombreUsuario, set_nombreUsuario, get_is_logged_in, set_is_logged_in
 
-#Importes de métodos triviales
-from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
 
 @never_cache
 @method_decorator(csrf_exempt)
