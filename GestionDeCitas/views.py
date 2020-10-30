@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha
 
 #Importes de Modelos y Vistas
-from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
+from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita, ReporteSecretaria
 from GestionDeCitas.forms import AgendarCitaForm
 from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in, get_idUsuario
 
@@ -114,6 +114,6 @@ def AgendarCita(request):
     #Se pasa reporte por defecto ya que aún no se puede validar
     Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
     Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
-    PacienteConCita_id=PacienteConCita, ReporteSec_id=1, DiaCita=fecha)
+    PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha)
     return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
     
