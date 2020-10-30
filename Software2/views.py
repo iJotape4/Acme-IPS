@@ -50,21 +50,33 @@ def principal(request):
 
 def pdfGenerator(id_paciente = 1):
 	try:
-		PacienteP = Paciente.objects.filter(id=id_paciente)[0]
+		PacienteP = list(Paciente.objects.filter(id=id_paciente).values())
+		CitaP = list(Cita.objects.filter(id=id_paciente).values())
 
-		for e in PacienteP:
-			nombre_Paciente = "%s %s" %(e.PrimerNombre, e.PrimerApellido) 
+		nombre_Paciente = "%s %s" %(PacienteP[0]["PrimerNombre"], PacienteP[0]["PrimerApellido"])
+		documento_Paciente = "%s"%(PacienteP[0]["DocumentoId"])
+
+		temp_medico_Cita = "%s"%(CitaP[0]["MedicoAsignado_id"])
+		temp_especialidad_Cita = "%s"%(CitaP[0]["Especialidad_id"])
+
+		MedicoP = list(Medico.objects.filter(id=temp_medico_Cita).values())
+		EspecialidadP = list(Especialidad.objects.filter(id=temp_especialidad_Cita).values())
+
+		medico_Cita = "%s %s"%(MedicoP[0]["PrimerNombre"], MedicoP[0]["PrimerApellido"])
+		especialidad_Cita = "%s"%(EspecialidadP[0]["nombre"])
+		fecha_Cita = "%s"%(CitaP[0]["DiaCita"])
+		hora_Cita = "%s"%(CitaP[0]["HorarioCita"]) 
 
 		print(nombre_Paciente)
 		canvass = canvas.Canvas("Cita.pdf", pagesize=letter)
 		canvass.setLineWidth(.3)
 		canvass.setFont('Helvetica', 12)
-		canvass.drawString(80,725,'Nombre: ')
-		canvass.drawString(80,700,'Documento: ')
-		canvass.drawString(80,675,'Medico: ')
-		canvass.drawString(80,650,'Medico: ')
-		canvass.drawString(80,625,'Fecha Cita:')
-		canvass.drawString(80,600,'Hora Cita: ')
+		canvass.drawString(80,725,'Nombre: '+str(nombre_Paciente))
+		canvass.drawString(80,700,'Documento: '+ str(documento_Paciente))
+		canvass.drawString(80,675,'Medico: '+ str(medico_Cita))
+		canvass.drawString(80,650,'Especialidad: '+ str(especialidad_Cita))
+		canvass.drawString(80,625,'Fecha Cita:'+ str(fecha_Cita))
+		canvass.drawString(80,600,'Hora Cita: '+ str(hora_Cita))
         # Close the PDF object cleanly, and we're done.
 		canvass.showPage()
 		canvass.save()
