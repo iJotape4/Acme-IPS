@@ -1,14 +1,24 @@
+#Importes de Renders Y Responses
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from django import forms
 from django.http import JsonResponse
-from GestionDeCitas.models import Paciente
+
+#Importes de utilidades
+from django import forms
+from django.contrib import messages
+
+#Importes de decoradores
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
+
+#Importes de métodos Triviales
 from Software2.Methods import verificar_Existencia_Usuarios,comprobar_DatoNumerico
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos 
 from Software2.Methods import send_email, GenerarHorarioCitas
+
+#Importes de Modelos y Vistas
+from GestionDeCitas.models import Paciente, Medico, Secretaria
+
 
 class DateForm(forms.Form):
     date = forms.DateTimeField(
