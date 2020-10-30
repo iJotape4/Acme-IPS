@@ -50,7 +50,11 @@ def principal(request):
 
 def pdfGenerator(id_paciente = 1):
 	try:
-		nombre_Paciente = Paciente.nombreCompleto
+		PacienteP = Paciente.objects.filter(id=id_paciente)[0]
+
+		for e in PacienteP:
+			nombre_Paciente = "%s %s" %(e.PrimerNombre, e.PrimerApellido) 
+
 		print(nombre_Paciente)
 		canvass = canvas.Canvas("Cita.pdf", pagesize=letter)
 		canvass.setLineWidth(.3)
@@ -71,17 +75,7 @@ def pdfGenerator(id_paciente = 1):
 	except Exception as e:
 		print("Ha ocurrido un error durante la generación del PDF -> {}".format(e))
 
-cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
-class Paciente(object):
-	def __init__(self, nombreCompleto, horaCita):
-		self.nombreCompleto = nombreCompleto
-		#self.apellido = apellido
-		self.horaCita = horaCita
 
-class doctor(object):
-	def __init__(self, nombre, apellido):
-		self.nombre = nombre
-		self.apellido = apellido
 
 def citas_del_dia(request):
 	cita = Cita.objects.filter(DiaCita=timezone.now())
@@ -106,6 +100,14 @@ def histo_Paciente(request):
 	
 	return render(request, "./histo_Paciente.html", {"lista":lista})
 
+
+
+
+
+
+
+#FORMA DE HACER CONSULTAS USANDO QUERY SETS DE SQL
+cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 def vistaDoctor(request):
 	
 	cursor= CursorDB(cnx)
