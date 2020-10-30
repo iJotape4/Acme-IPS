@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 #Importes de métodos Triviales
-from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha
+from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita, ReporteSecretaria
@@ -25,6 +25,7 @@ class AgendarCitaView(TemplateView):
     especialidad_AJAX = ""
     medico_AJAX = ""
     horario_AJAX = ""
+    fecha_AJAX =""
 
     @method_decorator(csrf_exempt)
     #@method_decorator(login_required)
@@ -65,7 +66,12 @@ class AgendarCitaView(TemplateView):
         id_especialidad_Escogida = list(Especialidad.objects.filter(nombre=especialidad).values_list('id',flat=True))
         
         filtro = list(Medico.objects.filter(especialidad_id=id_especialidad_Escogida[0]).values())
-        for dato in filtro:
+        print("fechaza")
+        print(AgendarCitaView.fecha_AJAX)
+
+        particion_medicos =DiscardMedicsWhit12Citas(filtro, AgendarCitaView.fecha_AJAX)
+
+        for dato in particion_medicos:
             data.append({'PrimerNombre': dato['PrimerNombre'],'PrimerApellido':dato['PrimerApellido']})
         return data
 

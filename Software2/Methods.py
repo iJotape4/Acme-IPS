@@ -86,10 +86,20 @@ def DiscardAlreadyAssignedSchedules(horarios, medicoElegido):
 	horarios_existentes = list(Cita.objects.filter(MedicoAsignado=MedicoC).values_list('HorarioCita',flat=True))
 
 	for  horarioExistente in horarios_existentes:
-            for posibleHorario in horarios:
-                if posibleHorario==horarioExistente:
-                   horarios.remove(posibleHorario)
+		for posibleHorario in horarios:
+			if posibleHorario==horarioExistente:
+				horarios.remove(posibleHorario)
 	return horarios			   
+
+def DiscardMedicsWhit12Citas(filtro, fecha):
+	medicos = []
+	for dato in filtro:
+		Citas=  list(Cita.objects.filter(MedicoAsignado_id=dato['id'], DiaCita=fecha).values_list('id',flat=True))
+		if len(Citas)<12:
+			medicos.append(dato)
+	return medicos		
+
+
                   
 
 def send_email(mail, usuario, password, CorreoHTML):
