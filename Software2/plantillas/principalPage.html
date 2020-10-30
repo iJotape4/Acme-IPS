@@ -29,10 +29,9 @@
         </form>
             
     </div>
-    {% endblock %}
 
     {% load qr_code %}
-    {% qr_from_text "Hello World!" size="T" %}
-
+    {% qr_from_text "Hello World!" options=my_options %}
+    {% endblock %}
 </body>
 </html>

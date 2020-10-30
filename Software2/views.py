@@ -42,7 +42,7 @@ def principal(request):
 	print("|-- Sesion finalizada: {} | Sesion: {} --|".format(get_nombreUsuario(),get_is_logged_in()))
 	print("\n")
 	context = dict(
-        my_options=QRCodeOptions(size='t', border=6, error_correction='L'),
+        my_options=QRCodeOptions(size='m', border=6, error_correction='L'),
     )
 	pdfGenerator()
 	print('Entre')
@@ -50,7 +50,7 @@ def principal(request):
 
 def pdfGenerator(id_paciente = 1):
 	try:
-		nombre_Paciente = list(Paciente.objects.filter(id = id_paciente).values_list('PrimerNombre',flat=True))
+		nombre_Paciente = Paciente.nombreCompleto
 		print(nombre_Paciente)
 		canvass = canvas.Canvas("Cita.pdf", pagesize=letter)
 		canvass.setLineWidth(.3)
