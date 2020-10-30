@@ -17,7 +17,7 @@ from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita
 from GestionDeCitas.forms import AgendarCitaForm
-from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in
+from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in, get_idUsuario
 
 class AgendarCitaView(TemplateView):
     template_name = 'agendamiento_Citas.html'
@@ -93,6 +93,7 @@ class AgendarCitaView(TemplateView):
 
 @method_decorator(csrf_exempt)
 def AgendarCita(request):
+
     print("\n")
     print("Usuario agendamiento: ",get_nombreUsuario())
     print("\n")
@@ -108,15 +109,11 @@ def AgendarCita(request):
     
     HorarioC = AgendarCitaView.horario_AJAX 
 
-    #Hacer que el Login sea real pls!!!
+    PacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('id',flat=True)[0]
 
-    '''PacienteC = str(nombre).split()
-    PacienteConCita = Paciente.objects.filter(PrimerNombre=PacienteC[0], PrimerApellido=PacienteC[1]).values_list('id',flat=True)[0]'''
-
-    #Se pasan paciente y reporte por defecto ya que aún no se pueden validar
+    #Se pasa reporte por defecto ya que aún no se puede validar
     Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
     Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
-    PacienteConCita_id=1, ReporteSec_id=1, DiaCita=fecha)
+    PacienteConCita_id=PacienteConCita, ReporteSec_id=1, DiaCita=fecha)
     return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
-    #return HttpResponseRedirect('/menu_Paciente/')
     

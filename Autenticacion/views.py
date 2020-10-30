@@ -20,6 +20,7 @@ class DateForm(forms.Form):
     )
 
 nombre_Usuario = None
+id_Usuario = None
 is_logged_in = False
 
 def set_nombreUsuario(nombre):
@@ -29,6 +30,14 @@ def set_nombreUsuario(nombre):
 def get_nombreUsuario():
     global nombre_Usuario
     return nombre_Usuario
+
+def set_idUsuario(id):
+    global id_Usuario
+    id_Usuario = id    
+
+def get_idUsuario():
+    global id_Usuario
+    return id_Usuario    
 
 def set_is_logged_in(response):
     global is_logged_in
@@ -51,7 +60,9 @@ def menu_Paciente(request):
         usuario = request.POST.get("username")
         contra = request.POST.get("password")
             
-        set_nombreUsuario(logearse(usuario,contra))
+        set_nombreUsuario(logearse(usuario,contra,'nombre'))
+        set_idUsuario(logearse(usuario,contra,'id'))
+
         if get_nombreUsuario() != None:
             request.session['usuario'] = usuario #Se crea una session en la bd con la sesion actual
             set_is_logged_in(True)
@@ -67,17 +78,26 @@ def menu_Paciente(request):
     else:
         set_nombreUsuario(None)
         set_is_logged_in(None)
+        set_idUsuario(None)
         return login(request)
 
-def logearse(usuario,contra):
+def logearse(usuario,contra,atributo_a_buscar):
     #Esto busca en la base de datos ese usuario y contraseña
     user = Paciente.objects.filter(Usuario=usuario, Contraseña=contra)
-    for e in user:
-        nombre = "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
-    #Esto condiciona a que ambos existan y coincidan
-    if user:   
-        print("nombre: ",nombre)        
-        return nombre
+
+    if atributo_a_buscar=='nombre':
+        for e in user:
+            nombre = "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
+        #Esto condiciona a que ambos existan y coincidan
+        if user:   
+            print("nombre: ",nombre)        
+            return nombre
+        #Para cuando lo que se quiere obtener es el id    
+    elif atributo_a_buscar == 'id':
+        for e in user:
+            id = e.DocumentoId 
+            print("doc"+str(id))
+        return id    
     return None
     
 def registro(request):
