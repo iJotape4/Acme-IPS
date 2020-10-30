@@ -47,6 +47,9 @@ class AgendarCitaView(TemplateView):
             elif action == 'seleccionar_horario':
                 AgendarCitaView.horario_AJAX = respuesta[1]
                 print("Horario AJAX: ",AgendarCitaView.horario_AJAX)
+            elif action == 'fecha_escogida':
+                AgendarCitaView.fecha_AJAX = respuesta[1]
+                print("fecha_AJAX: ",AgendarCitaView.fecha_AJAX)
             else:   
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -127,7 +130,6 @@ def AgendarCita(request):
     else:
         ReporteSecretaria.objects.create(FechaReporte=fecha)
         ReporteSec = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)[0]
-
 
     #Se pasa reporte por defecto ya que aún no se puede validar
     Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,

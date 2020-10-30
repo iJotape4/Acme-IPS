@@ -5,6 +5,8 @@
 {% block head %}
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="jquery.datetimepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery.datetimepicker.css"/>
 {% endblock %}
 {% block content %}
     <div>
@@ -18,7 +20,7 @@
                         <h3 style="margin-right: 30%;">Seleccionar Fecha </h3>
                         <br>
                           <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                          <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required name="fecha"/>
+                          <input id="fecha" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required name="fecha"/>
                           <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                           </div>
@@ -47,8 +49,7 @@
                     <h4 for="nombre">Elegir Horario</h4>
                         <div>
                             {{form.horarios}}
-                        </div>
-                        
+                        </div>                 
                     <hr>
                     <h4 for="nombre">Motivo de consulta</h4>
                     <br>
@@ -57,20 +58,41 @@
             </div>
                 <hr>
                 <br>
-
             </div>
             <div align="center">
                 <button type="submit" class="btn btn-primary"> Agendar Cita</button>
             </div>
-
-
         </form>
 
-    
-    <script>
-        $(function () {
+    <script type="text/javascript">
+        $(function() {
             $("#datetimepicker1").datetimepicker({
-                format: 'DD/MM/YYYY',
+                format: 'DD/MM/YYYY'
+            });
+            $("#datetimepicker1").on("change.datetimepicker", function (e) {
+                var fecha = (e.date).format('DD/MM/YYYY');
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'fecha_escogida',
+                        'especialidad': fecha
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Fecha escogida\n")
+                    console.log(fecha);
+                    if(!data.hasOwnProperty('error')) {
+                        console.log("data")
+                        console.log(data)
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    select_medicos.html(options);
+                });
             });
         });
     </script>
@@ -182,5 +204,4 @@
             });  
         });
     </script>
-
 {% endblock %}
