@@ -7,11 +7,14 @@ from django.template.loader import get_template
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 #Importes de utilidades
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
+from qr_code.qrcode.utils import QRCodeOptions
 
 #Importes de decoradores
 from django.utils.decorators import method_decorator
@@ -36,7 +39,33 @@ def principal(request):
 	set_nombreUsuario(None)
 	print("|-- Sesion finalizada: {} | Sesion: {} --|".format(get_nombreUsuario(),get_is_logged_in()))
 	print("\n")
-	return render(request,"principalPage.html")
+	context = dict(
+        my_options=QRCodeOptions(size='t', border=6, error_correction='L'),
+    )
+	pdfGenerator()
+	print('Entre')
+	return render(request,"principalPage.html",context=context)
+
+def pdfGenerator():
+	try:
+		canvass = canvas.Canvas("Cita.pdf", pagesize=letter)
+		canvass.setLineWidth(.3)
+		canvass.setFont('Helvetica', 12)
+		canvass.drawString(80,725,'Nombre: ')
+		canvass.drawString(80,700,'Documento: ')
+		canvass.drawString(80,675,'Medico: ')
+		canvass.drawString(80,650,'Medico: ')
+		canvass.drawString(80,625,'Fecha Cita:')
+		canvass.drawString(80,600,'Hora Cita: ')
+        # Close the PDF object cleanly, and we're done.
+		canvass.showPage()
+		canvass.save()
+        # FileResponse sets the Content-Disposition header so that browsers
+        # present the option to save the file.
+        #buffer.seek(0)
+        #return FileResponse(as_attachment=True, filename='hello.pdf')
+	except Exception as e:
+		print("Ha ocurrido un error durante la generación del PDF -> {}".format(e))
 
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 class Paciente(object):

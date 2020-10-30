@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'administrador',
     'tempus_dominus',
     'Informes',
+    'qr_code',
     'Autenticacion'
 ]
 
