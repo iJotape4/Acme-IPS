@@ -97,7 +97,8 @@ def logearse(usuario,contra,atributo_a_buscar):
         for e in user:
             id = e.DocumentoId 
             print("doc"+str(id))
-        return id    
+        if user:
+            return id    
     return None
     
 def registro(request):
