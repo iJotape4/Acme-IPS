@@ -7,15 +7,15 @@ from django.template.loader import get_template
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from GestionDeCitas.models import Cita, Paciente, Especialidad, Medico
 
 #Importes de utilidades
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
-from qr_code.qrcode.utils import QRCodeOptions
+import qrcode 
+from reportlab.pdfgen.canvas import Canvas 
+from reportlab.lib.utils import Image, ImageReader 
+from reportlab.lib.pagesizes import letter
 
 #Importes de decoradores
 from django.utils.decorators import method_decorator
@@ -26,9 +26,8 @@ from django.views.decorators.cache import never_cache
 from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
 
 #Importes de Modelos y Vistas
-from GestionDeCitas.models import Cita, Paciente
+from GestionDeCitas.models import Cita, Paciente, Especialidad, Medico
 from Autenticacion.views import get_nombreUsuario, set_nombreUsuario, get_is_logged_in, set_is_logged_in
-
 
 @never_cache
 @method_decorator(csrf_exempt)
@@ -41,24 +40,22 @@ def principal(request):
 	set_nombreUsuario(None)
 	print("|-- Sesion finalizada: {} | Sesion: {} --|".format(get_nombreUsuario(),get_is_logged_in()))
 	print("\n")
-	context = dict(
-        my_options=QRCodeOptions(size='m', border=6, error_correction='L'),
-    )
+
 	pdfGenerator()
-	print('Entre')
-	return render(request,"principalPage.html",context=context)
+	print('Pdf Generado')
+	return render(request,"principalPage.html")
 
 def pdfGenerator(id_paciente = 1):
 	try:
 		PacienteP = list(Paciente.objects.filter(id=id_paciente).values())
-		CitaP = list(Cita.objects.filter(id=id_paciente).values())
+		CitaP = list(Cita.objects.filter(PacienteConCita_id=id_paciente).values())
 
 		nombre_Paciente = "%s %s" %(PacienteP[0]["PrimerNombre"], PacienteP[0]["PrimerApellido"])
 		documento_Paciente = "%s"%(PacienteP[0]["DocumentoId"])
 
 		temp_medico_Cita = "%s"%(CitaP[0]["MedicoAsignado_id"])
 		temp_especialidad_Cita = "%s"%(CitaP[0]["Especialidad_id"])
-
+		
 		MedicoP = list(Medico.objects.filter(id=temp_medico_Cita).values())
 		EspecialidadP = list(Especialidad.objects.filter(id=temp_especialidad_Cita).values())
 
@@ -67,8 +64,7 @@ def pdfGenerator(id_paciente = 1):
 		fecha_Cita = "%s"%(CitaP[0]["DiaCita"])
 		hora_Cita = "%s"%(CitaP[0]["HorarioCita"]) 
 
-		print(nombre_Paciente)
-		canvass = canvas.Canvas("Cita.pdf", pagesize=letter)
+		canvass = Canvas("Cita.pdf", pagesize=letter)
 		canvass.setLineWidth(.3)
 		canvass.setFont('Helvetica', 12)
 		canvass.drawString(80,725,'Nombre: '+str(nombre_Paciente))
@@ -77,7 +73,9 @@ def pdfGenerator(id_paciente = 1):
 		canvass.drawString(80,650,'Especialidad: '+ str(especialidad_Cita))
 		canvass.drawString(80,625,'Fecha Cita:'+ str(fecha_Cita))
 		canvass.drawString(80,600,'Hora Cita: '+ str(hora_Cita))
-        # Close the PDF object cleanly, and we're done.
+
+		canvass.drawImage(qr_Code_Generator(str(documento_Paciente)),80,400)
+		
 		canvass.showPage()
 		canvass.save()
         # FileResponse sets the Content-Disposition header so that browsers
@@ -87,7 +85,16 @@ def pdfGenerator(id_paciente = 1):
 	except Exception as e:
 		print("Ha ocurrido un error durante la generación del PDF -> {}".format(e))
 
-
+def qr_Code_Generator(documentoPaciente):
+	try:
+		qr = qrcode.QRCode(version=1,box_size=6,border=5)
+		qr.add_data(documentoPaciente)
+		qr.make(fit=True)
+		img = (qr.make_image(fill='black', back_color='white')).get_image()
+		img = ImageReader(img)
+		return img
+	except Exception as e:
+		print("Ha ocurrido un error durante la generación del QR -> {}".format(e))
 
 def citas_del_dia(request):
 	cita = Cita.objects.filter(DiaCita=timezone.now())
@@ -111,7 +118,6 @@ lista = [1,2,3,4]
 def histo_Paciente(request):
 	
 	return render(request, "./histo_Paciente.html", {"lista":lista})
-
 
 #FORMA DE HACER CONSULTAS USANDO QUERY SETS DE SQL
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')

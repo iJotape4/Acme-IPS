@@ -3,8 +3,6 @@
 {% block title %}Principal{% endblock %}
 {% block content %}
 
-
-
 <!DOCTYPE html>
 <html lang="es">
 <body>
@@ -27,11 +25,7 @@
         <form action="/login/">
             <input type="submit" class="btn btn-primary" value="Agendar Cita"/>
         </form>
-            
     </div>
-
-    {% load qr_code %}
-    {% qr_from_text "Hello World!" options=my_options %}
-    {% endblock %}
+{% endblock %}
 </body>
 </html>
