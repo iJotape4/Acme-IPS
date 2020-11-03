@@ -50,7 +50,7 @@ def enviarWssp():
     account_sid = 'AC02921a0384fd5426276893a7ee00b421' 
     auth_token = 'ad1d1bc3043001edfe9bc2cbd8daaadc' 
     client = Client(account_sid, auth_token)     
-    message = client.messages.create( from_='whatsapp:+14155238886', body='Esto no es un virus xDD',to='whatsapp:+573103918404')     
+    message = client.messages.create( from_='whatsapp:+14155238886', body='Esto no es un virus xDD',to='whatsapp:+573166717145')     
     print(message.sid)
 
 def pdfGenerator(id_paciente = 1):
