@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
+from twilio.rest import Client 
 
 #Importes de Utilidades Django
 from django.conf import settings
@@ -45,6 +46,13 @@ def principal(request):
 	print('Pdf Generado')
 	return render(request,"principalPage.html")
 
+def enviarWssp():
+    account_sid = 'AC02921a0384fd5426276893a7ee00b421' 
+    auth_token = 'ad1d1bc3043001edfe9bc2cbd8daaadc' 
+    client = Client(account_sid, auth_token)     
+    message = client.messages.create( from_='whatsapp:+14155238886', body='Prueba compleatada felicidades',to='whatsapp:+573165634347')     
+    print(message.sid)
+
 def pdfGenerator(id_paciente = 1):
 	try:
 		PacienteP = list(Paciente.objects.filter(id=id_paciente).values())
@@ -78,6 +86,7 @@ def pdfGenerator(id_paciente = 1):
 		
 		canvass.showPage()
 		canvass.save()
+		enviarWssp()
         # FileResponse sets the Content-Disposition header so that browsers
         # present the option to save the file.
         #buffer.seek(0)
