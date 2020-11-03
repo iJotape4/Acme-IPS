@@ -25,26 +25,26 @@ from Autenticacion.views import login, recuperar_Contra, registrarse, registro, 
 urlpatterns = [
     # Administrador
     path('admin/', admin.site.urls),
-    path('admin_menu/', menu_admin ),
+    path('administrador_menu/', menu_admin ),
     # Registro
     path('registro/',registro),
     path('registrarse/', registrarse),
     # Login
     path('login/', login),
-    path('recuperarContra/', recuperar_Contra),
+    path('recuperarContraseña/', recuperar_Contra),
     # Doctor
-   	path('Doctor/', vistaDoctor),
+   	path('menu_Doctor/', vistaDoctor),
     # Pagina principal
     path('principal/', principal ),
     path('correo/', correo ),
     # Paciente
-    path('his_paciente/', histo_Paciente ),
+    path('historial_paciente/', histo_Paciente ),
     path('menu_Paciente/', menu_Paciente),
     # Agendar Cita
     path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html")),
     path('citas_del_dia/', citas_del_dia ),
     # 
-    path('add_Medico/', agregar_Medico ),
+    path('agregar_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),
-    path('GuardarCita/', AgendarCita)
+    path('guardarCita/', AgendarCita)
 ]

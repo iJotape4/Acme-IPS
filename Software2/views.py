@@ -113,11 +113,6 @@ def histo_Paciente(request):
 	return render(request, "./histo_Paciente.html", {"lista":lista})
 
 
-
-
-
-
-
 #FORMA DE HACER CONSULTAS USANDO QUERY SETS DE SQL
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 def vistaDoctor(request):
