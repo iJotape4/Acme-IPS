@@ -43,15 +43,37 @@ def principal(request):
 	print("\n")
 
 	pdfGenerator()
+	enviarWssp(3165634347)
+	enviarWssp(3103918404)
 	print('Pdf Generado')
 	return render(request,"principalPage.html")
 
-def enviarWssp():
-    account_sid = 'AC02921a0384fd5426276893a7ee00b421' 
+def enviarWssp(numero_telefono): 
+	#Para unir a otro usuario al SandBox usar este link
+	#whatsapp://send?phone=<Your Sandbox Number>&text=<your URL-encoded sandbox keyword>
+	#<Your Sandbox Number> = el numero de from_='whatsapp:
+	#<your URL-encoded sandbox keyword> = el codigo de cada Sandbox, en el caso de SandBox de Jhoan el codigo es -> join interest-birth
+
+	#SandBox de Jhoan
+	"""account_sid = 'AC4e8a7439bca57265e706ebde409569c7' 
+	auth_token = 'b5edd4064f72c69d4fe8be77cbf26f48' 
+	client = Client(account_sid, auth_token) 
+	
+	message = client.messages.create(
+		from_='whatsapp:+14155238886',
+		body='Hola bienvenido al ciberCafe, los de la UNAB, puedes donar a la causa y contribuir a que pasemos Software2, click en la bio para más detalles',      
+		to='whatsapp:+57'+str(numero_telefono)
+	) 
+	print("\n")
+	print(message.sid)
+	print("\n")"""
+
+	#SandBox de Yesid
+	"""account_sid = 'AC02921a0384fd5426276893a7ee00b421' 
     auth_token = 'ad1d1bc3043001edfe9bc2cbd8daaadc' 
     client = Client(account_sid, auth_token)     
     message = client.messages.create( from_='whatsapp:+14155238886', body='Esto no es un virus xDD',to='whatsapp:+573166717145')     
-    print(message.sid)
+    print(message.sid)"""
 
 def pdfGenerator(id_paciente = 1):
 	try:
@@ -86,7 +108,6 @@ def pdfGenerator(id_paciente = 1):
 		
 		canvass.showPage()
 		canvass.save()
-		enviarWssp()
         # FileResponse sets the Content-Disposition header so that browsers
         # present the option to save the file.
         #buffer.seek(0)
