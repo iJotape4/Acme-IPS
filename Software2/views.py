@@ -30,6 +30,14 @@ from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoEl
 from GestionDeCitas.models import Cita, Paciente, Especialidad, Medico
 from Autenticacion.views import get_nombreUsuario, set_nombreUsuario, get_is_logged_in, set_is_logged_in
 
+
+
+def menu_secretaria(request):
+	return render(request, "menu_secretaria.html")
+
+def informe_secretaria(request):
+	return render(request, "informe_secretaria.html")
+
 @never_cache
 @method_decorator(csrf_exempt)
 def principal(request):

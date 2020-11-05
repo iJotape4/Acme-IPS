@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Software2.views import vistaDoctor, principal, correo, histo_Paciente, citas_del_dia
+from Software2.views import vistaDoctor, principal, correo, histo_Paciente, citas_del_dia, menu_secretaria, informe_secretaria
 from Software2 import settings
 from administrador.views import menu_admin, agregar_Medico
 from GestionDeCitas.views import AgendarCitaView, AgendarCita
@@ -26,6 +26,8 @@ urlpatterns = [
     # Administrador
     path('admin/', admin.site.urls),
     path('administrador_menu/', menu_admin ),
+    path('menu_secre/', menu_secretaria),
+    path('informeSecre/', informe_secretaria ),
     # Registro
     path('registro/',registro),
     path('registrarse/', registrarse),
