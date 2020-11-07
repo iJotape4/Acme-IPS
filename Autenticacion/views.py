@@ -187,7 +187,7 @@ def registrarse(request):
         PrimerApellido=primerApellido, SegundoApellido=segundoApellido, DocumentoId=documentoId,
         Edad=edad, CorreoElectronico=correoElectronico, TipoUsuario='Paciente', EPSP=eps, Telefono=telefono, Whatsapp=whatsapp,
         TipoDocumento=tipoDocumento, Otros=otros,Ciudad=ciudad, Barrio=barrio, complemento=complemento, 
-        Hipertension=hipertension, Diabetes=diabetes, Cardiacos=cardiacos)
+        Hipertension=hipertension, Diabetes=diabetes, Cardiacos=cardiacos, Usuario=get_username(),Contraseña=get_password(),)
 
         return redirect("/login")
     else:

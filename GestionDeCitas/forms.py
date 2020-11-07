@@ -11,11 +11,11 @@ class AgendarCitaForm(forms.Form):
     medicos = forms.ModelChoiceField(
         label=u'medico', 
         queryset = Medico.objects.none(),widget=forms.Select(attrs={
-        'class': 'form-control'
+        'class': 'form-control', 'id':'medico'
     }))
 
     horarios = forms.ModelChoiceField(
         label=u'horario', 
         queryset = Horario.objects.none(),widget=forms.Select(attrs={
-        'class': 'form-control'
+        'class': 'form-control', 'id':'horarios'
     }))
