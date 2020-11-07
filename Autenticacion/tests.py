@@ -1,12 +1,7 @@
 from django.test import TestCase, SimpleTestCase
 from django.shortcuts import reverse
 
-# Create your tests here.
-
-    ######
-
 class Test2(SimpleTestCase):
-
     def test_login(self):
         response = self.client.get('login/')
         self.assertEquals(response.status_code , 404)
