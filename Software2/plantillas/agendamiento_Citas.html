@@ -82,8 +82,13 @@
                 }).done(function (data) {
                     console.log("Fecha escogida\n")
                     console.log(fecha);
-                    document.getElementById("especialidad").disabled=true;
                     document.getElementById("especialidad").disabled=false;
+                    document.getElementById("especialidad").value="--------";
+                    document.getElementById("medico").value="--------";
+                    document.getElementById("horarios").value="--------";
+                  
+
+                    
                     if(!data.hasOwnProperty('error')) {
                         console.log("data")
                         console.log(data)
