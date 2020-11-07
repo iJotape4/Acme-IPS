@@ -18,11 +18,11 @@ class Test1(SimpleTestCase):
 
     ######
     
-    def test_agendar_correo(self):
+    def test_correo(self):
         response = self.client.get('/correo/')
         self.assertEquals(response.status_code , 200)
 
-    def test_url_agendar_correo(self):
+    def test_url_correo(self):
         response = self.client.get(reverse('correo'))
         self.assertEquals(response.status_code, 200)
     

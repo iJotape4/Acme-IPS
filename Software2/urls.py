@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Software2.views import vistaDoctor, principal, correo, histo_Paciente, citas_del_dia, menu_secretaria, informe_secretaria
+from Software2.views import vistaDoctor, principal, correo, histo_Paciente, menu_secretaria, informe_secretaria
+from Informes.views import citas_del_dia
 from Software2 import settings
 from administrador.views import menu_admin, agregar_Medico
 from GestionDeCitas.views import AgendarCitaView, AgendarCita
@@ -33,7 +34,7 @@ urlpatterns = [
     path('registrarse/', registrarse),
     # Login
     path('login/', login, name='login'),
-    path('recuperarContraseña/', recuperar_Contra),
+    path('recuperarContraseña/', recuperar_Contra, name='recuperar_Contra'),
     # Doctor
    	path('menu_Doctor/', vistaDoctor),
     # Pagina principal
@@ -44,7 +45,7 @@ urlpatterns = [
     path('menu_Paciente/', menu_Paciente, name='memu_paciente'),
     # Agendar Cita
     path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html"), name= 'agendar'),
-    path('citas_del_dia/', citas_del_dia, name='citasDía'),
+    path('citas_del_dia/', citas_del_dia, name='citasDia'),
     # 
     path('agregar_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),

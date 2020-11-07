@@ -134,15 +134,6 @@ def qr_Code_Generator(documentoPaciente):
 	except Exception as e:
 		print("Ha ocurrido un error durante la generación del QR -> {}".format(e))
 
-def citas_del_dia(request):
-	cita = Cita.objects.filter(DiaCita=timezone.now())
-	print(cita)
-	citas = []
-	for a in cita:
-		list_Cita = {'nombre':"%s %s" %(a.PacienteConCita.PrimerNombre, a.PacienteConCita.PrimerApellido),'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita}
-		citas.append(list_Cita)
-
-	return render(request, "./citas_del_dia.html",{"lista":citas})
 
 def correo(request):
 	if request.method == 'POST':

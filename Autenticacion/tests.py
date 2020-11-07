@@ -45,7 +45,21 @@ class Test2(SimpleTestCase):
         response = self.client.get(reverse('registro'))
         self.assertEquals(response.status_code, 200)
         
-    def test_correct_template_url(self):
+    def test_correct_template_registro(self):
         response = self.client.get(reverse('registro'))
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response,'registro.html')
+
+    #####
+    def test_recuperar_contra(self):
+        response = self.client.get('/recuperarContraseña/')
+        self.assertEquals(response.status_code , 200)
+
+    def test_recuperar_contra_url(self):
+        response = self.client.get(reverse('recuperar_Contra'))
+        self.assertEquals(response.status_code, 200)
+        
+    def test_correct_template_recuperar_contra(self):
+        response = self.client.get(reverse('recuperar_Contra'))
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response,'recuperarContra.html')
