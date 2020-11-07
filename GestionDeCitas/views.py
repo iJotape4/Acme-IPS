@@ -91,7 +91,7 @@ class AgendarCitaView(TemplateView):
         print(id_Horario_Escogido)
         filtro = list(Horario.objects.filter(id=id_Horario_Escogido[0]).values())
         
-        particion_horarios = GenerarHorarioCitas(filtro[0]['HorarioLlegada'],filtro[0]['HoraioSalida'], medicoElegido)
+        particion_horarios = GenerarHorarioCitas(filtro[0]['HorarioLlegada'],filtro[0]['HoraioSalida'], medicoElegido, FormatFecha(AgendarCitaView.fecha_AJAX))
     
         #Hacer un Warning para cuando ya se asignaron todos los horarios:
         for date in particion_horarios:

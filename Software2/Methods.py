@@ -53,7 +53,7 @@ def CampoOpcional(request, campo):
 	return variable	
 
 
-def GenerarHorarioCitas(horarioLLegada, horarioSalida, medicoElegido):
+def GenerarHorarioCitas(horarioLLegada, horarioSalida, medicoElegido,fecha):
 	horarios =[]
 
 	horaLlega = horarioLLegada.strftime("%H")
@@ -78,12 +78,12 @@ def GenerarHorarioCitas(horarioLLegada, horarioSalida, medicoElegido):
 			minNuevo = str(res)
 
 			horarios.append(time(hor, res))	
-	DiscardAlreadyAssignedSchedules(horarios, medicoElegido)
+	DiscardAlreadyAssignedSchedules(horarios, medicoElegido,fecha)
 	return horarios
 
-def DiscardAlreadyAssignedSchedules(horarios, medicoElegido):
+def DiscardAlreadyAssignedSchedules(horarios, medicoElegido,fecha):
 	MedicoC =Medico.objects.filter(PrimerNombre=medicoElegido[0], PrimerApellido=medicoElegido[1])[0]
-	horarios_existentes = list(Cita.objects.filter(MedicoAsignado=MedicoC).values_list('HorarioCita',flat=True))
+	horarios_existentes = list(Cita.objects.filter(MedicoAsignado=MedicoC, DiaCita=fecha).values_list('HorarioCita',flat=True))
 
 	for  horarioExistente in horarios_existentes:
 		for posibleHorario in horarios:
