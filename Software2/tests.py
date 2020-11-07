@@ -31,4 +31,6 @@ class Test1(SimpleTestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response,'./regisCorreo.html','plantilla.html')
 
+
+
     

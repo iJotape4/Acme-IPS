@@ -32,7 +32,7 @@ urlpatterns = [
     path('registro/',registro),
     path('registrarse/', registrarse),
     # Login
-    path('login/', login),
+    path('login/', login, name='login'),
     path('recuperarContraseña/', recuperar_Contra),
     # Doctor
    	path('menu_Doctor/', vistaDoctor),
@@ -43,7 +43,7 @@ urlpatterns = [
     path('historial_paciente/', histo_Paciente ),
     path('menu_Paciente/', menu_Paciente),
     # Agendar Cita
-    path('agendar_cita/', AgendarCitaView, name='agendar'),
+    path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html"), name= 'agendar'),
     path('citas_del_dia/', citas_del_dia ),
     # 
     path('agregar_Medico/', agregar_Medico ),
