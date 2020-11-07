@@ -71,6 +71,10 @@
             });
             $("#datetimepicker1").on("change.datetimepicker", function (e) {
                 var fecha = (e.date).format('DD/MM/YYYY');
+                var timeNow = new Date();
+                /*alert(timeNow.getMonth()+1)
+                alert(timeNow.getDate())*/
+                alert(typeof(fecha))
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
@@ -86,8 +90,6 @@
                     document.getElementById("especialidad").value="--------";
                     document.getElementById("medico").value="--------";
                     document.getElementById("horarios").value="--------";
-                  
-
                     
                     if(!data.hasOwnProperty('error')) {
                         console.log("data")

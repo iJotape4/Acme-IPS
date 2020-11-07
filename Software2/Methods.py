@@ -99,12 +99,8 @@ def DiscardMedicsWhit12Citas(filtro, fecha):
 			medicos.append(dato)
 	return medicos		
 
-
-                  
-
 def send_email(mail, usuario, password, CorreoHTML):
 	context = {'mail': mail, 'user':usuario, 'password':password}
-
 	template = get_template(CorreoHTML)
 	content = template.render(context)
 
@@ -114,7 +110,6 @@ def send_email(mail, usuario, password, CorreoHTML):
 		settings.EMAIL_HOST_USER,
 		[mail]
 	)
-	
 	email.attach_alternative(content, 'text/html')
 	email.send()   
 
@@ -130,11 +125,8 @@ def comprobar_DatoNumerico(lista):
     return True
 
 def FormatFecha(date):
-
 	fecha = date.split('/')
-	
 	invertir = [fecha[2], '/', fecha[1],'/', fecha[0]]
-
 	formatear = datetime.strptime(EliminarSimbolos(str(invertir)),"%Y/%m/%d").date()
 
 	return formatear	

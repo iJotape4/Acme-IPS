@@ -57,6 +57,25 @@ def get_is_logged_in():
     global is_logged_in
     return is_logged_in
 
+
+username = None
+password = None
+def set_username(nombre):
+    global username
+    username = nombre
+
+def get_username():
+    global username
+    return username
+
+def set_password(id):
+    global password
+    password = id    
+
+def get_password():
+    global password
+    return password
+
 @never_cache
 def login(request):
     return render(request,'login.html')
@@ -111,7 +130,10 @@ def logearse(usuario,contra,atributo_a_buscar):
             return id    
     return None
     
-def registro(request):
+def registro(request,username="default",password="default"):
+    if username!="default" and password!="default":
+        set_username(username)
+        set_password(password)
     return render(request,"registro.html")
 
 def recuperar_Contra(request):
@@ -120,7 +142,7 @@ def recuperar_Contra(request):
         paciente = Paciente.objects.filter(CorreoElectronico=email)
         if paciente:
             send_email(email, paciente[0].Usuario, paciente[0].Contraseña, "./correoRecuperar.html")
-            return render(request, "recuperarContra.html")
+            return render(request,"recuperarContra.html")
         else:
             messages.warning(request, "No existe un usuario Registrado con ese correo electrónico") 
             return render(request, "recuperarContra.html")   

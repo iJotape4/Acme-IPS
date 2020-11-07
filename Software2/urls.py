@@ -30,7 +30,8 @@ urlpatterns = [
     path('menu_secre/', menu_secretaria),
     path('informeSecre/', informe_secretaria ),
     # Registro
-    path('registro/',registro, name='registro'),
+    path('registro/',registro, name="registroCorreo_Paciente"),
+    path('registro/<username>/<password>/',registro, name='registro'),
     path('registrarse/', registrarse),
     # Login
     path('login/', login, name='login'),

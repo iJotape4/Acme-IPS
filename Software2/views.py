@@ -30,8 +30,6 @@ from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoEl
 from GestionDeCitas.models import Cita, Paciente, Especialidad, Medico
 from Autenticacion.views import get_nombreUsuario, set_nombreUsuario, get_is_logged_in, set_is_logged_in
 
-
-
 def menu_secretaria(request):
 	return render(request, "menu_secretaria.html")
 
@@ -82,6 +80,7 @@ def enviarWssp(numero_telefono):
     client = Client(account_sid, auth_token)     
     message = client.messages.create( from_='whatsapp:+14155238886', body='Esto no es un virus xDD',to='whatsapp:+573166717145')     
     print(message.sid)"""
+	pass
 
 def pdfGenerator(id_paciente = 1):
 	try:
@@ -134,37 +133,35 @@ def qr_Code_Generator(documentoPaciente):
 	except Exception as e:
 		print("Ha ocurrido un error durante la generación del QR -> {}".format(e))
 
-
 def correo(request):
 	if request.method == 'POST':
 		mail = request.POST.get('mail')
 		User = GenerateUserByCorreoElement(mail)
-		send_email(mail, User[0], User[1], "./correo.html" )
-		
+		send_email(mail, User[0], User[1], "./correo.html")
 	return render(request, "./regisCorreo.html")
 
 lista = [1,2,3,4]
 def histo_Paciente(request):
+	return render(request,"./histo_Paciente.html", {"lista":lista})
 	
-	return render(request, "./histo_Paciente.html", {"lista":lista})
-
 #FORMA DE HACER CONSULTAS USANDO QUERY SETS DE SQL
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
-def vistaDoctor(request):
-	
-	cursor= CursorDB(cnx)
 
+def vistaDoctor(request):
+
+	cursor= CursorDB(cnx)
+	
 	#Consulta para buscar	 el nombreCompleto de los pacientes
 	query = ("SELECT PrimerNombreP, SegundoNombreP, PrimerApellidoP, SegundoApellidoP FROM paciente")
 	#(¿¿)Agregar WHERE cita.día = Today (??)
-
+	 
 	consulta = cursor.execute(query)	
 	pacientes =[]
 
 	for i in cursor:
 		P1= Paciente(EliminarSimbolos(i),"10:00 ")
 		pacientes.append(P1)
-
+		
 	#Declara un objeto Doctor
 	D1 =doctor("Miguel","Lizarazo")
 	ahora = datetime.datetime.now()
@@ -173,4 +170,4 @@ def vistaDoctor(request):
 	diccionario = {"nombre_doctor":D1.nombre, "apellido_doctor":D1.apellido, "Hoy":ahora, "pacientes":pacientes}
 
 	#Devuelve el html y el diccionario 
-	return render(request, 'PlantillaDoctor.html', diccionario ) 
+	return render(request, 'PlantillaDoctor.html',diccionario)
