@@ -4,8 +4,8 @@ from django.shortcuts import reverse
 class Test1(SimpleTestCase):
 
     def test_principal(self):
-        response = self.client.get('principal/')
-        self.assertEquals(response.status_code , 404)
+        response = self.client.get('/principal/')
+        self.assertEquals(response.status_code , 200)
 
     def test_url_principal(self):
         response = self.client.get(reverse('principal'))
@@ -19,8 +19,8 @@ class Test1(SimpleTestCase):
     ######
     
     def test_agendar_correo(self):
-        response = self.client.get('correo/')
-        self.assertEquals(response.status_code , 404)
+        response = self.client.get('/correo/')
+        self.assertEquals(response.status_code , 200)
 
     def test_url_agendar_correo(self):
         response = self.client.get(reverse('correo'))
