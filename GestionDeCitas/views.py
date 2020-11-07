@@ -72,7 +72,7 @@ class AgendarCitaView(TemplateView):
         print("fechaza")
         print(AgendarCitaView.fecha_AJAX)
 
-        particion_medicos =DiscardMedicsWhit12Citas(filtro, AgendarCitaView.fecha_AJAX)
+        particion_medicos =DiscardMedicsWhit12Citas(filtro, FormatFecha(AgendarCitaView.fecha_AJAX))
 
         for dato in particion_medicos:
             data.append({'PrimerNombre': dato['PrimerNombre'],'PrimerApellido':dato['PrimerApellido']})

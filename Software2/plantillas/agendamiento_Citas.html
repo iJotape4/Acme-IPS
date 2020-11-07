@@ -13,7 +13,7 @@
         <h1 style="text-align: center;">Agendamiento de Cita</h1>
         <hr>
     </div>
-        <form method="POST" action="/GuardarCita/" enctype="multipart/form-data">
+        <form method="POST" action="/guardarCita/" enctype="multipart/form-data">
             <div class="form-row" style="margin-left: 75px;">
                 <div class="form-group col-md-6">
                     <div align="center">
@@ -30,7 +30,7 @@
                     </div>
                     <h4 for="nombre">Tipo de Cita</h4>
                     <select class="form-control" required name="tipoCita"> 
-                        <option selected="selected" disabled>------------</option> 
+                        <option selected="selected" >------------</option> 
                             <option value="virtual" >Virtual</option>
                             <option value="presencial">Presencial</option> 
                     </select>
@@ -76,12 +76,14 @@
                     type: 'POST',
                     data: {
                         'action': 'fecha_escogida',
-                        'especialidad': fecha
+                        'fecha': fecha
                     },
                     dataType: 'json'
                 }).done(function (data) {
                     console.log("Fecha escogida\n")
                     console.log(fecha);
+                    document.getElementById("especialidad").disabled=true;
+                    document.getElementById("especialidad").disabled=false;
                     if(!data.hasOwnProperty('error')) {
                         console.log("data")
                         console.log(data)
