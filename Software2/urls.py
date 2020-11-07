@@ -37,13 +37,13 @@ urlpatterns = [
     # Doctor
    	path('menu_Doctor/', vistaDoctor),
     # Pagina principal
-    path('principal/', principal ),
-    path('correo/', correo ),
+    path('principal/', principal, name='principal'),
+    path('correo/', correo, name='correo'),
     # Paciente
     path('historial_paciente/', histo_Paciente ),
     path('menu_Paciente/', menu_Paciente),
     # Agendar Cita
-    path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html")),
+    path('agendar_cita/', AgendarCitaView, name='agendar'),
     path('citas_del_dia/', citas_del_dia ),
     # 
     path('agregar_Medico/', agregar_Medico ),
