@@ -5,6 +5,16 @@
 {% block content %}
 
 {% if userlogeado and logeado%}
+
+<head>
+  <script type="text/javascript"> 
+    function preventBack() { 
+      window.history.forward();  
+    }     
+    setTimeout("preventBack()", 0); 
+    window.onunload = function () {null}; 
+  </script> 
+</head>
   <div align="center">
     <h1>Menu Paciente</h1>
   </div>
@@ -75,5 +85,6 @@
   <hr>
 {% endif %}
 {% endblock %}
+</script> 
 
 
