@@ -159,7 +159,7 @@ def pdfGenerator(citaCreada):
 		fecha_Cita = "%s"%(citaCreada.DiaCita)
 		hora_Cita = "%s"%(citaCreada.HorarioCita) 
 
-		canvass = Canvas("Cita.pdf", pagesize=letter)
+		canvass = Canvas("%s C%s%s_%s"%(nombre_Paciente,citaCreada.id,especialidad_Cita[0],fecha_Cita), pagesize=letter)
 		canvass.setLineWidth(.3)
 		canvass.setFont('Helvetica', 12)
 		canvass.drawString(80,725,'Nombre: '+str(nombre_Paciente))
