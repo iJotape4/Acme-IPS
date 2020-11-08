@@ -139,3 +139,8 @@ def AgendarCita(request):
 
     return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
     
+def reagendarSecretaria(request):
+    return render(request,'reagendar_secretaria.html')
+
+def reagendarPaciente(request):
+    return render(request,'reagendar_paciente.html')

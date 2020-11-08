@@ -19,7 +19,7 @@ from Software2.views import vistaDoctor, principal, correo, histo_Paciente, menu
 from Informes.views import citas_del_dia
 from Software2 import settings
 from administrador.views import menu_admin, agregar_Medico
-from GestionDeCitas.views import AgendarCitaView, AgendarCita
+from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria
 from Informes.views import informe_Ips
 from Autenticacion.views import login, recuperar_Contra, registrarse, registro, menu_Paciente
 
@@ -50,5 +50,7 @@ urlpatterns = [
     # 
     path('agregar_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),
-    path('guardarCita/', AgendarCita)
+    path('guardarCita/', AgendarCita),
+    path('reagendarSecre/', reagendarSecretaria),
+    path('reagendarPaci/', reagendarPaciente),
 ]

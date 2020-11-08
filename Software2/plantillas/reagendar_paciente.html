@@ -1,0 +1,209 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Reagendar Citas{% endblock %}
+
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="jquery.datetimepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery.datetimepicker.css"/>
+{% endblock %}
+{% block content %}
+    <div>
+        <h1 style="text-align: center;">Reagendamiento de Cita</h1>
+        <hr>
+    </div>
+        <form method="POST" action="/guardarCita/" enctype="multipart/form-data">
+            <div class="form-row" style="margin-left: 75px;">
+                <div class="form-group col-md-6">
+                    
+                    <h4 for="nombre">Elegir Cita</h4>
+                    <div>
+                        {{form.citas_dia}}
+                    </div>
+                    <hr>
+                    <div align="center">
+                        <h3 style="margin-right: 30%;">Seleccionar Fecha </h3>
+                        <br>
+                          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                          <input id="fecha" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required name="fecha"/>
+                          <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                          </div>
+                          <br>  
+                          <br>
+                    </div>
+                    <hr>
+                    <h4 for="nombre">Elegir Medico</h4>
+                        <div>
+                            {{form.medicos}}
+                        </div>
+                    <hr>
+                    <h4 for="nombre">Elegir Horario</h4>
+                        <div>
+                            {{form.horarios}}
+                        </div>                 
+                    <hr>
+                </div>
+            </div>
+                <hr>
+                <br>
+            </div>
+            <div align="center">
+                <button type="submit" class="btn btn-primary"> Agendar Cita</button>
+            </div>
+        </form>
+
+    <script type="text/javascript">
+        $(function() {
+            var timeNow = new Date();
+            var dia = timeNow.getDate().toString();
+            var mes = (timeNow.getMonth()+1).toString();
+            var año = timeNow.getFullYear().toString();
+
+            var time_value = dia+'/'+mes+'/'+año;
+            var values = time_value.split("/");
+            var parsed_date = new Date(values[2],values[1],values[0]);
+
+            $("#datetimepicker1").datetimepicker({
+                format: 'DD/MM/YYYY',
+                //minDate: '-'+año+'/'+mes+'/'+dia,
+                minDate: parsed_date
+            });
+            $("#datetimepicker1").on("change.datetimepicker", function (e) {
+                var fecha = (e.date).format('DD/MM/YYYY');
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'fecha_escogida',
+                        'fecha': fecha
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Fecha escogida\n")
+                    console.log(fecha);
+                    if(!data.hasOwnProperty('error')) {    
+                        document.getElementById("especialidad").disabled=false;
+                        document.getElementById("especialidad").value="--------";
+                        document.getElementById("medico").value="--------";
+                        document.getElementById("horarios").value="--------";
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                })
+            });
+        });
+    </script>
+
+    <script>
+        $(function(){
+        $('select[name="especialidades"]').on('change',function(){
+                var especialidad= $(this).val();  
+                var select_medicos = $('select[name=medicos]');
+
+                var options = '<option value=""></option>';
+                if (especialidad === '') {
+                    select_medicos.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'buscar_medico_por_especialidad',
+                        'especialidad': especialidad
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Especialidad escogida\n")
+                    console.log(especialidad);
+                    if(!data.hasOwnProperty('error')) {
+                        $.each(data, function (key,value) {
+                            options +='<option value="'+value.PrimerNombre+" "+value.PrimerApellido+'">'+value.PrimerNombre+" "+value.PrimerApellido+'</option>';
+                        });
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    select_medicos.html(options);
+                });
+            });  
+        });
+    </script>
+
+    <script>
+        $(function(){
+            $('select[name="medicos"]').on('change',function(){
+                var medico = $(this).val();  
+                var select_horarios = $('select[name=horarios]');
+
+                var options = '<option value=""></option>';
+                if (medico === '') {
+                    select_horarios.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'buscar_horario_por_medico',
+                        'medico': medico
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Medico Escogido\n")
+                    console.log(medico);
+                    if(!data.hasOwnProperty('error')) {
+                        $.each(data, function (key, value) {
+                            options +='<option value="'+value.Horarios+'">'+value.Horarios+'</option>';
+                        });
+                        return false;
+                    }
+                    console.log(data)
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    select_horarios.html(options);
+                });
+            });  
+        });
+    </script>
+
+    <script>
+        $(function(){
+            $('select[name="horarios"]').on('change',function(){
+                var horario = $(this).val();  
+
+                if (horario === '') {
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'seleccionar_horario',
+                        'horario': horario
+                    },
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log("Horario Escogido\n")
+                    console.log(horario);
+                    if(!data.hasOwnProperty('error')) {
+                        console.log(data)
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                })
+            });  
+        });
+    </script>
+{% endblock %}
