@@ -66,15 +66,16 @@
 
     <script type="text/javascript">
         $(function() {
+            var timeNow = new Date();
+            var dia = (timeNow.getDate()).toString()
+            var mes = (timeNow.getMonth()+1).toString()
+            var año = timeNow.getFullYear().toString()
             $("#datetimepicker1").datetimepicker({
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                minDate: '-'+año+'/'+mes+'/'+dia,
             });
             $("#datetimepicker1").on("change.datetimepicker", function (e) {
                 var fecha = (e.date).format('DD/MM/YYYY');
-                var timeNow = new Date();
-                /*alert(timeNow.getMonth()+1)
-                alert(timeNow.getDate())*/
-                alert(typeof(fecha))
                 $.ajax({
                     url: window.location.pathname,
                     type: 'POST',
@@ -86,22 +87,17 @@
                 }).done(function (data) {
                     console.log("Fecha escogida\n")
                     console.log(fecha);
-                    document.getElementById("especialidad").disabled=false;
-                    document.getElementById("especialidad").value="--------";
-                    document.getElementById("medico").value="--------";
-                    document.getElementById("horarios").value="--------";
-                    
-                    if(!data.hasOwnProperty('error')) {
-                        console.log("data")
-                        console.log(data)
+                    if(!data.hasOwnProperty('error')) {    
+                        document.getElementById("especialidad").disabled=false;
+                        document.getElementById("especialidad").value="--------";
+                        document.getElementById("medico").value="--------";
+                        document.getElementById("horarios").value="--------";
                         return false;
                     }
                     message_error(data.error);
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alert(textStatus + ': ' + errorThrown);
-                }).always(function (data) {
-                    select_medicos.html(options);
-                });
+                })
             });
         });
     </script>
