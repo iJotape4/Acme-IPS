@@ -67,12 +67,18 @@
     <script type="text/javascript">
         $(function() {
             var timeNow = new Date();
-            var dia = (timeNow.getDate()).toString()
-            var mes = (timeNow.getMonth()+1).toString()
-            var año = timeNow.getFullYear().toString()
+            var dia = timeNow.getDate().toString();
+            var mes = (timeNow.getMonth()+1).toString();
+            var año = timeNow.getFullYear().toString();
+
+            var time_value = dia+'/'+mes+'/'+año;
+            var values = time_value.split("/");
+            var parsed_date = new Date(values[2],values[1],values[0]);
+
             $("#datetimepicker1").datetimepicker({
                 format: 'DD/MM/YYYY',
-                minDate: '-'+año+'/'+mes+'/'+dia,
+                //minDate: '-'+año+'/'+mes+'/'+dia,
+                minDate: parsed_date
             });
             $("#datetimepicker1").on("change.datetimepicker", function (e) {
                 var fecha = (e.date).format('DD/MM/YYYY');
