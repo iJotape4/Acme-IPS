@@ -58,8 +58,7 @@ class ReporteSecretaria(models.Model):
 
 class Cita(models.Model):
 	ModalidadCita = models.CharField(max_length=10)
-	MotivoConsultaCita = models.CharField(max_length=15)
-	#EspecialidadCita = models.CharField(max_length=50)
+	MotivoConsultaCita = models.CharField(max_length=80)
 	DiaCita = models.DateField(default=timezone.now())
 	HorarioCita = models.TimeField()
 	CitaPagada = models.BooleanField(default=0)
@@ -68,6 +67,7 @@ class Cita(models.Model):
 	PacienteConCita = models.ForeignKey(Paciente, on_delete=models.CASCADE)
 	ReporteSec = models.ForeignKey(ReporteSecretaria, on_delete=models.CASCADE)
 	Especialidad = models.ForeignKey(Especialidad, on_delete=models.CASCADE, default=1)
+	NecesitaReagendar = models.BooleanField(default=0)
 
 class Acudiente(models.Model):  
 	NombreAcu = models.CharField(max_length=50)
