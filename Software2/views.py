@@ -13,10 +13,6 @@ from django.utils import timezone
 import mysql.connector
 from mysql.connector import errorcode
 import datetime
-import qrcode 
-from reportlab.pdfgen.canvas import Canvas 
-from reportlab.lib.utils import Image, ImageReader 
-from reportlab.lib.pagesizes import letter
 
 #Importes de decoradores
 from django.utils.decorators import method_decorator
@@ -48,9 +44,8 @@ def principal(request):
 	print("|-- Sesion finalizada: {} | Sesion: {} --|".format(get_nombreUsuario(),get_is_logged_in()))
 	print("\n")
 
-	enviarWssp(3165634347)
-	enviarWssp(3103918404)
-	print('Pdf Generado')
+	#enviarWssp(3165634347)
+	#enviarWssp(3103918404)
 	return render(request,"principalPage.html")
 
 def enviarWssp(numero_telefono): 
@@ -60,18 +55,18 @@ def enviarWssp(numero_telefono):
 	#<your URL-encoded sandbox keyword> = el codigo de cada Sandbox, en el caso de SandBox de Jhoan el codigo es -> join interest-birth
 
 	#SandBox de Jhoan
-	"""account_sid = 'AC4e8a7439bca57265e706ebde409569c7' 
+	account_sid = 'AC4e8a7439bca57265e706ebde409569c7' 
 	auth_token = 'b5edd4064f72c69d4fe8be77cbf26f48' 
 	client = Client(account_sid, auth_token) 
 	
 	message = client.messages.create(
 		from_='whatsapp:+14155238886',
-		body='Hola bienvenido al ciberCafe, los de la UNAB, puedes donar a la causa y contribuir a que pasemos Software2, click en la bio para más detalles',      
+		body='Hola bienvenido a IPS ACME, Tu salud es nuestra prioridad',    
 		to='whatsapp:+57'+str(numero_telefono)
 	) 
 	print("\n")
 	print(message.sid)
-	print("\n")"""
+	print("\n")
 
 	#SandBox de Yesid
 	'''account_sid = 'AC02921a0384fd5426276893a7ee00b421' 
@@ -79,10 +74,6 @@ def enviarWssp(numero_telefono):
 	client = Client(account_sid, auth_token)     
 	message = client.messages.create( from_='whatsapp:+14155238886', body='Esto no es un virus xDD',to='whatsapp:+573165634347')     
 	print(message.sid)'''
-	pass
-
-
-
 
 def correo(request):
 	if request.method == 'POST':

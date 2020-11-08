@@ -13,7 +13,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 #Importes de métodos Triviales
-from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas, pdfGenerator
+from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas
+from Software2.Methods import pdf_Generator_Cita, send_emailPdfQr
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita, ReporteSecretaria
@@ -135,7 +136,8 @@ def AgendarCita(request):
     Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
     PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha)
    
-    pdfGenerator(citaCreada)
+    respuesta = pdf_Generator_Cita(request,citaCreada)
+    send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1])
 
     return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
     

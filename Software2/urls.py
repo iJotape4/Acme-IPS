@@ -50,7 +50,8 @@ urlpatterns = [
     # 
     path('agregar_Medico/', agregar_Medico ),
     path('informe_IPS/', informe_Ips ),
-    path('guardarCita/', AgendarCita),
+    #path('guardarCita/', AgendarCita),
+    path('AgendarCita/', AgendarCita),
     path('reagendarSecre/', reagendarSecretaria),
     path('reagendarPaci/', reagendarPaciente),
 ]
