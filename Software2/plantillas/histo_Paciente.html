@@ -16,19 +16,22 @@
           <tr>
             <th scope="col">Asistencia</th>
             <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
             <th scope="col">Especialidad</th>
             <th scope="col">Medico</th>
             <th scope="col">Motivo de consulta</th>
           </tr>
         </thead>
         <tbody>
-          {% for athlete in lista %}
+          {% for elemento in lista %}
             <tr>
               <th scope="row">1</th>
-              <td>athlete</td>
-              <td>athlete</td>
-              <td>athlete</td>
-              <td>athlete</td>
+            <td>{{elemento.asistencia}}</td>
+            <td>{{elemento.fecha}}</td>
+            <td>{{elemento.hora}}</td>
+            <td>{{elemento.especialidad}}</td>
+            <td>{{elemento.medico}}</td>
+            <td>{{elemento.motivo}}</td>
             </tr>
           {% endfor %}
         </tbody>

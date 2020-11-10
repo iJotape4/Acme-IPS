@@ -79,14 +79,12 @@ def correo(request):
 		send_email(mail, User[0], User[1], "./correo.html")
 	return render(request, "./regisCorreo.html")
 
-lista = [1,2,3,4]
-def histo_Paciente(request):
-	return render(request,"./histo_Paciente.html", {"lista":lista})
+
 	
 #FORMA DE HACER CONSULTAS USANDO QUERY SETS DE SQL
 cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 
-def vistaDoctor(request):
+def MétodoQuerysSQL(request):
 
 	cursor= CursorDB(cnx)
 	
@@ -99,8 +97,7 @@ def vistaDoctor(request):
 
 	for i in cursor:
 		P1= Paciente(EliminarSimbolos(i),"10:00 ")
-		pacientes.append(P1)
-		
+		pacientes.append(P1)		
 	#Declara un objeto Doctor
 	D1 =doctor("Miguel","Lizarazo")
 	ahora = datetime.datetime.now()
