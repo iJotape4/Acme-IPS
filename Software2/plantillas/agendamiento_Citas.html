@@ -80,7 +80,7 @@
         $(function() {
             var timeNow = new Date();
             var dia = timeNow.getDate().toString();
-            var mes = (timeNow.getMonth()+1).toString();
+            var mes = (timeNow.getMonth()).toString();
             var año = timeNow.getFullYear().toString();
 
             var time_value = dia+'/'+mes+'/'+año;
@@ -89,6 +89,7 @@
 
             $("#datetimepicker1").datetimepicker({
                 format: 'DD/MM/YYYY',
+                default: time_value,
                 //minDate: '-'+año+'/'+mes+'/'+dia,
                 minDate: parsed_date
             });

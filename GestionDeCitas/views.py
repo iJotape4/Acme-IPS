@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 #Importes de métodos Triviales
-from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas
+from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas, CitaSinRealizar
 from Software2.Methods import pdf_Generator_Cita, send_emailPdfQr
 from Software2.views import enviarWssp
 
@@ -174,13 +174,15 @@ def reagendarPaciente(request):
 
 def histo_Paciente(request):
     paciente = Paciente.objects.filter(DocumentoId=get_idUsuario())[0]
-    citasPaciente = Cita.objects.filter(PacienteConCita=paciente.id)
+    citasPaciente = Cita.objects.filter(PacienteConCita=paciente.id).order_by('DiaCita')
     lista = []
     for a in citasPaciente:
         list_Cita = {'medico':"%s %s" %(a.MedicoAsignado.PrimerNombre, a.MedicoAsignado.PrimerApellido),
         'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita,
-        'fecha': a.DiaCita, 'asistencia':a.Asistencia, 'especialidad':a.Especialidad.nombre
+        'fecha': a.DiaCita, 'asistencia':a.Asistencia, 'especialidad':a.Especialidad.nombre,
+        'programada': CitaSinRealizar(a.DiaCita, a.HorarioCita)   
         }
         lista.append(list_Cita)
+        
 
     return render(request,"./histo_Paciente.html", {"lista":lista})

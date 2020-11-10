@@ -26,7 +26,13 @@
         <tbody>
           {% for elemento in lista %}
             <tr>
-              {% if  elemento.asistencia %}
+              {% if  elemento.programada %}
+              <th> 
+                <i style='font-size:24px;color: blue;margin-left: 25%;' class='far fa-calendar-alt'>
+                </i>
+              </th> 
+
+              {% elif  elemento.asistencia %}
               <th> 
                 <i style='font-size:24px;color:rgb(0, 128, 38);margin-left: 25%;' class='far fa-calendar-check'>
                 </i>

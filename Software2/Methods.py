@@ -111,7 +111,8 @@ def DiscardAlreadyAssignedSchedules(horarios, medicoElegido,fecha):
 
 	for  horarioExistente in horarios_existentes:
 		for posibleHorario in horarios:
-			if posibleHorario==horarioExistente:
+			print(posibleHorario)
+			if posibleHorario==horarioExistente or posibleHorario==(12,0,0,0) or posibleHorario==(0,0,0,0):
 				horarios.remove(posibleHorario)
 	return horarios			   
 
@@ -201,3 +202,10 @@ def pdf_Generator_Cita(request,citaCreada):
 	except Exception as e:
 		print("Ha ocurrido un error durante la generación del PDF -> {}".format(e))
 		return render(request,'menu_Paciente.html')
+
+def CitaSinRealizar(date, hora):
+	date = datetime(date.year, date.month, date.day, hora.hour, hora.minute, hora.second, hora.microsecond)
+	if date > datetime.now():
+		return True
+	else:
+		return False			
