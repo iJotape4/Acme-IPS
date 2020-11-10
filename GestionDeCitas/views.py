@@ -170,3 +170,17 @@ def reagendarSecretaria(request):
 def reagendarPaciente(request):
     return render(request,'reagendar_paciente.html')
 
+
+
+def histo_Paciente(request):
+    paciente = Paciente.objects.filter(DocumentoId=get_idUsuario())[0]
+    citasPaciente = Cita.objects.filter(PacienteConCita=paciente.id)
+    lista = []
+    for a in citasPaciente:
+        list_Cita = {'medico':"%s %s" %(a.MedicoAsignado.PrimerNombre, a.MedicoAsignado.PrimerApellido),
+        'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita,
+        'fecha': a.DiaCita, 'asistencia':a.Asistencia, 'especialidad':a.Especialidad
+        }
+        lista.append(list_Cita)
+
+    return render(request,"./histo_Paciente.html", {"lista":lista})
