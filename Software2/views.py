@@ -43,12 +43,9 @@ def principal(request):
 	set_nombreUsuario(None)
 	print("|-- Sesion finalizada: {} | Sesion: {} --|".format(get_nombreUsuario(),get_is_logged_in()))
 	print("\n")
-
-	#enviarWssp(3165634347)
-	#enviarWssp(3103918404)
 	return render(request,"principalPage.html")
 
-def enviarWssp(numero_telefono): 
+def enviarWssp(numero_telefono,nombre_paciente,nombre_medico,fecha_cita,hora_cita): 
 	#Para unir a otro usuario al SandBox usar este link
 	#whatsapp://send?phone=<Your Sandbox Number>&text=<your URL-encoded sandbox keyword>
 	#<Your Sandbox Number> = el numero de from_='whatsapp:
@@ -61,7 +58,7 @@ def enviarWssp(numero_telefono):
 	
 	message = client.messages.create(
 		from_='whatsapp:+14155238886',
-		body='Hola bienvenido a IPS ACME, Tu salud es nuestra prioridad',    
+		body='Hola {} bienvenido a IPS ACME, Tu salud es nuestra prioridad, recuerda que tu cita ha sido agendada para la fecha {} , hora {} , con el médico {}'.format(nombre_paciente,fecha_cita,hora_cita,nombre_medico),    
 		to='whatsapp:+57'+str(numero_telefono)
 	) 
 	print("\n")

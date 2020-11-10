@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 #Importes de métodos Triviales
 from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas
 from Software2.Methods import pdf_Generator_Cita, send_emailPdfQr
+from Software2.views import enviarWssp
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita, ReporteSecretaria
@@ -106,43 +107,57 @@ class AgendarCitaView(TemplateView):
 
 @method_decorator(csrf_exempt)
 def AgendarCita(request):
+    try:
+        print("\n")
+        print("Usuario agendamiento: ",get_nombreUsuario())
+        print("\n")
+        
+        ModalidadCita = request.POST.get("tipoCita") 
+        MotivoConsulta = request.POST.get("motivo_consulta" )
+        fecha = FormatFecha(request.POST.get("fecha" ))
 
-    print("\n")
-    print("Usuario agendamiento: ",get_nombreUsuario())
-    print("\n")
-    
-    ModalidadCita = request.POST.get("tipoCita") 
-    MotivoConsulta = request.POST.get("motivo_consulta" )
-    fecha = FormatFecha(request.POST.get("fecha" ))
+        EspecialidadC =list(Especialidad.objects.filter(nombre= request.POST.get("especialidades")).values_list('id',flat=True))[0]
 
-    EspecialidadC =list(Especialidad.objects.filter(nombre= request.POST.get("especialidades")).values_list('id',flat=True))[0]
+        medicoElegido = str(request.POST.get("medicos" )).split()
+        MedicoC =list(Medico.objects.filter(PrimerNombre=medicoElegido[0], PrimerApellido=medicoElegido[1] ).values_list('id',flat=True))[0]
+        
+        HorarioC = AgendarCitaView.horario_AJAX 
 
-    medicoElegido = str(request.POST.get("medicos" )).split()
-    MedicoC =list(Medico.objects.filter(PrimerNombre=medicoElegido[0], PrimerApellido=medicoElegido[1] ).values_list('id',flat=True))[0]
-    
-    HorarioC = AgendarCitaView.horario_AJAX 
+        PacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('id',flat=True)[0]
 
-    PacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('id',flat=True)[0]
+        Reporte = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)
 
-    Reporte = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)
+        if Reporte:
+            ReporteSec = Reporte[0]
+        else:
+            ReporteSecretaria.objects.create(FechaReporte=fecha)
+            ReporteSec = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)[0]
 
-    if Reporte:
-        ReporteSec = Reporte[0]
-    else:
-        ReporteSecretaria.objects.create(FechaReporte=fecha)
-        ReporteSec = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)[0]
-
-    citaCreada= Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
-    Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
-    PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha)
-   
-    respuesta = pdf_Generator_Cita(request,citaCreada)
-    send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1])
-
-    return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+        citaCreada= Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
+        Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
+        PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha)
+        
+        whatsAppPacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('Whatsapp',flat=True)[0]
+        respuesta = pdf_Generator_Cita(request,citaCreada)
+        print("modalidadCita: ",ModalidadCita)
+        if ModalidadCita=='virtual':
+            virtual = 'Este es el link para tu cita modalidad virtual: https://meet.google.com/_meet/uqv-szki-gbu?ijlm=1604973501889&hs=130'
+            send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1],whatsAppPacienteConCita,virtual)
+        else:
+            send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1],whatsAppPacienteConCita,'')
+        
+        enviarWssp(whatsAppPacienteConCita,get_nombreUsuario(),
+        AgendarCitaView.medico_AJAX,AgendarCitaView.fecha_AJAX,
+        AgendarCitaView.horario_AJAX
+        )
+        return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+    except Exception as e:
+        print("Ha ocurrido un error al agendar la cita {}".format(e))
+        return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
     
 def reagendarSecretaria(request):
     return render(request,'reagendar_secretaria.html')
 
 def reagendarPaciente(request):
     return render(request,'reagendar_paciente.html')
+

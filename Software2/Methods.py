@@ -137,16 +137,15 @@ def send_email(mail, usuario, password, CorreoHTML):
 	email.attach_alternative(content,'text/html')
 	email.send()   
 
-def send_emailPdfQr(mail,vistaHTML,pdf_Path):
-	context = {'mail': mail}
+def send_emailPdfQr(mail,vistaHTML,pdf_Path,whatsApp_PacienteConCita,virtual):
+	context = {'mail': mail,'whatsApp_PacienteConCita':whatsApp_PacienteConCita+'&','virtual':virtual}
 	template = get_template(vistaHTML)
 	content = template.render(context)
 
 	email = EmailMultiAlternatives(
-		'Usuario IPS ACME',
-		'Estos son tus documentos a presentar el dia de tu cita',
-		settings.EMAIL_HOST_USER,
-		[mail]
+		subject='Usuario IPS ACME',
+		from_email=settings.EMAIL_HOST_USER,
+		to=[mail]
 	)
 	email.attach_alternative(content,'text/html')
 	email.attach_file(pdf_Path,mimetype='application/pdf')
