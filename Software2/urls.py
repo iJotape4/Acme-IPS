@@ -21,7 +21,7 @@ from Software2 import settings
 from administrador.views import menu_admin, agregar_Medico
 from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria, histo_Paciente
 from Informes.views import informe_Ips
-from Autenticacion.views import login, recuperar_Contra, registrarse, registro, menu_Paciente
+from Autenticacion.views import login, recuperar_Contra, registrarse, registro, menu_Paciente, buscarPacienteCC
 
 urlpatterns = [
     # Administrador
@@ -53,4 +53,5 @@ urlpatterns = [
     path('AgendarCita/', AgendarCita),
     path('reagendarSecre/', reagendarSecretaria),
     path('reagendarPaci/', reagendarPaciente),
+    path('buscarCC/', buscarPacienteCC),
 ]

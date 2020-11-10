@@ -1,0 +1,24 @@
+{% extends "plantilla.html" %}
+
+{% block title %}Buscar Paciente{% endblock %}
+
+{% block content %}
+<div align="center">
+    <h1>Buscar Paciente</h1>
+</div>
+<hr>
+<div align="center">
+    <div>
+        <br>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <h4>Ingrese la Cedula del Paciente </h4>
+          <input type="email" name="cedula" width="48px" aria-describedby="emailHelp">
+          <small id="emailHelp"  class="form-text text-muted">Ingresa Cedula.</small>
+        </div> 
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+{% endblock %}

@@ -192,3 +192,6 @@ def registrarse(request):
         return redirect("/login")
     else:
         return redirect("/registro")
+
+def buscarPacienteCC(request):
+    return render(request, "buscar_Cedula.html")
