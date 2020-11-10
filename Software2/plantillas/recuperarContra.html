@@ -11,6 +11,17 @@
     <div>
         <br>
     </div>
+    <div style="margin-bottom:30px">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+               {{message}}
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">
