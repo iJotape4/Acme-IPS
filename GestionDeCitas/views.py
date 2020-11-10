@@ -133,28 +133,37 @@ def AgendarCita(request):
             ReporteSecretaria.objects.create(FechaReporte=fecha)
             ReporteSec = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)[0]
 
-        citaCreada= Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
-        Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
-        PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha)
-        
-        whatsAppPacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('Whatsapp',flat=True)[0]
-        respuesta = pdf_Generator_Cita(request,citaCreada)
-        print("modalidadCita: ",ModalidadCita)
-        if ModalidadCita=='virtual':
-            virtual = 'Este es el link para tu cita modalidad virtual: https://meet.google.com/_meet/uqv-szki-gbu?ijlm=1604973501889&hs=130'
-            send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1],whatsAppPacienteConCita,virtual)
-        else:
-            send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1],whatsAppPacienteConCita,'')
-        
-        enviarWssp(whatsAppPacienteConCita,get_nombreUsuario(),
-        AgendarCitaView.medico_AJAX,AgendarCitaView.fecha_AJAX,
-        AgendarCitaView.horario_AJAX
-        )
-        return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+        try:
+            
+            citaCreada = Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
+            Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
+            PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha
+            )
+
+            whatsAppPacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('Whatsapp',flat=True)[0]
+            respuesta = pdf_Generator_Cita(request,citaCreada)
+            print("modalidadCita: ",ModalidadCita)
+            if ModalidadCita=='virtual':
+                virtual = 'Este es el link para tu cita modalidad virtual: https://meet.google.com/_meet/uqv-szki-gbu?ijlm=1604973501889&hs=130'
+                send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1],whatsAppPacienteConCita,virtual)
+            else:
+                send_emailPdfQr(respuesta[0],"./correoPdfCita.html",respuesta[1],whatsAppPacienteConCita,'')
+            
+            enviarWssp(whatsAppPacienteConCita,get_nombreUsuario(),
+            AgendarCitaView.medico_AJAX,AgendarCitaView.fecha_AJAX,
+            AgendarCitaView.horario_AJAX
+            )
+        except Exception as e:
+            messages.warning(request,'No se ha podido agendar tu cita, revisa los datos del formulario')
+            print("Ha ocurrido un error al agendar la cita {}".format(e))
+        finally:
+            return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
     except Exception as e:
+        messages.warning(request,'No se ha podido agendar tu cita, revisa los datos del formulario')
         print("Ha ocurrido un error al agendar la cita {}".format(e))
+    finally:
         return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
-    
+
 def reagendarSecretaria(request):
     return render(request,'reagendar_secretaria.html')
 

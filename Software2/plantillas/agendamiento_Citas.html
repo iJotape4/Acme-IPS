@@ -8,6 +8,18 @@
     <script src="jquery.datetimepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="jquery.datetimepicker.css"/>
 {% endblock %}
+
+<div style="margin-bottom:30px">
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 {% block content %}
     <div>
         <h1 style="text-align: center;">Agendamiento de Cita</h1>
