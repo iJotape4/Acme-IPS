@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>}
 <div align="center">
     <h1>Historial Paciente</h1>
 </div>
@@ -11,7 +12,7 @@
     <br>
     <br>
     <br>
-    <table class="table" style="width: 50%;">
+    <table class="table" style="width: 50%; background: ">
         <thead>
           <tr>
             <th scope="col">Asistencia</th>
@@ -25,8 +26,19 @@
         <tbody>
           {% for elemento in lista %}
             <tr>
-              <th scope="row">1</th>
-            <td>{{elemento.asistencia}}</td>
+              {% if  elemento.asistencia %}
+              <th> 
+                <i style='font-size:24px;color:rgb(0, 128, 38);margin-left: 25%;' class='far fa-calendar-check'>
+                </i>
+              </th>           
+              
+              {% else %}                 
+              <th> 
+                <i style='font-size:24px;color:red; margin-left: 25%;' class='far fa-calendar-times'>
+                </i>
+              </th>
+              {% endif %}  
+
             <td>{{elemento.fecha}}</td>
             <td>{{elemento.hora}}</td>
             <td>{{elemento.especialidad}}</td>
@@ -37,6 +49,5 @@
         </tbody>
       </table>
 </div>
-
 
 {% endblock %}

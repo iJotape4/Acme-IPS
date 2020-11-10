@@ -179,7 +179,7 @@ def histo_Paciente(request):
     for a in citasPaciente:
         list_Cita = {'medico':"%s %s" %(a.MedicoAsignado.PrimerNombre, a.MedicoAsignado.PrimerApellido),
         'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita,
-        'fecha': a.DiaCita, 'asistencia':a.Asistencia, 'especialidad':a.Especialidad
+        'fecha': a.DiaCita, 'asistencia':a.Asistencia, 'especialidad':a.Especialidad.nombre
         }
         lista.append(list_Cita)
 
