@@ -112,7 +112,7 @@ def DiscardAlreadyAssignedSchedules(horarios, medicoElegido,fecha):
 	for  horarioExistente in horarios_existentes:
 		for posibleHorario in horarios:
 			print(posibleHorario)
-			if posibleHorario==horarioExistente or posibleHorario==(12,0,0,0) or posibleHorario==(0,0,0,0):
+			if posibleHorario==horarioExistente or posibleHorario==time(12,0) or posibleHorario==time(0,0):
 				horarios.remove(posibleHorario)
 	return horarios			   
 
