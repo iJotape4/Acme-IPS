@@ -18,6 +18,7 @@ from Software2.Methods import send_email, GenerarHorarioCitas
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico, Secretaria
+from administrador.models import Administrador
 
 
 class DateForm(forms.Form):
@@ -32,6 +33,7 @@ class DateForm(forms.Form):
 nombre_Usuario = None
 id_Usuario = None
 is_logged_in = False
+tipoUsuario = None
 
 def set_nombreUsuario(nombre):
     global nombre_Usuario
@@ -56,6 +58,14 @@ def set_is_logged_in(response):
 def get_is_logged_in():
     global is_logged_in
     return is_logged_in
+
+def get_tipoUsuario():
+    global tipoUsuario
+    return tipoUsuario
+
+def set_tipoUsuario(response):
+    global tipoUsuario
+    tipoUsuario = response
 
 
 username = None
@@ -91,6 +101,7 @@ def menu_Paciente(request):
             
         set_nombreUsuario(logearse(usuario,contra,'nombre'))
         set_idUsuario(logearse(usuario,contra,'id'))
+        set_tipoUsuario(logearse(usuario,contra,'tipoUsuario'))
 
         if get_nombreUsuario() != None:
             request.session['usuario'] = usuario #Se crea una session en la bd con la sesion actual
@@ -113,6 +124,12 @@ def menu_Paciente(request):
 def logearse(usuario,contra,atributo_a_buscar):
     #Esto busca en la base de datos ese usuario y contraseña
     user = Paciente.objects.filter(Usuario=usuario, Contraseña=contra)
+    if len(user)==0:
+        user= Secretaria.objects.filter(Usuario=usuario, Contraseña=contra)
+    if len(user)==0:
+        user= Medico.objects.filter(Usuario=usuario, Contraseña=contra)
+    if len(user)==0:
+        user= Administrador.objects.filter(Usuario=usuario, Contraseña=contra)        
 
     if atributo_a_buscar=='nombre':
         for e in user:
@@ -127,7 +144,13 @@ def logearse(usuario,contra,atributo_a_buscar):
             id = e.DocumentoId 
             print("doc"+str(id))
         if user:
-            return id    
+            return id
+    elif atributo_a_buscar == 'tipoUsuario':
+        for e in user:
+            tipo = e.TipoUsuario 
+            print("tipo"+str(tipo))
+        if user:
+            return tipo           
     return None
     
 def registro(request,username="default",password="default"):
