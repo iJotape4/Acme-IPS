@@ -184,22 +184,28 @@ def histo_Paciente(request):
     return render(request,"./histo_Paciente.html", {"lista":lista})
 
 
-###### Agendar Secretaria
+#################### Agendar Secretaria
 
 def buscarPacienteCC(request):
     return render(request, "buscar_Cedula.html")
 
+id_paciente_documentoID = None
+
+def set_id_paciente_documentoID(id_paciente):
+    global id_paciente_documentoID
+    id_paciente_documentoID = id_paciente
+
+def get_id_paciente_documentoID():
+    global id_paciente_documentoID
+    return id_paciente_documentoID
+
 @method_decorator(csrf_exempt)
 def BuscarCedula(request):
-    """print("\n")
-    print(request.POST)
-    print("\n")"""
     cedulaPaciente = request.POST.get('cedula')
-    paciente = Paciente.objects.filter(DocumentoId=cedulaPaciente)
-    if len(paciente) == 0:
-        messages.warning(request,'No se ha encontrado un paciente con este número de cédula')
-        return render(request, "buscar_Cedula.html")
-    else:
+    try:
+        paciente = Paciente.objects.filter(DocumentoId=cedulaPaciente).values_list('id',flat=True)[0]
+        set_id_paciente_documentoID(paciente)
         return render(request,'agendamiento_Citas.html')
-    
-    
+    except Exception as e:
+        messages.warning(request,'No se ha encontrado un paciente con este número de cédula')
+        return render(request,"buscar_Cedula.html")
