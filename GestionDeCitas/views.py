@@ -205,7 +205,7 @@ def BuscarCedula(request):
     try:
         paciente = Paciente.objects.filter(DocumentoId=cedulaPaciente).values_list('id',flat=True)[0]
         set_id_paciente_documentoID(paciente)
-        return render(request,'agendamiento_Citas.html')
+        return redirect('/agendar_cita')
     except Exception as e:
         messages.warning(request,'No se ha encontrado un paciente con este número de cédula')
         return render(request,"buscar_Cedula.html")
