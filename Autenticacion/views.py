@@ -12,9 +12,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
 #Importes de métodos Triviales
-from Software2.Methods import verificar_Existencia_Usuarios,comprobar_DatoNumerico
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos 
 from Software2.Methods import send_email, GenerarHorarioCitas
+from Software2.Methods import  get_tipoUsuario, set_tipoUsuario, ReturnHtmlMenuUsuario
+
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico, Secretaria
@@ -59,13 +60,6 @@ def get_is_logged_in():
     global is_logged_in
     return is_logged_in
 
-def get_tipoUsuario():
-    global tipoUsuario
-    return tipoUsuario
-
-def set_tipoUsuario(response):
-    global tipoUsuario
-    tipoUsuario = response
 
 
 username = None
@@ -112,18 +106,8 @@ def menu_Paciente(request):
             print(request.body)
             print("\n")        
 
-            html =""
 
-            if get_tipoUsuario()=="Paciente":
-                html='menu_Paciente.html'
-            elif get_tipoUsuario()=="Secretaria":
-                html='menu_secretaria.html'
-            elif get_tipoUsuario()=="Medico":
-                html='citas_del_dia.html'
-            elif get_tipoUsuario()=="Administrador":
-                html='menu_Administrador.html'
-
-            return render(request,html,{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+            return render(request,ReturnHtmlMenuUsuario(),{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
         else:
             messages.warning(request,'Ups, parece que no existe un usuario con estas credenciales')
             return login(request)
@@ -194,36 +178,32 @@ def registrarse(request):
         if data!=12 and data!=16
     ]
 
-    if verificar_Existencia_Usuarios(datos_Registro[6])==0:
-        #Esto recupera los datos en los campos       
-        primerNombre = request.GET["pri_Nombre"] 
-        segundoNombre = request.GET["seg_Nombre"] 
-        primerApellido = request.GET["pri_Apellido"] 
-        segundoApellido = request.GET["seg_Apellido"] 
-        documentoId= request.GET['Documento_Id'] 
-        tipoDocumento= request.GET["tipo_documento"] 
-        edad = request.GET["edad"] 
-        correoElectronico = request.GET["email"] 
+    #Esto recupera los datos en los campos       
+    primerNombre = request.GET["pri_Nombre"] 
+    segundoNombre = request.GET["seg_Nombre"] 
+    primerApellido = request.GET["pri_Apellido"] 
+    segundoApellido = request.GET["seg_Apellido"] 
+    documentoId= request.GET['Documento_Id'] 
+    tipoDocumento= request.GET["tipo_documento"] 
+    edad = request.GET["edad"] 
+    correoElectronico = request.GET["email"] 
 
-        eps = request.GET["eps"]
-        telefono = request.GET["telefono"]
-        whatsapp = request.GET["whatsapp"]
+    eps = request.GET["eps"]
+    telefono = request.GET["telefono"]
+    whatsapp = request.GET["whatsapp"]
 
-        otros = request.GET["otros"]
-        ciudad = request.GET["ciudad"]
-        barrio = request.GET["barrio"]
-        complemento = request.GET["complemento"]
+    otros = request.GET["otros"]
+    ciudad = request.GET["ciudad"]
+    barrio = request.GET["barrio"]
+    complemento = request.GET["complemento"]
 
-        hipertension = DefinirCondiciónMedica(str(request.GET["hipertension"]))
-        diabetes = DefinirCondiciónMedica(str(request.GET["diabetes"]))
-        cardiacos = DefinirCondiciónMedica(str(request.GET["cardiacos"]))
-        
-        Paciente.objects.create(PrimerNombre=primerNombre, SegundoNombre=segundoNombre, 
-        PrimerApellido=primerApellido, SegundoApellido=segundoApellido, DocumentoId=documentoId,
-        Edad=edad, CorreoElectronico=correoElectronico, TipoUsuario='Paciente', EPSP=eps, Telefono=telefono, Whatsapp=whatsapp,
-        TipoDocumento=tipoDocumento, Otros=otros,Ciudad=ciudad, Barrio=barrio, complemento=complemento, 
-        Hipertension=hipertension, Diabetes=diabetes, Cardiacos=cardiacos, Usuario=get_username(),Contraseña=get_password(),)
-
-        return redirect("/login")
-    else:
-        return redirect("/registro")
+    hipertension = DefinirCondiciónMedica(str(request.GET["hipertension"]))
+    diabetes = DefinirCondiciónMedica(str(request.GET["diabetes"]))
+    cardiacos = DefinirCondiciónMedica(str(request.GET["cardiacos"]))
+    
+    Paciente.objects.create(PrimerNombre=primerNombre, SegundoNombre=segundoNombre, 
+    PrimerApellido=primerApellido, SegundoApellido=segundoApellido, DocumentoId=documentoId,
+    Edad=edad, CorreoElectronico=correoElectronico, TipoUsuario='Paciente', EPSP=eps, Telefono=telefono, Whatsapp=whatsapp,
+    TipoDocumento=tipoDocumento, Otros=otros,Ciudad=ciudad, Barrio=barrio, complemento=complemento, 
+    Hipertension=hipertension, Diabetes=diabetes, Cardiacos=cardiacos, Usuario=get_username(),Contraseña=get_password(),)
+    return redirect("/login")

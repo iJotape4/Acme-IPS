@@ -19,7 +19,7 @@ from reportlab.lib.utils import Image, ImageReader
 from reportlab.lib.pagesizes import letter
 import qrcode
 
-#importes de Modelos
+#importes de Modelos y Vistas
 from GestionDeCitas.models import Medico, Cita
 
 def EliminarSimbolos(x):
@@ -208,4 +208,25 @@ def CitaSinRealizar(date, hora):
 	if date > datetime.now():
 		return True
 	else:
-		return False			
+		return False		
+
+
+def get_tipoUsuario():
+    global tipoUsuario
+    return tipoUsuario
+
+def set_tipoUsuario(response):
+    global tipoUsuario
+    tipoUsuario = response
+
+def ReturnHtmlMenuUsuario():
+	html =""
+	if get_tipoUsuario()=="Paciente":
+		html='menu_Paciente.html'
+	elif get_tipoUsuario()=="Secretaria":
+		html='menu_secretaria.html'
+	elif get_tipoUsuario()=="Medico":
+		html='citas_del_dia.html'
+	elif get_tipoUsuario()=="Administrador":
+		html='menu_Administrador.html'
+	return html		

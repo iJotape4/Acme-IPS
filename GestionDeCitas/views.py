@@ -13,14 +13,15 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 #Importes de métodos Triviales
-from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas, CitaSinRealizar
+from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas, ReturnHtmlMenuUsuario
 from Software2.Methods import pdf_Generator_Cita, send_emailPdfQr
 from Software2.views import enviarWssp
+from Software2.Methods import  get_tipoUsuario, set_tipoUsuario
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita, ReporteSecretaria
 from GestionDeCitas.forms import AgendarCitaForm
-from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in, get_idUsuario, get_tipoUsuario
+from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in, get_idUsuario
 
 class AgendarCitaView(TemplateView):
     template_name = 'agendamiento_Citas.html'
@@ -127,7 +128,8 @@ def AgendarCita(request):
             paciente = get_idUsuario()
         elif get_tipoUsuario()=="Secretaria":
             paciente = get_id_paciente_documentoID()
-
+        print("paci"+str(paciente))
+        print("tipous"+str( get_tipoUsuario()))
         PacienteConCita = Paciente.objects.filter(DocumentoId=paciente).values_list('id',flat=True)[0]
 
         Reporte = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)
@@ -163,12 +165,14 @@ def AgendarCita(request):
             messages.warning(request,'No se ha podido agendar tu cita, revisa los datos del formulario')
             print("Ha ocurrido un error al agendar la cita {}".format(e))
         finally:
-            return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+
+
+            return render(request,ReturnHtmlMenuUsuario(),{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
     except Exception as e:
         messages.warning(request,'No se ha podido agendar tu cita, revisa los datos del formulario')
         print("Ha ocurrido un error al agendar la cita {}".format(e))
     finally:
-        return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+        return render(request,ReturnHtmlMenuUsuario(),{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
 
 def reagendarSecretaria(request):
     return render(request,'reagendar_secretaria.html')
@@ -209,7 +213,7 @@ def get_id_paciente_documentoID():
 def BuscarCedula(request):
     cedulaPaciente = request.POST.get('cedula')
     try:
-        paciente = Paciente.objects.filter(DocumentoId=cedulaPaciente).values_list('id',flat=True)[0]
+        paciente = Paciente.objects.filter(DocumentoId=cedulaPaciente).values_list('DocumentoId',flat=True)[0]
         set_id_paciente_documentoID(paciente)
         return redirect('/agendar_cita')
     except Exception as e:
