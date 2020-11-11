@@ -16,15 +16,35 @@
             <p>Segundo Nombre: </p> <input type="name" class="form-control" required name="seg_Nombre_Med">
             <p>Primer Apellido: </p> <input type="name" class="form-control" required name="pri_Apellido_Med">
             <p>Segundo Apellido: </p> <input type="name" class="form-control" required name="seg_Apellido_Med">
+            <p>Edad: </p> <input type="number" class="form-control" required name="edad">
         </div>
         <br>
         <hr>
+            <h3 for="document">Documento</h3>
+            <br>
+            <p>Tipo de Documento: </p>
+            <div>
+                <select required name="tipo_documento" >
+                    <option selected="selected" disabled>Selecciona la opción ...</option>
+                            <option value="CC">Cédula de ciudadania</option>
+                            <option value="TI">Tarjeta de identidad</option>
+                            <option value="CE">Cédula de extranjería</option>
+                            <option value="PE">Pasaporte</option>
+                </select>
+                <br>
+                <br>
+            </div>
+            <p>Número de Documento: </p> <input type="number" class="form-control" required name="Documento_Id">
+        <hr>
         <div>
-            <h3>Especialidad: 
-                {{form.especialidades}}
-            </h3>
+            <h3>Especialidad: </h3>
+            {{form.especialidades}}
         </div>
         <br>
+        <hr>
+            <h3 for="document">Correo</h3>
+            <br>
+            <input type="email" class="form-control" required name="email">
         <hr>
         <h3>Horario: </h3> 
         <div>
@@ -49,7 +69,7 @@
             <br>
             <br>
             <p>Contraseña: </p>
-            <input type="text"  class="form-control" required name="password" maxlength="15">
+            <input type="password"  class="form-control" required name="password" maxlength="15">
             <br>
         </div>
         <div style="text-align: center;">
