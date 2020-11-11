@@ -3,6 +3,17 @@
 {% block title %}Buscar Paciente{% endblock %}
 
 {% block content %}
+<div style="margin-bottom:30px">
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 <div align="center">
     <h1>Buscar Paciente</h1>
 </div>
@@ -11,12 +22,12 @@
     <div>
         <br>
     </div>
-    <form method="POST">
+    <form method="POST" action="/BuscarCedula/">
         {% csrf_token %}
         <div class="form-group">
           <h4>Ingrese la Cedula del Paciente </h4>
-          <input type="email" name="cedula" width="48px" aria-describedby="emailHelp">
-          <small id="emailHelp"  class="form-text text-muted">Ingresa Cedula.</small>
+          <input type="text" name="cedula" width="48px" maxlength="11">
+          <small id="CedulaHelp" class="form-text text-muted">Ingresa Cédula.</small>
         </div> 
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>

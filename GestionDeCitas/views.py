@@ -170,8 +170,6 @@ def reagendarSecretaria(request):
 def reagendarPaciente(request):
     return render(request,'reagendar_paciente.html')
 
-
-
 def histo_Paciente(request):
     paciente = Paciente.objects.filter(DocumentoId=get_idUsuario())[0]
     citasPaciente = Cita.objects.filter(PacienteConCita=paciente.id).order_by('DiaCita')
@@ -183,6 +181,25 @@ def histo_Paciente(request):
         'programada': CitaSinRealizar(a.DiaCita, a.HorarioCita)   
         }
         lista.append(list_Cita)
-        
-
     return render(request,"./histo_Paciente.html", {"lista":lista})
+
+
+###### Agendar Secretaria
+
+def buscarPacienteCC(request):
+    return render(request, "buscar_Cedula.html")
+
+@method_decorator(csrf_exempt)
+def BuscarCedula(request):
+    """print("\n")
+    print(request.POST)
+    print("\n")"""
+    cedulaPaciente = request.POST.get('cedula')
+    paciente = Paciente.objects.filter(DocumentoId=cedulaPaciente)
+    if len(paciente) == 0:
+        messages.warning(request,'No se ha encontrado un paciente con este número de cédula')
+        return render(request, "buscar_Cedula.html")
+    else:
+        return render(request,'agendamiento_Citas.html')
+    
+    

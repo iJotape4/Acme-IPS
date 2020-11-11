@@ -19,9 +19,10 @@ from Software2.views import principal, correo, menu_secretaria, informe_secretar
 from Informes.views import citas_del_dia
 from Software2 import settings
 from administrador.views import menu_admin, agregar_Medico
-from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria, histo_Paciente
+from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria 
+from GestionDeCitas.views import histo_Paciente, buscarPacienteCC, BuscarCedula
 from Informes.views import informe_Ips
-from Autenticacion.views import login, recuperar_Contra, registrarse, registro, menu_Paciente, buscarPacienteCC
+from Autenticacion.views import login, recuperar_Contra, registrarse, registro, menu_Paciente
 
 urlpatterns = [
     # Administrador
@@ -54,4 +55,5 @@ urlpatterns = [
     path('reagendarSecre/', reagendarSecretaria),
     path('reagendarPaci/', reagendarPaciente),
     path('buscarCC/', buscarPacienteCC),
+    path('BuscarCedula/', BuscarCedula)
 ]
