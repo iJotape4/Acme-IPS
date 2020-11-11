@@ -5,40 +5,51 @@
 {% block content %}
 <h1 style="text-align: center;">Agregar Médico</h1>
     <hr>
-<form action="/agregarNuevoMedico/" method="POST">
+<form action="/AgregarMedico/" method="POST">
     {% csrf_token %}
     <div class="form-row" style="margin-left: 75px;">
       <div class="form-group col-md-6">
         <h3 for="nombre">Nombre</h3>
         <hr>
         <div>
-            <p>Primer Nombre: </p> <input type="name"  class="form-control" name="pri_Nombre_Med">
-            <p>Segundo Nombre: </p> <input type="name" class="form-control" name="seg_Nombre_Med">
-            <p>Primer Apellido: </p> <input type="name" class="form-control" name="pri_Apellido_Med">
-            <p>Segundo Nombre: </p> <input type="name" class="form-control" name="seg_Apellido_Med">
+            <p>Primer Nombre: </p> <input type="name"  class="form-control" required name="pri_Nombre_Med">
+            <p>Segundo Nombre: </p> <input type="name" class="form-control" required name="seg_Nombre_Med">
+            <p>Primer Apellido: </p> <input type="name" class="form-control" required name="pri_Apellido_Med">
+            <p>Segundo Apellido: </p> <input type="name" class="form-control" required name="seg_Apellido_Med">
         </div>
         <br>
         <hr>
         <div>
             <h3>Especialidad: 
                 {{form.especialidades}}
-            </h3> <br>
-            <input type="name"  class="form-control" name="pri_Nombre_Med">
-
+            </h3>
         </div>
         <br>
         <hr>
         <h3>Horario: </h3> 
         <div>
             <br>
-            <p>Entrada: </p>
-            <input type="name"  class="form-control" name="horario_Entrada">
+            <p>Entrada:</p>
+            <input type="time"  class="form-control" required name="horario_Entrada">
             <em>* Formato: Hora:Minuto:Segundo</em>
             <br>
             <br>
             <p>Salida: </p>
-            <input type="name"  class="form-control" name="horario_Salida">
+            <input type="time"  class="form-control" required name="horario_Salida">
             <em>* Formato: Hora:Minuto:Segundo</em>
+            <br>
+        </div>
+        <br>
+        <hr>
+        <h3>Credenciales: </h3> 
+        <div>
+            <br>
+            <p>Usuario:</p>
+            <input type="text"  class="form-control" required name="username" maxlength="15">
+            <br>
+            <br>
+            <p>Contraseña: </p>
+            <input type="text"  class="form-control" required name="password" maxlength="15">
             <br>
         </div>
         <div style="text-align: center;">
@@ -48,5 +59,4 @@
     </div>
     </div>
     </form>
-    
     {% endblock %}

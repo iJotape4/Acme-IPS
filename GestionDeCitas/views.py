@@ -141,8 +141,6 @@ def AgendarCita(request):
             ReporteSec = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)[0]
 
         try:
-            
-
             citaCreada = Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
             Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
             PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha

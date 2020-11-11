@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 #Importes de Modelos y Vistas
 from administrador.models import Administrador
+from GestionDeCitas.models import Medico
 from administrador.forms import AgregarMedicoForm
 
 class AgregarMedicoView(TemplateView):
@@ -25,30 +26,18 @@ class AgregarMedicoView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        data = []
-        print("\n")
-        print("Haciendo POST -> ",request.POST)
-        print("\n")
-        try:
-           pass
-        except Exception as e:
-            data['error'] = str(e)
-        finally:
-            return JsonResponse(data,safe=False)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = AgregarMedicoForm()
+        return context
 
-
-
-def get_context_data(self, **kwargs):
-	context = super().get_context_data(**kwargs)
-	context['form'] = AgregarMedicoForm()
-	return context
-
+@method_decorator(csrf_exempt)
+def AgregarMedico(request):
+    print("\n")
+    print(request.POST)
+    print("\n")
+    pass
 
 def menu_admin(request):
-
 	return render(request, "./menu_Administrador.html")
 
-def agregar_Medico(request):
-
-	return render(request, "./registrar_Medico.html")

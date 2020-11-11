@@ -19,7 +19,7 @@ from Software2.views import principal, correo, menu_secretaria, informe_secretar
 from Informes.views import citas_del_dia
 from Software2 import settings
 
-from administrador.views import menu_admin, agregar_Medico, agregarNuevoMedico, AgregarMedicoView 
+from administrador.views import menu_admin, AgregarMedicoView, AgregarMedico
 
 from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria 
 from GestionDeCitas.views import histo_Paciente, buscarPacienteCC, BuscarCedula
@@ -32,7 +32,6 @@ urlpatterns = [
     path('administrador_menu/', menu_admin ),
     path('menu_secre/', menu_secretaria),
     path('informeSecre/', informe_secretaria),
-    path('agregarNuevoMedico/',agregarNuevoMedico),
     # Registro
     path('registro/',registro, name="registroCorreo_Paciente"),
     path('registro/<username>/<password>/',registro, name='registro'),
@@ -52,7 +51,8 @@ urlpatterns = [
     path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html"), name= 'agendar'),  
     #Administrador 
     path('agregar_Medico/', AgregarMedicoView.as_view(template_name="registrar_Medico.html"), name= 'agregar') ,
-    path('informe_IPS/', informe_Ips ),
+    path('AgregarMedico/', AgregarMedico),
+    path('informe_IPS/', informe_Ips),
     #path('guardarCita/', AgendarCita),
     path('AgendarCita/', AgendarCita),
     path('reagendarSecre/', reagendarSecretaria),
