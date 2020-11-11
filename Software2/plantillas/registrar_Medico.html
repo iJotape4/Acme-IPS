@@ -1,6 +1,6 @@
 {% extends "plantilla.html" %}
 
-{% block title %}Registro IPS{% endblock %}
+{% block title %}Agregar Medico{% endblock %}
 
 {% block content %}
 <h1 style="text-align: center;">Agregar Medico</h1>
@@ -28,12 +28,14 @@
         <h3>Horario: </h3> 
         <div>
             <br>
-            <select name="horario" >
-                <option selected="selected" disabled>Selecciona la opción ...</option>
-                        <option value="día">Día</option>
-                        <option value="noche">Noche</option>
-            </select>
+            <p>Entrada: </p>
+            <input type="name"  class="form-control" name="horario_Entrada">
+            <em>* Formato: Hora:Minuto:Segundo</em>
             <br>
+            <br>
+            <p>Salida: </p>
+            <input type="name"  class="form-control" name="horario_Salida">
+            <em>* Formato: Hora:Minuto:Segundo</em>
             <br>
         </div>
         <div style="text-align: center;">
