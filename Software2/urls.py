@@ -18,7 +18,9 @@ from django.urls import path
 from Software2.views import principal, correo, menu_secretaria, informe_secretaria
 from Informes.views import citas_del_dia
 from Software2 import settings
-from administrador.views import menu_admin, agregar_Medico, AgregarMedicoView 
+
+from administrador.views import menu_admin, agregar_Medico, agregarNuevoMedico, AgregarMedicoView 
+
 from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria 
 from GestionDeCitas.views import histo_Paciente, buscarPacienteCC, BuscarCedula
 from Informes.views import informe_Ips
@@ -29,7 +31,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('administrador_menu/', menu_admin ),
     path('menu_secre/', menu_secretaria),
-    path('informeSecre/', informe_secretaria ),
+    path('informeSecre/', informe_secretaria),
+    path('agregarNuevoMedico/',agregarNuevoMedico),
     # Registro
     path('registro/',registro, name="registroCorreo_Paciente"),
     path('registro/<username>/<password>/',registro, name='registro'),
@@ -55,5 +58,5 @@ urlpatterns = [
     path('reagendarSecre/', reagendarSecretaria),
     path('reagendarPaci/', reagendarPaciente),
     path('buscarCC/', buscarPacienteCC),
-    path('BuscarCedula/', BuscarCedula)
+    path('BuscarCedula/',BuscarCedula)
 ]
