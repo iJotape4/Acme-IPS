@@ -111,7 +111,19 @@ def menu_Paciente(request):
             print("Nombre de usuario: ",get_nombreUsuario())
             print(request.body)
             print("\n")        
-            return render(request,'menu_Paciente.html',{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+
+            html =""
+
+            if get_tipoUsuario()=="Paciente":
+                html='menu_Paciente.html'
+            elif get_tipoUsuario()=="Secretaria":
+                html='menu_secretaria.html'
+            elif get_tipoUsuario()=="Medico":
+                html='citas_del_dia.html'
+            elif get_tipoUsuario()=="Administrador":
+                html='menu_Administrador.html'
+
+            return render(request,html,{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
         else:
             messages.warning(request,'Ups, parece que no existe un usuario con estas credenciales')
             return login(request)
