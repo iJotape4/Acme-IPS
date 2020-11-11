@@ -20,7 +20,7 @@ from Software2.views import enviarWssp
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita, ReporteSecretaria
 from GestionDeCitas.forms import AgendarCitaForm
-from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in, get_idUsuario
+from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in, get_idUsuario, get_tipoUsuario
 
 class AgendarCitaView(TemplateView):
     template_name = 'agendamiento_Citas.html'
@@ -123,7 +123,12 @@ def AgendarCita(request):
         
         HorarioC = AgendarCitaView.horario_AJAX 
 
-        PacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('id',flat=True)[0]
+        if get_tipoUsuario()=="Paciente":
+            paciente = get_idUsuario()
+        elif get_tipoUsuario()=="Secretaria":
+            paciente = get_id_paciente_documentoID()
+
+        PacienteConCita = Paciente.objects.filter(DocumentoId=paciente).values_list('id',flat=True)[0]
 
         Reporte = ReporteSecretaria.objects.filter(FechaReporte=fecha).values_list('id',flat=True)
 
@@ -135,13 +140,14 @@ def AgendarCita(request):
 
         try:
             
+
             citaCreada = Cita.objects.create(ModalidadCita=ModalidadCita, MotivoConsultaCita=MotivoConsulta,
             Especialidad_id=EspecialidadC,HorarioCita= HorarioC, MedicoAsignado_id= MedicoC,
             PacienteConCita_id=PacienteConCita, ReporteSec_id=ReporteSec, DiaCita=fecha
             )
 
             whatsAppPacienteConCita = Paciente.objects.filter(DocumentoId=get_idUsuario()).values_list('Whatsapp',flat=True)[0]
-            respuesta = pdf_Generator_Cita(request,citaCreada)
+            respuesta    = pdf_Generator_Cita(request,citaCreada)
             print("modalidadCita: ",ModalidadCita)
             if ModalidadCita=='virtual':
                 virtual = 'Este es el link para tu cita modalidad virtual: https://meet.google.com/_meet/uqv-szki-gbu?ijlm=1604973501889&hs=130'

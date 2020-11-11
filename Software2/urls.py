@@ -18,7 +18,7 @@ from django.urls import path
 from Software2.views import principal, correo, menu_secretaria, informe_secretaria
 from Informes.views import citas_del_dia
 from Software2 import settings
-from administrador.views import menu_admin, agregar_Medico
+from administrador.views import menu_admin, agregar_Medico, AgregarMedicoView 
 from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria 
 from GestionDeCitas.views import histo_Paciente, buscarPacienteCC, BuscarCedula
 from Informes.views import informe_Ips
@@ -48,7 +48,7 @@ urlpatterns = [
     # Agendar Cita
     path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html"), name= 'agendar'),  
     #Administrador 
-    path('agregar_Medico/', agregar_Medico ),
+    path('agregar_Medico/', AgregarMedicoView.as_view(template_name="registrar_Medico.html"), name= 'agregar') ,
     path('informe_IPS/', informe_Ips ),
     #path('guardarCita/', AgendarCita),
     path('AgendarCita/', AgendarCita),
