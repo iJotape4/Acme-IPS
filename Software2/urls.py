@@ -15,14 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Software2.views import principal, correo, menu_secretaria, informe_secretaria
+from Software2.views import principal, correo, menu_secretaria
 from Software2 import settings
 
 from administrador.views import menu_admin, AgregarMedicoView, AgregarMedico
 
 from GestionDeCitas.views import AgendarCitaView, AgendarCita, reagendarPaciente, reagendarSecretaria 
 from GestionDeCitas.views import histo_Paciente, buscarPacienteCC, BuscarCedula
-from Informes.views import informe_Ips
+from Informes.views import informe_Ips, informe_secretaria
 from Autenticacion.views import login, recuperar_Contra, registrarse, registro, menu_Paciente
 
 urlpatterns = [

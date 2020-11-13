@@ -29,13 +29,6 @@ from Autenticacion.views import get_nombreUsuario, set_nombreUsuario, get_is_log
 def menu_secretaria(request):
 	return render(request, "menu_secretaria.html")
 
-def informe_secretaria(request):
-	citas= Cita.objects.filter(DiaCita=(datetime.now()+ timedelta(days=1)).date())
-	lista=[]
-	for a in citas:
-		list_Cita = {'nombre':"%s %s" %(a.PacienteConCita.PrimerNombre, a.PacienteConCita.PrimerApellido),'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita, 'numero' :a.PacienteConCita.Telefono}
-		lista.append(list_Cita)
-	return render(request, "informe_secretaria.html",{"lista":lista})
 
 @never_cache
 @method_decorator(csrf_exempt)
