@@ -5,6 +5,8 @@ from django.http import JsonResponse
 #Importes de utilidades
 from django import forms
 from django.contrib import messages
+from django.utils import timezone
+from datetime import date, datetime
 
 #Importes de decoradores
 from django.utils.decorators import method_decorator
@@ -14,12 +16,13 @@ from django.views.decorators.cache import never_cache
 #Importes de métodos Triviales
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos 
 from Software2.Methods import send_email, GenerarHorarioCitas
-from Software2.Methods import  get_tipoUsuario, set_tipoUsuario, ReturnHtmlMenuUsuario
+from Software2.Methods import  get_tipoUsuario, set_tipoUsuario, ReturnHtmlMenuUsuario, citas_del_dia
 
 
 #Importes de Modelos y Vistas
-from GestionDeCitas.models import Paciente, Medico, Secretaria
+from GestionDeCitas.models import Paciente, Medico, Secretaria, Cita
 from administrador.models import Administrador
+
 
 
 class DateForm(forms.Form):
@@ -105,9 +108,10 @@ def menu_Paciente(request):
             print("Nombre de usuario: ",get_nombreUsuario())
             print(request.body)
             print("\n")        
-
-
-            return render(request,ReturnHtmlMenuUsuario(),{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
+            if(get_tipoUsuario()=="Medico"):
+                return render(request,"./citas_del_dia.html", {'lista':citas_del_dia(get_idUsuario()),"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})               
+            else:
+                return render(request,ReturnHtmlMenuUsuario(),{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
         else:
             messages.warning(request,'Ups, parece que no existe un usuario con estas credenciales')
             return login(request)
@@ -116,6 +120,7 @@ def menu_Paciente(request):
         set_is_logged_in(None)
         set_idUsuario(None)
         return login(request)
+
 
 def logearse(usuario,contra,atributo_a_buscar):
     #Esto busca en la base de datos ese usuario y contraseña

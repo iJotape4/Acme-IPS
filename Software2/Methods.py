@@ -225,8 +225,17 @@ def ReturnHtmlMenuUsuario():
 		html='menu_Paciente.html'
 	elif get_tipoUsuario()=="Secretaria":
 		html='menu_secretaria.html'
-	elif get_tipoUsuario()=="Medico":
-		html='citas_del_dia.html'
 	elif get_tipoUsuario()=="Administrador":
 		html='menu_Administrador.html'
 	return html		
+
+
+def citas_del_dia(idUsuario):
+	MedicoAsignado = Medico.objects.filter(DocumentoId=idUsuario).values_list('id',flat=True)[0]
+	cita = Cita.objects.filter(DiaCita=datetime.now().date(), MedicoAsignado=MedicoAsignado)
+	print(cita)
+	citas = []
+	for a in cita:
+		list_Cita = {'nombre':"%s %s" %(a.PacienteConCita.PrimerNombre, a.PacienteConCita.PrimerApellido),'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita}
+		citas.append(list_Cita)
+	return citas        	
