@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Software2.views import principal, correo, menu_secretaria, informe_secretaria
-from Informes.views import citas_del_dia
 from Software2 import settings
 
 from administrador.views import menu_admin, AgregarMedicoView, AgregarMedico
@@ -40,7 +39,8 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('recuperarContraseña/', recuperar_Contra, name='recuperar_Contra'),
     # Doctor
-   	path('citas_del_dia/', citas_del_dia, name='citasDia'),
+    #Lo quité porque ahora ese método está en el methods y no devuelve un render.
+   	#path('citas_del_dia/', citas_del_dia, name='citasDia'),
     # Pagina principal
     path('principal/', principal, name='principal'),
     path('correo/', correo, name='correo'),

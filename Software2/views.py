@@ -12,7 +12,7 @@ from django.utils import timezone
 #Importes de utilidades
 import mysql.connector
 from mysql.connector import errorcode
-import datetime
+from datetime import date, datetime, time, timedelta
 
 #Importes de decoradores
 from django.utils.decorators import method_decorator
@@ -30,7 +30,12 @@ def menu_secretaria(request):
 	return render(request, "menu_secretaria.html")
 
 def informe_secretaria(request):
-	return render(request, "informe_secretaria.html")
+	citas= Cita.objects.filter(DiaCita=(datetime.now()+ timedelta(days=1)).date())
+	lista=[]
+	for a in citas:
+		list_Cita = {'nombre':"%s %s" %(a.PacienteConCita.PrimerNombre, a.PacienteConCita.PrimerApellido),'hora': a.HorarioCita, 'motivo': a.MotivoConsultaCita, 'numero' :a.PacienteConCita.Telefono}
+		lista.append(list_Cita)
+	return render(request, "informe_secretaria.html",{"lista":lista})
 
 @never_cache
 @method_decorator(csrf_exempt)
@@ -100,7 +105,7 @@ def MétodoQuerysSQL(request):
 		pacientes.append(P1)		
 	#Declara un objeto Doctor
 	D1 =doctor("Miguel","Lizarazo")
-	ahora = datetime.datetime.now()
+	ahora = datetime.now()
 	
 	#Define un diccionario con lo que será necesario para mostrarse en el html
 	diccionario = {"nombre_doctor":D1.nombre, "apellido_doctor":D1.apellido, "Hoy":ahora, "pacientes":pacientes}

@@ -1,4 +1,4 @@
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 #from Software2.Methods import EliminarSimbolos
 
 def EliminarSimbolos(x):
@@ -65,4 +65,8 @@ def Generar(horarioLLegada, horarioSalida):
 	discard(horarios)
 	return horarios
 
-Generar(time(0,0), time(22,30) )
+def SumarDía(dia):
+	dia = (dia + timedelta(days=1)).date()
+	print(dia)
+
+SumarDía(datetime.now())	
