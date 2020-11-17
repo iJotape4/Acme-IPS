@@ -26,9 +26,9 @@ def EliminarSimbolos(x):
 	x = str(x).replace("'","").replace("(","").replace(")","").replace(",","").replace("[","").replace("]","").replace(" ","")
 	return x
 
-def CursorDB(cnx):
+'''def CursorDB(cnx):
 	Cursor = cnx.cursor()
-	return Cursor
+	return Cursor'''
 
 def DefinirCondiciónMedica(condicion):
 	if condicion=='si':

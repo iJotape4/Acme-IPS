@@ -10,8 +10,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
 
 #Importes de utilidades
-import mysql.connector
-from mysql.connector import errorcode
 from datetime import date, datetime, time, timedelta
 
 #Importes de decoradores
@@ -20,7 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
 #Importes de métodos triviales
-from Software2.Methods import EliminarSimbolos, CursorDB, GenerateUserByCorreoElement, send_email
+from Software2.Methods import EliminarSimbolos, GenerateUserByCorreoElement, send_email
 
 #Importes de Modelos y Vistas
 from GestionDeCitas.models import Cita, Paciente, Especialidad, Medico
@@ -80,9 +78,9 @@ def correo(request):
 
 	
 #FORMA DE HACER CONSULTAS USANDO QUERY SETS DE SQL
-cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
+#cnx = mysql.connector.connect(user='root', password='Sistemas132',host='127.0.0.1',database='dbipsacme')
 
-def MétodoQuerysSQL(request):
+'''def MétodoQuerysSQL(request):
 
 	cursor= CursorDB(cnx)
 	
@@ -104,4 +102,4 @@ def MétodoQuerysSQL(request):
 	diccionario = {"nombre_doctor":D1.nombre, "apellido_doctor":D1.apellido, "Hoy":ahora, "pacientes":pacientes}
 
 	#Devuelve el html y el diccionario 
-	return render(request, 'PlantillaDoctor.html',diccionario)
+	return render(request, 'PlantillaDoctor.html',diccionario)'''

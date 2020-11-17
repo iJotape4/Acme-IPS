@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,9 +26,15 @@ MEDIA_URL = '"http://127.0.0.1:8000/principal/'
 SECRET_KEY = 'cf%_l3)+3(e8vf=bhv3aajl866zeh&1xtaj0zr@9$)!elc@+s-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# Allow all host hosts/domain names for this site
+ALLOWED_HOSTS = ['*']
+DATABASES = { 'default' : dj_database_url.config()}
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Application definition
 
@@ -81,13 +88,9 @@ WSGI_APPLICATION = 'Software2.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+ 
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbipsacme',
-        'USER': 'root',
-        'PASSWORD': 'Sistemas132',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',  
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
     }
 }
 

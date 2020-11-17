@@ -1,7 +1,7 @@
 from django.db import models
 import pymysql
-from datetime import date
-from django.utils import timezone
+from datetime import date , datetime
+#from django.utils import timezone
 
 # Create your models here.
 class Usuario(models.Model):
@@ -59,7 +59,7 @@ class ReporteSecretaria(models.Model):
 class Cita(models.Model):
 	ModalidadCita = models.CharField(max_length=10)
 	MotivoConsultaCita = models.CharField(max_length=80)
-	DiaCita = models.DateField(default=timezone.now())
+	DiaCita = models.DateField(default=datetime.now().date())
 	HorarioCita = models.TimeField()
 	CitaPagada = models.BooleanField(default=0)
 	Asistencia = models.BooleanField(default=0)
