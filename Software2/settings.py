@@ -143,3 +143,5 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/static/',
 ]
+
+STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'static'))
