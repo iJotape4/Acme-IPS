@@ -42,7 +42,7 @@ urlpatterns = [
     #Lo quité porque ahora ese método está en el methods y no devuelve un render.
    	#path('citas_del_dia/', citas_del_dia, name='citasDia'),
     # Pagina principal
-    path('/', principal, name='principal'),
+    path('principal/', principal, name='principal'),
     path('correo/', correo, name='correo'),
     # Paciente
     path('historial_paciente/', histo_Paciente ),
