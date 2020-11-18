@@ -66,7 +66,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Software2.urls'
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 TEMPLATES = [
     {
