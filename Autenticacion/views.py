@@ -155,6 +155,8 @@ def logearse(usuario,contra,atributo_a_buscar):
     return None
     
 def registro(request,username="default",password="default"):
+    print(username)
+    print(password)
     if username!="default" and password!="default":
         set_username(username)
         set_password(password)
