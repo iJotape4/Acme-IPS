@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # typically, os.path.join(os.path.dirname(file), 'media')
 MEDIA_ROOT = '<your_path>/media'
-MEDIA_URL = '"http://127.0.0.1:8000/principal/'
+MEDIA_URL = 'https://acmeips.herokuapp.com/principal/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
