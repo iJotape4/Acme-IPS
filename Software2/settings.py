@@ -27,7 +27,7 @@ MEDIA_URL = 'https://acmeips.herokuapp.com/principal/'
 SECRET_KEY = 'cf%_l3)+3(e8vf=bhv3aajl866zeh&1xtaj0zr@9$)!elc@+s-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Allow all host hosts/domain names for this site
 ALLOWED_HOSTS = ['*']
