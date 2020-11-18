@@ -46,7 +46,7 @@ urlpatterns = [
     path('correo/', correo, name='correo'),
     # Paciente
     path('historial_paciente/', histo_Paciente ),
-    path('/menu_Paciente/', menu_Paciente, name='memu_paciente'),
+    path('menu_Paciente/', menu_Paciente, name='memu_paciente'),
     # Agendar Cita
     path('agendar_cita/', AgendarCitaView.as_view(template_name="agendamiento_Citas.html"), name= 'agendar'),  
     #Administrador 
