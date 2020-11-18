@@ -226,7 +226,7 @@ def ReturnHtmlMenuUsuario():
 	elif get_tipoUsuario()=="Secretaria":
 		html='menu_secre/'
 	elif get_tipoUsuario()=="Administrador":
-		html='administrador_menu/''
+		html='administrador_menu/'
 	return html		
 
 
