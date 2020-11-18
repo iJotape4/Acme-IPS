@@ -155,8 +155,6 @@ def logearse(usuario,contra,atributo_a_buscar):
     return None
     
 def registro(request,username="default",password="default"):
-    print(username)
-    print(password)
     if username!="default" and password!="default":
         set_username(username)
         set_password(password)
@@ -207,7 +205,8 @@ def registrarse(request):
     hipertension = DefinirCondiciónMedica(str(request.GET["hipertension"]))
     diabetes = DefinirCondiciónMedica(str(request.GET["diabetes"]))
     cardiacos = DefinirCondiciónMedica(str(request.GET["cardiacos"]))
-    
+    print(get_username())
+    print(get_password())
     Paciente.objects.create(PrimerNombre=primerNombre, SegundoNombre=segundoNombre, 
     PrimerApellido=primerApellido, SegundoApellido=segundoApellido, DocumentoId=documentoId,
     Edad=edad, CorreoElectronico=correoElectronico, TipoUsuario='Paciente', EPSP=eps, Telefono=telefono, Whatsapp=whatsapp,
