@@ -119,7 +119,7 @@ def menu_Paciente(request):
         set_nombreUsuario(None)
         set_is_logged_in(None)
         set_idUsuario(None)
-        return login(request)
+        return render(request,'menu_Paciente.html')
 
 
 def logearse(usuario,contra,atributo_a_buscar):
