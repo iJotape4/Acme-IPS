@@ -222,11 +222,11 @@ def set_tipoUsuario(response):
 def ReturnHtmlMenuUsuario():
 	html =""
 	if get_tipoUsuario()=="Paciente":
-		html='menu_Paciente.html'
+		html='menu_Paciente/'
 	elif get_tipoUsuario()=="Secretaria":
-		html='menu_secretaria.html'
+		html='menu_secre/'
 	elif get_tipoUsuario()=="Administrador":
-		html='menu_Administrador.html'
+		html='administrador_menu/'
 	return html		
 
 
