@@ -96,6 +96,7 @@ DATABASES = {
         'NAME': 'dbipsacme',
         'USER': 'postgres',
         'PASSWORD': 'Sistemas132',
+        'PORT': '5432',
     }
 }
 
