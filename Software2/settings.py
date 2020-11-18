@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR,"Soy yooo :D")
@@ -31,8 +32,8 @@ DEBUG = True
 
 # Allow all host hosts/domain names for this site
 ALLOWED_HOSTS = ['*']
-
-DATABASES = { 'default' : dj_database_url.config(conn_max_age=600)}
+Urls_Data = 'postgres://godswojakhehjg:cf4fb13d24a1b659b2ef11704bce40c3a11eb848392acfe706e9183ab77514b2@ec2-54-86-57-171.compute-1.amazonaws.com:5432/d56fi4vrfbi4vr'
+DATABASES = { 'default' : dj_database_url.config(conn_max_age=600,default=config(Urls_Data))}
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
