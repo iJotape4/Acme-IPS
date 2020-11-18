@@ -108,7 +108,7 @@ def menu_Paciente(request):
             print("Nombre de usuario: ",get_nombreUsuario())
             print(request.body)
             print("\n")        
-            if(get_TipoUsuario()=="Medico"):
+            if(get_tipoUsuario()=="Medico"):
                 return render(request,"./citas_del_dia.html", {'lista':citas_del_dia(get_idUsuario()),"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})               
             else:
                 return render(request,ReturnHtmlMenuUsuario(),{"userlogeado":get_nombreUsuario(),'logeado':request.session['usuario']})
