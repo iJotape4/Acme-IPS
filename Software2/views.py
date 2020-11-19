@@ -1,26 +1,20 @@
-#Importes de Renders Y Responses
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import get_template
 from twilio.rest import Client 
 
-#Importes de Utilidades Django
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
 
-#Importes de utilidades
 from datetime import date, datetime, time, timedelta
 
-#Importes de decoradores
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
-#Importes de métodos triviales
 from Software2.Methods import EliminarSimbolos, GenerateUserByCorreoElement, send_email
 
-#Importes de Modelos y Vistas
 from GestionDeCitas.models import Cita, Paciente, Especialidad, Medico
 from Autenticacion.views import get_nombreUsuario, set_nombreUsuario, get_is_logged_in, set_is_logged_in
 

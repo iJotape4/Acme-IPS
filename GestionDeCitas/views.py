@@ -1,24 +1,19 @@
-#Importes de Renders Y Responses
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
-#Importes de utilidades
 from django.contrib import messages
 from django import forms
 from datetime import time
 
-#Importes de decoradores
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-#Importes de métodos Triviales
 from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas, ReturnHtmlMenuUsuario
 from Software2.Methods import pdf_Generator_Cita, send_emailPdfQr
 from Software2.views import enviarWssp
 from Software2.Methods import  get_tipoUsuario, set_tipoUsuario
 
-#Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico,Horario,Especialidad,Cita, ReporteSecretaria
 from GestionDeCitas.forms import AgendarCitaForm
 from Autenticacion.views import login, get_nombreUsuario, get_is_logged_in, get_idUsuario
@@ -31,7 +26,6 @@ class AgendarCitaView(TemplateView):
     fecha_AJAX =""
 
     @method_decorator(csrf_exempt)
-    #@method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -62,9 +56,6 @@ class AgendarCitaView(TemplateView):
 
     def filtrar_Medicos(self,data,respuesta):
        
-        #print("\n Filtrar Medicos")
-        #print(respuesta)
-        #print("\n")
         especialidad = respuesta[1]
         AgendarCitaView.especialidad_AJAX = especialidad
 
@@ -82,9 +73,6 @@ class AgendarCitaView(TemplateView):
         return data
 
     def filtrar_Horarios(self,data,respuesta):
-        #print("\n Filtrar horarios")
-        #print(respuesta)
-        #print("\n")
         medico = respuesta[1]
         AgendarCitaView.medico_AJAX = medico
 
@@ -192,7 +180,6 @@ def histo_Paciente(request):
     return render(request,"./histo_Paciente.html", {"lista":lista})
 
 
-#################### Agendar Secretaria
 
 def buscarPacienteCC(request):
     return render(request, "buscar_Cedula.html")

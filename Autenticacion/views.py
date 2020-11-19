@@ -1,25 +1,21 @@
-#Importes de Renders Y Responses
+
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 
-#Importes de utilidades
 from django import forms
 from django.contrib import messages
 from django.utils import timezone
 from datetime import date, datetime
 
-#Importes de decoradores
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
-#Importes de métodos Triviales
 from Software2.Methods import DefinirCondiciónMedica, CampoOpcional, EliminarSimbolos 
 from Software2.Methods import send_email, GenerarHorarioCitas
 from Software2.Methods import  get_tipoUsuario, set_tipoUsuario, ReturnHtmlMenuUsuario, citas_del_dia
 
 
-#Importes de Modelos y Vistas
 from GestionDeCitas.models import Paciente, Medico, Secretaria, Cita
 from administrador.models import Administrador
 
@@ -90,9 +86,7 @@ def login(request):
 @never_cache
 @method_decorator(csrf_exempt)
 def menu_Paciente(request):
-    #El if comprueba si los campos están llenos
     if request.POST.get("username") and request.POST.get("password"):
-        #Esto recupera los datos en los campos
         usuario = request.POST.get("username")
         contra = request.POST.get("password")
             
@@ -101,7 +95,7 @@ def menu_Paciente(request):
         set_tipoUsuario(logearse(usuario,contra,'tipoUsuario'))
 
         if get_nombreUsuario() != None:
-            request.session['usuario'] = usuario #Se crea una session en la bd con la sesion actual
+            request.session['usuario'] = usuario 
             set_is_logged_in(True)
             print("\n")
             print("sesion parseada: ",request.session['usuario'])
@@ -123,7 +117,6 @@ def menu_Paciente(request):
 
 
 def logearse(usuario,contra,atributo_a_buscar):
-    #Esto busca en la base de datos ese usuario y contraseña
     user = Paciente.objects.filter(Usuario=usuario, Contraseña=contra)
     if len(user)==0:
         user= Secretaria.objects.filter(Usuario=usuario, Contraseña=contra)
@@ -135,11 +128,9 @@ def logearse(usuario,contra,atributo_a_buscar):
     if atributo_a_buscar=='nombre':
         for e in user:
             nombre = "%s %s" %(e.PrimerNombre, e.PrimerApellido)            
-        #Esto condiciona a que ambos existan y coincidan
         if user:   
             print("nombre: ",nombre)        
-            return nombre
-        #Para cuando lo que se quiere obtener es el id    
+            return nombre   
     elif atributo_a_buscar == 'id':
         for e in user:
             id = e.DocumentoId 
@@ -170,20 +161,15 @@ def recuperar_Contra(request):
         else:
             messages.warning(request, "No existe un usuario Registrado con ese correo electrónico") 
             return render(request, "recuperarContra.html")   
-		##Falta redireccionar bien
     return render(request, "recuperarContra.html")       
 
 def registrarse(request):
-    #### IMPORTANTE ####
-    # Usuario y contraseña deben ser tomados desde el correo enviado. 
-    # La vista de login se abre desde un hipervículo en el correo enviado
     datos_Registro = [data for data in (request.GET).values()]
     datos_Registro_Check = [
         datos_Registro[data] for data in range(len(datos_Registro)) 
         if data!=12 and data!=16
     ]
-
-    #Esto recupera los datos en los campos       
+      
     primerNombre = request.GET["pri_Nombre"] 
     segundoNombre = request.GET["seg_Nombre"] 
     primerApellido = request.GET["pri_Apellido"] 

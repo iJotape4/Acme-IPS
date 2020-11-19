@@ -15,7 +15,6 @@ class Test2(SimpleTestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response,'login.html')
 
-    #####
 
     def test_menu_paciente(self):
         response = self.client.get('/menu_Paciente/')
@@ -30,7 +29,6 @@ class Test2(SimpleTestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response,'login.html', 'plantilla.html')
 
-    ######
 
     def test_registro(self):
         response = self.client.get('/registro/')
@@ -45,7 +43,6 @@ class Test2(SimpleTestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response,'registro.html')
 
-    #####
     def test_recuperar_contra(self):
         response = self.client.get('/recuperarContraseña/')
         self.assertEquals(response.status_code , 200)

@@ -1,8 +1,6 @@
 from django.test import TestCase, SimpleTestCase
 from django.shortcuts import reverse
 
-# Create your tests here.
-    #####
 class Test4(TestCase):
 
     def test_recuperar_citas_del_dia(self):

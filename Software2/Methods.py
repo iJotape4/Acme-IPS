@@ -1,25 +1,20 @@
-#Importes de utilidades DJango
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import FileResponse, Http404
 from django.shortcuts import render, redirect
 
-#Importes de Archivos del proyecto
 from GestionDeCitas.models import Paciente
 from Software2 import settings
 
-#Importes de funciones
 import random
 from datetime import datetime, time
 
-#Importes de utilidades
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.utils import Image, ImageReader 
 from reportlab.lib.pagesizes import letter
 import qrcode
 
-#importes de Modelos y Vistas
 from GestionDeCitas.models import Medico, Cita
 
 def EliminarSimbolos(x):
@@ -164,7 +159,6 @@ def qr_Code_Generator(documentoPaciente):
 	except Exception as e:
 		print("Ha ocurrido un error durante la generación del QR -> {}".format(e))
 
-#Ejecutar pip install --upgrade django-ajax-selects
 def pdf_Generator_Cita(request,citaCreada):
 	try:		
 		nombre_Paciente = "%s %s" %(citaCreada.PacienteConCita.PrimerNombre, citaCreada.PacienteConCita.PrimerApellido)

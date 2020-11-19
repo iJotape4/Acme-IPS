@@ -1,9 +1,7 @@
 from django.db import models
 import pymysql
 from datetime import date , datetime
-#from django.utils import timezone
 
-# Create your models here.
 class Usuario(models.Model):
 	class Meta:
 		abstract=True
@@ -76,7 +74,6 @@ class Acudiente(models.Model):
 	Apadrinado = models.ForeignKey(Paciente, on_delete=models.CASCADE)
 
 class ClassName(object):
-	"""docstring for ClassName"""
 	def __init__(self, arg):
 		super(ClassName, self).__init__()
 		self.arg = arg

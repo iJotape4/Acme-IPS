@@ -16,7 +16,6 @@ class Test1(SimpleTestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'principalPage.html')
 
-    ######
     
     def test_correo(self):
         response = self.client.get('/correo/')

@@ -1,12 +1,8 @@
-#Importes de Renders Y Responses
 from django.shortcuts import render
 
-
-#Importes de utilidades
 from datetime import date, datetime, time, timedelta
 from django.utils import timezone
 
-#Importes de Modelos y Vistas
 from GestionDeCitas.models import Cita
 
 
