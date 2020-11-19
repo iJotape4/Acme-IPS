@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from Software2.Methods import send_email, GenerarHorarioCitas, FormatFecha, DiscardMedicsWhit12Citas, ReturnHtmlMenuUsuario
-from Software2.Methods import pdf_Generator_Cita, send_emailPdfQr
+from Software2.Methods import pdf_Generator_Cita, send_emailPdfQr, CitaSinRealizar
 from Software2.views import enviarWssp
 from Software2.Methods import  get_tipoUsuario, set_tipoUsuario
 
@@ -84,7 +84,6 @@ class AgendarCitaView(TemplateView):
         
         particion_horarios = GenerarHorarioCitas(filtro[0]['HorarioLlegada'],filtro[0]['HoraioSalida'], medicoElegido, FormatFecha(AgendarCitaView.fecha_AJAX))
     
-        #Hacer un Warning para cuando ya se asignaron todos los horarios:
         for date in particion_horarios:
             data.extend([{"Horarios":date}])
         return data
